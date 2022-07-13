@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://pantryplanner.azurewebsites.net/api'
+  baseUrl: 'https://pantry-planner.azurewebsites.net/api'
 };
