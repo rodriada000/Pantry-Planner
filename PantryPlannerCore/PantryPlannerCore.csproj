@@ -37,7 +37,7 @@
   </Target>
 
   <Target Name="AddPayloadsFolder" AfterTargets="Publish">
-    <Exec Command="xcopy $(TargetDir)client $(PublishDir) /Y /I" />
+    <Exec Command="xcopy $(TargetDir)client $(PublishDir)client /Y /I" />
   </Target>
 
 </Project>

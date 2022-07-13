@@ -72,8 +72,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 } else
 {
-    app.UseSpa(opt =>
+    app.UseSpaStaticFiles(new StaticFileOptions()
     {
+        RequestPath = "client"
+    });
+
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "client";
     });
 }
 

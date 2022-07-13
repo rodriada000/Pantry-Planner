@@ -37,9 +37,6 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-
       - name: dotnet publish
         run: dotnet publish PantryPlannerCore -c Release -p:PublishProfile="pantry-planner-Web Deploy" -o ${{env.DOTNET_ROOT}}/myapp
 
