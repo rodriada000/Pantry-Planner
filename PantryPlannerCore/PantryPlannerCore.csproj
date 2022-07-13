@@ -35,4 +35,8 @@
     <Exec Command="npm run-script build-prd" />
   </Target>
 
+  <Target Name="AddPayloadsFolder" AfterTargets="Publish">
+    <Exec Command="xcopy $(TargetDir)client $(PublishDir) /Y /I" />
+  </Target>
+
 </Project>
