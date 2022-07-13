@@ -1,0 +1,22 @@
+
+<p-toast></p-toast>
+
+<p-card styleClass="p-card-shadow mb-2 mt-2">
+    <span class="p-float-label mb-5">
+        <input type="text" pInputText [(ngModel)]="loginModel.Username" autocomplete="off"> 
+        <label for="float-input">Username</label>
+    </span>
+    
+    <span class="p-float-label">
+        <input type="password" pInputText [(ngModel)]="loginModel.Password" autocomplete="off" (keydown.Enter)="login()"> 
+        <label for="float-input">Password</label>
+    </span>
+
+    <ng-template pTemplate="footer">
+        <button pButton label="Login" (click)="login()"></button>
+    </ng-template>
+</p-card>
+
+<p-card header="External Login" styleClass="p-card-shadow">
+    <button pButton label="Login With Google" (click)="loginWithGoogle()"></button>
+</p-card>

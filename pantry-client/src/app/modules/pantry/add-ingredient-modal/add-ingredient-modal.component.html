@@ -1,0 +1,18 @@
+
+<div class="modal-body">
+  <p>{{ingredient?.name}}</p>
+
+  <div class="field">
+    <label class="block" for="quantityInput">Quantity</label>
+    <input pInputText type="number" class="form-control" id="quantityInput" [(ngModel)]="quantity">
+  </div>
+
+  <div class="field">
+    <label class="block" for="notesTextarea">Notes</label>
+    <textarea pInputTextarea class="form-control" id="notesTextarea" rows="3" [(ngModel)]="notes"></textarea>
+  </div>
+</div>
+<div class="flex justify-content-center">
+  <button pButton type="button" class="mr-2" (click)="confirmAdd()">Confirm</button>
+  <button pButton type="button" class="p-button-danger" (click)="close()">Cancel</button>
+</div>

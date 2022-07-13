@@ -1,0 +1,16 @@
+﻿<div class="flex justify-content-between">
+    <h3 class="left-header m-0">Pantry Planner</h3>
+    <nav>
+        <app-kitchen-nav *ngIf="isLoggedIn"></app-kitchen-nav>
+        <a *ngIf="isLoggedIn">|</a>
+        <a *ngIf="isLoggedIn"  class="nav-menu-item" routerLink="/pantry">Pantry</a>
+        <a *ngIf="isLoggedIn"  class="nav-menu-item" routerLink="/grocery">Grocery</a>
+        <!-- <a *ngIf="isLoggedIn"  class="nav-menu-item" routerLink="/recipe">Recipe</a> -->
+        <a *ngIf="!isLoggedIn" class="nav-menu-item" routerLink="/login">Login</a>
+        <a *ngIf="isLoggedIn"  class="nav-menu-item" (click)="logout()">Logout</a>
+    </nav>
+</div>
+
+<div>
+    <router-outlet></router-outlet>
+</div>

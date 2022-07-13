@@ -1,0 +1,57 @@
+<div class="main-wrap">
+
+  <!-- Sidebar -->
+  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '250px' : '0px'}">
+    <div class="flex flex-column">
+      <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isAddPageSelected ? 'active' : ''" (click)="switchToAddIngredients()">Add Ingredients</a>
+      <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isSearchPantryPageSelected ? 'active' : ''" (click)="switchToSearchPantry()">Search Pantry</a>
+      <a class="flex align-items-center justify-content-start sidebar-item" *ngIf="isOwnerOfKitchen" [ngClass]="isManagePantryPageSelected ? 'active' : ''" (click)="switchToManagePantry()">Manage Pantry</a>
+      <a class="flex align-items-center justify-content-start sidebar-item" *ngIf="!isOwnerOfKitchen" [ngClass]="isLeavePantryPageSelected ? 'active' : ''" (click)="switchToLeavePantry()">Leave Pantry</a>      
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <div #content id="page-content" class="pt-3 pl-3" [ngStyle]="{'margin-left': showSideMenu ? '250px' : '0px'}">
+    <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+    </button>
+
+    <div id="addIngredientsPage" *ngIf="isAddPageSelected || isSearchPantryPageSelected" class="flex flex-column pt-4">
+      <pantry-search-ingredients *ngIf="isAddPageSelected"></pantry-search-ingredients>
+      <button pButton type="button" *ngIf="isAddPageSelected" label="Ingredient missing? Click here to create it." class="p-button-text" (click)="openCreateIngredientModal()"></button>
+      <!-- <a *ngIf="isAddPageSelected" class="btn btn-link btn-sm pl-0 pb-2" (click)="openCreateIngredientModal()">Ingredient missing? Click here to create it.</a> -->
+      
+      <p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '40vw'}" >
+        <app-create-ingredient-modal (closeDialog)="showNewIngredientDialog = false"></app-create-ingredient-modal>
+      </p-dialog>
+
+      <pantry-my-ingredients></pantry-my-ingredients>
+    </div>
+
+    <div id="mangePantryPage" *ngIf="isManagePantryPageSelected && isOwnerOfKitchen">
+      <h4>Kitchen Name</h4>
+      <input type="text" class="form-control form-text w-50" [(ngModel)]="activeKitchenName" />
+      <br />
+
+      <h4>Manage Users</h4>
+      <pantry-manage-users></pantry-manage-users>
+      <br />
+
+      <h4>Delete Pantry</h4>
+      <p>
+        Are you sure you want to delete this pantry? All data associated with this kitchen will be deleted.
+      </p>
+      <button class="btn btn-outline-danger" (click)="deleteKitchen()">Delete Pantry</button>
+    </div>
+
+    <div id="leavePantryPage" *ngIf="isLeavePantryPageSelected">
+      <p>
+        Are you sure you want to leave this pantry? You will not have access to this kitchen until the kitchen owner sends another invite.
+      </p>
+      <button class="btn btn-outline-danger" (click)="removeSelfFromKitchen()">Leave Pantry</button>
+    </div>
+
+    <p-toast></p-toast>
+
+  </div>
+
+</div>

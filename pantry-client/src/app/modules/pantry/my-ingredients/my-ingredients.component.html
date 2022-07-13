@@ -1,0 +1,45 @@
+
+<div class="col-12 pb-4" *ngIf="isFilterVisible">
+  <input pInputText class="col-12" placeholder="Filter Ingredients" type="text" maxlength="100" [(ngModel)]="filterText" (ngModelChange)="doFilter()"/>
+</div>
+
+<div class="flex flex-column mr-3">
+  <h3>Pantry Ingredients</h3>
+  
+  <div class="flex justify-content-end">
+    <p-splitButton label="Sort" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems"></p-splitButton>
+  </div>
+
+  <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+
+  <div class="flex flex-column align-content-start p-card my-1 pb-2"
+     *ngFor="let row of filteredIngredients; let index=index"
+     (click)="setSelected(index, $event)">
+     
+    <div class="flex col-12 justify-content-between pb-0" [ngClass]="{'font-medium': hoveredIndex==index}">
+      <div (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
+      <div class="flex justify-content-end align-content-center">
+        <button pButton pRipple *ngIf="hoveredIndex==index" icon="pi pi-minus-circle" class="p-button-rounded p-button-text p-0 mr-1" (click)="quickEditQty(row, -1)"></button>
+        <small class="text-muted p-0 flex align-items-center justify-content-center" [ngClass]="{'bold-text': hoveredIndex==index}">Qty: {{row.quantity}}</small>
+        <button pButton pRipple *ngIf="hoveredIndex==index" icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="quickEditQty(row, 1)"></button>
+      </div>
+    </div>
+
+    <div *ngIf="hoveredIndex==index" class="pt-0">
+      <p *ngIf="!isEditing" class="ml-4 my-0 text-sm">{{row.note}}</p>
+
+      <div *ngIf="isEditing" class="grid my-0 ml-4">
+        <textarea pInputTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note" placeholder="Notes"></textarea>
+      </div>
+ 
+      <div class="flex justify-content-end mr-2">
+        <button pButton pRipple class="p-button-outlined mr-2" *ngIf="!isEditing" icon="pi pi-shopping-cart" (click)="addToGroceryList(row, $event)"></button>
+        <button pButton pRipple class="p-button-outlined mr-2" *ngIf="!isEditing" icon="pi pi-pencil" (click)="editIngredient(row, $event)"></button>
+        <button pButton pRipple class="p-button-outlined p-button-danger" *ngIf="!isEditing" icon="pi pi-trash" (click)="removeFromKitchen(row, index, $event)"></button>
+        <button pButton *ngIf="isEditing"  class="p-button-text p-button-sm" (click)="saveEdit(row)">Save</button>
+        <button pButton *ngIf="isEditing"  class="p-button-text p-button-sm" (click)="cancelEdit(row, $event)">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>

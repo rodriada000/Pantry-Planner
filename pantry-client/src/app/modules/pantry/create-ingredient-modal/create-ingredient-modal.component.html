@@ -1,0 +1,50 @@
+<div class="modal-body">
+  <div class="field">
+    <label class="block" for="nameInput">Name</label>
+    <input pInputText type="text" class="form-control" id="nameInput" [(ngModel)]="name" />
+  </div>
+
+  <div class="field">
+    <label class="block">Category</label>
+    <!-- <p-autoComplete inputStyleClass="col-12" styleClass="col-12 pb-0" class="col-12 pb-0" placeholder="Search Ingredients..." [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)"></p-autoComplete> -->
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)" [dropdown]="true"></p-autoComplete>
+
+    <!-- <ng-select [items]="categories"
+               bindLabel="name"
+               bindValue="categoryId"
+               [(ngModel)]="selectedCategoryId">
+    </ng-select> -->
+  </div>
+
+  <div class="p-field-checkbox">
+    <p-checkbox [(ngModel)]="isPublic" [binary]="true"></p-checkbox>
+    <label class="ml-2">Is Public</label>
+  </div>
+
+  <br />
+
+  <div *ngIf="addMode == 'Pantry'" class="p-field-checkbox pb-5">
+    <p-checkbox [(ngModel)]="isAddToPantry" [binary]="true"></p-checkbox>
+    <label class="ml-2">Add To Pantry</label>
+  </div>
+
+
+  <div class="font-semibold text-lg text-color-secondary" *ngIf="isAddToPantry"> Pantry Info </div>
+  
+  <div class="field pb-0 mb-1 pt-1" *ngIf="isAddToPantry">
+    <label class="block" for="quantityInput">Quantity</label>
+    <input pInputText type="number" class="form-control" id="quantityInput" [(ngModel)]="quantity">
+  </div>
+  <div class="field" *ngIf="isAddToPantry && addMode === 'Pantry'">
+    <label class="block" for="notesTextarea">Notes</label>
+    <div class="grid ml-0">
+      <textarea pInputTextarea class="col-12" id="notesTextarea" rows="3" [(ngModel)]="notes"></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="flext justify-content-center">
+  <button pButton type="button" class="mr-2" (click)="confirmAdd()" [disabled]="isAdding" iconPos="right" [loading]="isAdding">Confirm</button>
+  <button pButton type="button" class="p-button-danger" [disabled]="isAdding"  (click)="close()">Cancel</button>
+</div>

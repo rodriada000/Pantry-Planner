@@ -1,0 +1,19 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { GroceryListComponent } from './modules/grocery-list/grocery-list.component';
+import { PantryComponent } from './modules/pantry/pantry.component';
+
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'pantry', component: PantryComponent },
+  { path: 'grocery', component: GroceryListComponent },
+  // { path: 'login', component: LoginComponent }
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

@@ -1,0 +1,24 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.p-inputtext {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.p-field * {
+    display: block;
+}
+
+.nav-menu-item {
+    margin: 5px;
+    text-decoration: none;
+    color: var(--primary-800);
+}
+
+.nav-menu-item:hover {
+    text-decoration: underline;
+    color: var(--primary-300);
+    cursor: pointer;
+}

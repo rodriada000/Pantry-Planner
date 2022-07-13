@@ -1,0 +1,21 @@
+<ng-template #rt let-r="result" let-t="term">
+  <div *ngIf="!isCreateMissingDropdownItem(r)" (click)="itemClicked(r)">
+    <div>{{r.name}} ({{r.categoryName}})</div>
+  </div>
+  <div *ngIf="isCreateMissingDropdownItem(r)" (click)="openCreateIngredientModal()">
+    <button pButton class="btn btn-outline-success">{{r.name}}</button>
+  </div>
+</ng-template>
+
+<p-dialog header="Add Ingredient To Pantry" [(visible)]="showAddDialog">
+  <pantry-add-ingredient-modal></pantry-add-ingredient-modal>
+</p-dialog>
+
+<p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '40vw'}" >
+  <app-create-ingredient-modal (closeDialog)="showNewIngredientDialog = false" [ingredientName]="searchText"></app-create-ingredient-modal>
+</p-dialog>
+
+<div class="grid pb-0">
+  <p-autoComplete inputStyleClass="col-12" styleClass="col-12 pb-0" class="col-12 pb-0" placeholder="Search Ingredients..." [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)"></p-autoComplete>
+  <p-progressBar class="col-11 mx-2" *ngIf="isSearching || isSaving" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+</div>

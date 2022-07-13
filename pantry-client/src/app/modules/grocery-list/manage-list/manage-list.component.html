@@ -1,0 +1,14 @@
+<div *ngIf="!isEditing" class="flex justify-content-center ml-1">
+    <button pButton class="p-button-outlined mr-2" icon="pi pi-plus" (click)="addMode()"></button>
+    <!-- <button class="btn btn-outline-primary fa-solid fa-pencil mr-2" (click)="editSelected()"></button> -->
+    <button pButton class="p-button-outlined p-button-danger mr-2" icon="pi pi-trash" (click)="removeSelected()"></button>
+</div>
+
+<div class="flex flex-column ml-1" *ngIf="isEditing">
+    <input pInputText class="col-12" type="text" class="form-control" id="nameInput" placeholder="Name" [(ngModel)]="newListName" (keydown.Enter)="confirmSave()">
+
+    <div class="flex justify-content-center mt-2">
+        <button pButton class="p-button-outlined p-button-success p-button-sm mr-2" (click)="confirmSave()">Confirm</button>
+        <button pButton class="p-button-outlined p-button-danger  p-button-sm" (click)="cancelEdit()">Cancel</button>
+    </div>
+</div>

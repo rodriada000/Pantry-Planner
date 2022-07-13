@@ -1,0 +1,44 @@
+
+<a #btn class="nav-menu-item" (click)="menu.toggle($event)">{{activeKitchenName}}</a>
+<p-menu #menu [popup]="true" [model]="kitchenMenu"></p-menu>
+
+<p-overlayPanel #op >
+  <ng-template pTemplate>
+    <div class="flex align-items-center justify-content-start">
+      <input type="text" class="p-inputtext-sm mr-1" pInputText placeholder="Kitchen Name" type="text" maxlength="30" style="width: 250px" [(ngModel)]="newKitchenName" (keydown.Enter)="addNewKitchen()" />
+      <button pButton class="py-1" (click)="addNewKitchen()" label="Add"></button>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+
+<!-- <li class="nav-item" ngbDropdown>
+  <a class="nav-link" style="cursor: pointer" ngbDropdownToggle id="navbarDropdown3" role="button">
+    {{activeKitchenName}}
+  </a>
+
+  <div ngbDropdownMenu class="dropdown-menu">
+    <div class="input-group-append" ngbDropdownItem *ngFor="let k of myKitchens">
+      <a ngbDropdownItem href="#" (click)="setSelectedKitchenAsActive(k)">{{k.name}}</a>
+    </div>
+
+    <div class="input-group-append" ngbDropdownItem *ngFor="let p of pendingKitchens; let index=index">
+      <a ngbDropdownItem href="#" class="disabled">{{p.kitchenName}}</a>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-danger" (click)="denyInvite(p, index)">Deny</button>
+        <button type="button" class="btn btn-outline-success" (click)="acceptInvite(p, index)">Accept</button>
+      </div>
+    </div>
+
+    <div class="dropdown-divider"></div>
+    <div class="input-group col-auto" style="width: 250px">
+      <input class="form-control" placeholder="Kitchen Name" type="text" maxlength="30" style="width: 250px" [(ngModel)]="newKitchenName" (keydown.Enter)="addNewKitchen()" />
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="addNewKitchen()">Add</button>
+      </div>
+    </div>
+  </div>
+</li>
+
+<app-toast></app-toast> -->
+
