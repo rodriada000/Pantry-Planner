@@ -87,7 +87,7 @@ else
 
     app.UseSpa(spa =>
     {
-        //spa.Options.SourcePath = "/client";
+        spa.Options.SourcePath = "/client";
         //spa.Options.DefaultPage = "/client/index.html";
         //spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
         //{
