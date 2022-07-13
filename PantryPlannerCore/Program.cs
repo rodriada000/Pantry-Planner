@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using PantryPlannerCore.Models;
 using PantryPlanner.Services;
 using System.Text;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -69,6 +70,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+} else
+{
+    app.UseSpa(opt =>
+    {
+    });
 }
 
 app.UseHttpsRedirection();
