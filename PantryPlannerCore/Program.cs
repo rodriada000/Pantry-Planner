@@ -74,6 +74,7 @@ if (!builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -88,6 +89,17 @@ else
     app.UseSpa(spa =>
     {
         spa.Options.SourcePath = "/client";
+
+        if (!app.Environment.IsDevelopment())
+        {
+            Console.WriteLine(app.Environment.WebRootPath);
+            var spaStaticFileOptions = new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.WebRootPath, "client"))
+            };
+
+            spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
+        }
         //spa.Options.DefaultPage = "/client/index.html";
         //spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
         //{
