@@ -95,7 +95,7 @@ else
             Console.WriteLine(app.Environment.WebRootPath);
             var spaStaticFileOptions = new StaticFileOptions
             {
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.WebRootPath, "client"))
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
             };
 
             spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
