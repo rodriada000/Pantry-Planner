@@ -6,6 +6,7 @@ using PantryPlannerCore.Models;
 using PantryPlanner.Services;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -70,7 +71,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-} else
+}
+else
 {
     app.UseSpaStaticFiles(new StaticFileOptions()
     {
@@ -79,7 +81,12 @@ if (app.Environment.IsDevelopment())
 
     app.UseSpa(spa =>
     {
-        spa.Options.SourcePath = "client";
+        spa.Options.SourcePath = ".\\client";
+        spa.Options.DefaultPage = ".client\\index.html";
+        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+        {
+            RequestPath = ".\\client"
+        };
     });
 }
 
