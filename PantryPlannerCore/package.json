@@ -1,0 +1,11 @@
+{
+    "name": "my jank",
+    "version": "0.0.0",
+    "license": "MIT",
+    "scripts": {
+        "install": "cd ../pantry-client & npm install",
+        "start": "cd ../pantry-client & npm start",
+        "build": "cd ../pantry-client & npm run-script build",
+        "build-prd": "cd ../pantry-client & npm run-script build-prd"
+    }
+}

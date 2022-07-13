@@ -22,7 +22,6 @@ Global
 		{C948DB62-AAAC-4786-8F7C-0C3FBEFD8693}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{C948DB62-AAAC-4786-8F7C-0C3FBEFD8693}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C948DB62-AAAC-4786-8F7C-0C3FBEFD8693}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C948DB62-AAAC-4786-8F7C-0C3FBEFD8693}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,10 +12,21 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-
+    strategy:
+      matrix:
+        node-version: [10.x, 15.x]
     steps:
       - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        working-directory: ./pantry-client
+        run: npm install
 
+
+      - uses: actions/checkout@v2
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -26,7 +37,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ${{env.GITHUB_WORKSPACE}}/PantryPlannerCore/PantryPlannerCore.csproj -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
