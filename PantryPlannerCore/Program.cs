@@ -83,19 +83,16 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseSpaStaticFiles(new StaticFileOptions()
-    {
-        RequestPath = "/client"
-    });
+    app.UseSpaStaticFiles();
 
     app.UseSpa(spa =>
     {
-        spa.Options.SourcePath = "/client";
-        spa.Options.DefaultPage = "/client/index.html";
-        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
-        {
-            RequestPath = "/client"
-        };
+        //spa.Options.SourcePath = "/client";
+        //spa.Options.DefaultPage = "/client/index.html";
+        //spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+        //{
+        //    RequestPath = "/client"
+        //};
     });
 }
 
