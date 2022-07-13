@@ -27,6 +27,7 @@ jobs:
             npm install
             npm install -g @angular/cli
             npm install -g @angular-devkit/build-angular:browser
+            ng update @angular/cli @angular/core
 
 
       - uses: actions/checkout@v2
