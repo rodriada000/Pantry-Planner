@@ -23,7 +23,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install
         working-directory: ./pantry-client
-        run: npm install
+        run: | 
+            npm install
+            npm install -g @angular/cli > /dev/null
 
 
       - uses: actions/checkout@v2
