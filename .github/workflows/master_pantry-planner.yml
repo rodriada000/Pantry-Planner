@@ -24,10 +24,10 @@ jobs:
       - name: npm install
         working-directory: ./pantry-client
         run: | 
-            npm install
             npm install -g @angular/cli
             npm install -g @angular-devkit/build-angular:browser
             ng update @angular/cli @angular/core
+            npm install
 
 
       - uses: actions/checkout@v2
