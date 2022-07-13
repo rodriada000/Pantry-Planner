@@ -64,6 +64,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSpaStaticFiles(c =>
+    {
+        c.RootPath = "/client";
+    });
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,27 +79,27 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
 else
 {
     app.UseSpaStaticFiles(new StaticFileOptions()
     {
-        RequestPath = "client"
+        RequestPath = "/client"
     });
 
     app.UseSpa(spa =>
     {
-        spa.Options.SourcePath = ".\\client";
-        spa.Options.DefaultPage = ".client\\index.html";
+        spa.Options.SourcePath = "/client";
+        spa.Options.DefaultPage = "/client/index.html";
         spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
         {
-            RequestPath = ".\\client"
+            RequestPath = "/client"
         };
     });
 }
 
 
-app.UseDeveloperExceptionPage();
 
 app.UseHttpsRedirection();
 
