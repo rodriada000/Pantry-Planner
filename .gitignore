@@ -6,6 +6,9 @@ pantry-client/.vscode
 pantry-client/.angular
 pantry-client/node_modules
 
+PantryPlannerCore/wwwroot/*
+!PantryPlannerCore/wwwroot/.gitkeep
+
 # User-specific files
 *.rsuser
 *.suo
