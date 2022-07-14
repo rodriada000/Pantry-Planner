@@ -120,7 +120,7 @@ else
     app.MapWhen(ctx => ctx.Request.Path.Value.Contains("/api"), api =>
     {
         api.UseRouting();
-        app.UseAuthorization();
+        api.UseAuthorization();
         api.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
