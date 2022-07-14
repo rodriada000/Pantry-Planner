@@ -89,43 +89,47 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.MapWhen(ctx => !ctx.Request.Path.Value.Contains("/api"), api =>
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseEndpoints(endpoints =>
     {
-        var fileExtensionProvider = new FileExtensionContentTypeProvider();
-        fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
-        api.UseStaticFiles(new StaticFileOptions()
-        {
-            ContentTypeProvider = fileExtensionProvider,
-            RequestPath = "/client",
-            FileProvider = new PhysicalFileProvider(
-                Path.Combine(app.Environment.ContentRootPath, "client"))
-        });
-
-        api.UseSpaStaticFiles();
-
-        api.UseSpa(spa =>
-        {
-            spa.Options.SourcePath = "/client";
-
-            var spaStaticFileOptions = new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "client"))
-            };
-
-            spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
-
-        });
+        endpoints.MapControllers();
     });
 
-    app.MapWhen(ctx => ctx.Request.Path.Value.Contains("/api"), api =>
+    var fileExtensionProvider = new FileExtensionContentTypeProvider();
+    fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
+    app.UseStaticFiles(new StaticFileOptions()
     {
-        api.UseRouting();
-        api.UseAuthorization();
-        api.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        ContentTypeProvider = fileExtensionProvider,
+        RequestPath = "/client",
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(app.Environment.ContentRootPath, "client"))
     });
+
+    app.UseSpaStaticFiles();
+
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "/client";
+
+        var spaStaticFileOptions = new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "client"))
+        };
+
+        spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
+
+    });
+
+    //app.MapWhen(ctx => !ctx.Request.Path.Value.Contains("/api"), api =>
+    //{
+
+    //});
+
+    //app.MapWhen(ctx => ctx.Request.Path.Value.Contains("/api"), api =>
+    //{
+
+    //});
 }
 
 app.UseHttpsRedirection();
