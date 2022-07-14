@@ -89,7 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.MapWhen(ctx => !ctx.Request.Path.StartsWithSegments("/api"), api =>
+    app.MapWhen(ctx => !ctx.Request.Path.Value.Contains("/api"), api =>
     {
         var fileExtensionProvider = new FileExtensionContentTypeProvider();
         fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
@@ -113,10 +113,11 @@ else
             };
 
             spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
+
         });
     });
 
-    app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/api"), api =>
+    app.MapWhen(ctx => ctx.Request.Path.Value.Contains("/api"), api =>
     {
         api.UseRouting();
         app.UseAuthorization();
