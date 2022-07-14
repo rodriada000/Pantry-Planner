@@ -64,13 +64,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-if (!builder.Environment.IsDevelopment())
+//if (!builder.Environment.IsDevelopment())
+//{
+//}
+builder.Services.AddSpaStaticFiles(c =>
 {
-    builder.Services.AddSpaStaticFiles(c =>
-    {
-        c.RootPath = "/client";
-    });
-}
+    c.RootPath = "/client";
+});
 
 var app = builder.Build();
 
@@ -93,14 +93,13 @@ else
 
         if (!app.Environment.IsDevelopment())
         {
-            Console.WriteLine(app.Environment.ContentRootPath);
+            Console.WriteLine(app.Environment.WebRootPath);
             var spaStaticFileOptions = new StaticFileOptions
             {
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
             };
 
             spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
-            spa.Options.DefaultPage = "/client/index.html";
         }
     });
 }
