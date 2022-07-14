@@ -91,21 +91,17 @@ else
     {
         spa.Options.SourcePath = "/client";
 
-        //if (!app.Environment.IsDevelopment())
-        //{
-        //    Console.WriteLine(app.Environment.WebRootPath);
-        //    var spaStaticFileOptions = new StaticFileOptions
-        //    {
-        //        FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
-        //    };
+        if (!app.Environment.IsDevelopment())
+        {
+            Console.WriteLine(app.Environment.WebRootPath);
+            var spaStaticFileOptions = new StaticFileOptions
+            {
+                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
+            };
 
-        //    spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
-        //}
-        //spa.Options.DefaultPage = "/client/index.html";
-        //spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
-        //{
-        //    RequestPath = "/client"
-        //};
+            spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
+            spa.Options.DefaultPage = "/client/index.html";
+        }
     });
 }
 
