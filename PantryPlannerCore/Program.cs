@@ -68,7 +68,7 @@ if (!builder.Environment.IsDevelopment())
 {
     builder.Services.AddSpaStaticFiles(c =>
     {
-        c.RootPath = "wwwroot";
+        c.RootPath = "./client/";
     });
 }
 
