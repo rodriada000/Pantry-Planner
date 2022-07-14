@@ -83,45 +83,51 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
+
+    app.UseAuthorization();
+    app.MapControllers();
 }
 else
 {
-    //app.UseDefaultFiles();
-    var fileExtensionProvider = new FileExtensionContentTypeProvider();
-    fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
-    app.UseStaticFiles(new StaticFileOptions()
+    app.MapWhen(ctx => !ctx.Request.Path.StartsWithSegments("/api"), api =>
     {
-        ContentTypeProvider = fileExtensionProvider,
-        RequestPath = "/client",
-        FileProvider = new PhysicalFileProvider(
-            Path.Combine(app.Environment.ContentRootPath, "client"))
-    });
-
-    app.UseSpaStaticFiles();
-
-    app.UseSpa(spa =>
-    {
-        spa.Options.SourcePath = "/client";
-
-        if (!app.Environment.IsDevelopment())
+        var fileExtensionProvider = new FileExtensionContentTypeProvider();
+        fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
+        api.UseStaticFiles(new StaticFileOptions()
         {
-            Console.WriteLine(app.Environment.WebRootPath);
+            ContentTypeProvider = fileExtensionProvider,
+            RequestPath = "/client",
+            FileProvider = new PhysicalFileProvider(
+                Path.Combine(app.Environment.ContentRootPath, "client"))
+        });
+
+        api.UseSpaStaticFiles();
+
+        api.UseSpa(spa =>
+        {
+            spa.Options.SourcePath = "/client";
+
             var spaStaticFileOptions = new StaticFileOptions
             {
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
+                FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "client"))
             };
 
             spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
-        }
+        });
+    });
+
+    app.MapWhen(ctx => ctx.Request.Path.StartsWithSegments("/api"), api =>
+    {
+        api.UseRouting();
+        app.UseAuthorization();
+        api.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     });
 }
 
-
-
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
