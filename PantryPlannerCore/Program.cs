@@ -68,7 +68,7 @@ if (!builder.Environment.IsDevelopment())
 {
     builder.Services.AddSpaStaticFiles(c =>
     {
-        c.RootPath = "./client/";
+        c.RootPath = "/client";
     });
 }
 
@@ -84,7 +84,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseDefaultFiles();
+    //app.UseDefaultFiles();
     app.UseSpaStaticFiles();
 
     app.UseSpa(spa =>
@@ -93,7 +93,7 @@ else
 
         if (!app.Environment.IsDevelopment())
         {
-            Console.WriteLine(app.Environment.WebRootPath);
+            Console.WriteLine(app.Environment.ContentRootPath);
             var spaStaticFileOptions = new StaticFileOptions
             {
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(System.IO.Path.Combine(app.Environment.ContentRootPath, "client"))
