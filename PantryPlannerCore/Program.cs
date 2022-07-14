@@ -7,6 +7,8 @@ using PantryPlanner.Services;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -85,6 +87,16 @@ if (app.Environment.IsDevelopment())
 else
 {
     //app.UseDefaultFiles();
+    var fileExtensionProvider = new FileExtensionContentTypeProvider();
+    fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+        ContentTypeProvider = fileExtensionProvider,
+        RequestPath = "/client",
+        FileProvider = new PhysicalFileProvider(
+            Path.Combine(app.Environment.ContentRootPath, "client"))
+    });
+
     app.UseSpaStaticFiles();
 
     app.UseSpa(spa =>
