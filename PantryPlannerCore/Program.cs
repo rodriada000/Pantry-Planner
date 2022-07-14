@@ -66,13 +66,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//if (!builder.Environment.IsDevelopment())
-//{
-//}
-builder.Services.AddSpaStaticFiles(c =>
+if (!builder.Environment.IsDevelopment())
 {
-    c.RootPath = "/client";
-});
+    builder.Services.AddSpaStaticFiles(c =>
+        {
+            c.RootPath = "/client";
+        });
+}
 
 var app = builder.Build();
 
@@ -120,16 +120,6 @@ else
         spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
 
     });
-
-    //app.MapWhen(ctx => !ctx.Request.Path.Value.Contains("/api"), api =>
-    //{
-
-    //});
-
-    //app.MapWhen(ctx => ctx.Request.Path.Value.Contains("/api"), api =>
-    //{
-
-    //});
 }
 
 app.UseHttpsRedirection();

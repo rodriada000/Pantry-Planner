@@ -47,13 +47,13 @@ namespace PantryPlanner.Services
                 new Claim(ClaimTypes.Name, user.Email)
             };
 
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
             SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            DateTime expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JwtExpireDays"]));
+            DateTime expires = DateTime.Now.AddDays(Convert.ToDouble(configuration["JWT:ExpireDays"]));
 
             JwtSecurityToken token = new JwtSecurityToken(
-                configuration["JwtIssuer"],
-                configuration["JwtIssuer"],
+                configuration["JWT:ValidIssuer"],
+                configuration["JWT:ValidAudience"],
                 claims,
                 expires: expires,
                 signingCredentials: creds
@@ -67,7 +67,7 @@ namespace PantryPlanner.Services
         /// The ClaimsPrincipal for the validated token is returned in an out parameter.
         /// </summary>
         /// <param name="token"> token to validate </param>
-        /// <param name="configuration"> IConfiguration section that contains 'JwtKey' and 'JwtIssuer' </param>
+        /// <param name="configuration"> IConfiguration section that contains 'JWT:Secret' and 'JWT:ValidIssuer' </param>
         /// <param name="tokenClaims"> Claims for the token, if valid </param>
         public static bool IsJwtTokenValid(string token, IConfiguration configuration, out ClaimsPrincipal tokenClaims)
         {
@@ -75,9 +75,9 @@ namespace PantryPlanner.Services
             JwtSecurityTokenHandler securityHandler = new JwtSecurityTokenHandler();
             TokenValidationParameters validationParams = new TokenValidationParameters()
             {
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"])),
-                ValidAudiences = new[] { configuration["JwtIssuer"] },
-                ValidIssuer = configuration["JwtIssuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+                ValidAudiences = new[] { configuration["JWT:ValidAudience"] },
+                ValidIssuer = configuration["JWT:ValidIssuer"],
             };
 
 
