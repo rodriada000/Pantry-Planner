@@ -18,5 +18,8 @@
 </p-card>
 
 <p-card header="External Login" styleClass="p-card-shadow">
-    <button pButton label="Login With Google" (click)="loginWithGoogle()"></button>
+    <div class="ml-3">
+        <asl-google-signin-button class="ml-3 p-button p-button-primary" [style]="{'width': '200px', 'background': 'white'}">
+        </asl-google-signin-button>
+    </div>
 </p-card>

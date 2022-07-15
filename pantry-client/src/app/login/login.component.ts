@@ -34,7 +34,10 @@ export class LoginComponent implements OnInit {
 
     this.loginService.extAuthChanged.subscribe(user => {
       console.log('extAuthChanged')
-      this.validateExternalAuth(user.idToken);
+
+      if (user) {
+        this.validateExternalAuth(user.idToken);
+      }
     })
   }
 

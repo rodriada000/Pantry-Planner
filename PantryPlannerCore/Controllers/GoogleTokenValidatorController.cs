@@ -30,12 +30,15 @@ namespace PantryPlanner.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult<string>> ValidateTokenAndLoginAsync(string idToken)
+        public async Task<IActionResult> ValidateTokenAndLoginAsync(string idToken)
         {
             try
             {
                 string token = await _accountService.LoginUsingGoogleIdToken(idToken);
-                return token;
+                return Ok(new
+                {
+                    token = token
+                });
             }
             catch (AccountException e)
             {

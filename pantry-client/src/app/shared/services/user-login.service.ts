@@ -90,15 +90,10 @@ export class UserLoginService {
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
       this.token$.next(resp.token);
-      this.sendAuthStateChangeNotification(resp.isAuthSuccessful);
       this.router.navigate(['/pantry']);
     });
 
     return sub;
-  }
-
-  sendAuthStateChangeNotification(isAuthSuccessful: any) {
-    throw new Error('Method not implemented.');
   }
 
 }
