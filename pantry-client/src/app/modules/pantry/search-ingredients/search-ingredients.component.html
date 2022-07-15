@@ -7,11 +7,11 @@
   </div>
 </ng-template>
 
-<p-dialog header="Add Ingredient To Pantry" [(visible)]="showAddDialog">
+<p-dialog header="Add Ingredient To Pantry" [(visible)]="showAddDialog" [style]="{width: '95vw'}">
   <pantry-add-ingredient-modal></pantry-add-ingredient-modal>
 </p-dialog>
 
-<p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '40vw'}" >
+<p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '95vw'}" >
   <app-create-ingredient-modal (closeDialog)="showNewIngredientDialog = false" [ingredientName]="searchText"></app-create-ingredient-modal>
 </p-dialog>
 

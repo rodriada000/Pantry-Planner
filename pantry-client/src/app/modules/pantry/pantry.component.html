@@ -20,7 +20,7 @@
       <button pButton type="button" *ngIf="isAddPageSelected" label="Ingredient missing? Click here to create it." class="p-button-text" (click)="openCreateIngredientModal()"></button>
       <!-- <a *ngIf="isAddPageSelected" class="btn btn-link btn-sm pl-0 pb-2" (click)="openCreateIngredientModal()">Ingredient missing? Click here to create it.</a> -->
       
-      <p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '40vw'}" >
+      <p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '95vw'}" >
         <app-create-ingredient-modal (closeDialog)="showNewIngredientDialog = false"></app-create-ingredient-modal>
       </p-dialog>
 

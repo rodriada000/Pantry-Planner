@@ -38,7 +38,7 @@ export class PantryComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    this.showSideMenu = true;
+    this.showSideMenu = false;
     this.activeKitchenName = "";
     this.switchToAddIngredients();
     this.isOwnerOfKitchen = false;

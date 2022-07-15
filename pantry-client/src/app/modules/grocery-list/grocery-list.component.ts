@@ -32,7 +32,7 @@ export class GroceryListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.showSideMenu = true;
+    this.showSideMenu = false;
     const lastSelected: string = localStorage.getItem("LastSelectedKitchenListId");
 
     this.observingKitchen = this.activeKitchenService.observableKitchen.subscribe(k => {
