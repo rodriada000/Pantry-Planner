@@ -15,25 +15,31 @@ export class LoginComponent implements OnInit {
 
   public loginModel: LoginModel = new LoginModel();
 
+  public isLoading: boolean = false;
+
   constructor(private loginService: UserLoginService, private toasts: ToastService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   public login(): void {
-    this.loginService.login(this.loginModel).subscribe(resp => {
+    this.isLoading = true;
 
+    this.loginService.login(this.loginModel).subscribe(resp => {
+      this.isLoading = false;
     }, 
     error => {
       this.toasts.showDanger("Check that your username and password is correct.", "Login Failed");
+      this.isLoading = false;
     });
   }
 
   public loginWithGoogle() {
+    this.isLoading = true;
+
     this.loginService.loginWithGoogle();
 
     this.loginService.extAuthChanged.subscribe(user => {
-      console.log('extAuthChanged')
 
       if (user) {
         this.validateExternalAuth(user.idToken);
@@ -45,10 +51,12 @@ export class LoginComponent implements OnInit {
     this.loginService.externalLogin(token)
       .subscribe({
         next: (res) => {
+          this.isLoading = false;
       },
         error: (err: HttpErrorResponse) => {
           this.toasts.showDanger(err.message, "Google Login Failed");
           this.loginService.signOutExternal();
+          this.isLoading = false;
         }
       });
   }

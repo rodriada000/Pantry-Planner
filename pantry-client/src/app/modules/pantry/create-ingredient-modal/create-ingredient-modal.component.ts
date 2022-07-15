@@ -23,9 +23,10 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
   @Output()
   public closeDialog: EventEmitter<Ingredient> = new EventEmitter<Ingredient>(null);
 
+  @Input()
   public addMode: string = "Pantry"; // "Pantry" or "GroceryList"
-  public activeList: KitchenList;
   
+  public activeList: KitchenList;
   public name: string;
   public description: string;
   public selectedCategoryId: number;
@@ -100,7 +101,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
 
     this.apiService.addIngredient(toAdd).subscribe(
       data => {
-        this.toastService.showSuccess("Successfully created ingredient - " + toAdd.name);
+        // this.toastService.showSuccess("Successfully created ingredient - " + toAdd.name);
         this.closeDialog.emit(data);
 
         if (this.isAddToPantry) {
@@ -130,7 +131,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
 
     this.listIngredientService.addIngredientToList(toAdd).subscribe(data => {
       this.listIngredientService.setAddedIngredient(data);
-      this.toastService.showSuccess("Added " + x.name);
+      // this.toastService.showSuccess("Added " + x.name);
       this.isAdding = false;
     },
       error => {
@@ -149,7 +150,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
     this.kitchenIngredientApi.addIngredientToKitchen(toPantry).subscribe(
       data => {
         this.kitchenIngredientApi.setAddedIngredient(data);
-        this.toastService.showSuccess("Added to pantry - " + toAdd.name);
+        // this.toastService.showSuccess("Added to pantry - " + toAdd.name);
         this.isAdding = false;
       },
       error => {

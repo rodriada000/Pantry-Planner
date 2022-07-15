@@ -329,7 +329,7 @@ namespace PantryPlanner.Services
         /// </summary>
         /// <param name="newIngredient"> ingredient to add </param>
         /// <param name="user"> user who is adding ingredient </param>
-        public KitchenIngredient AddKitchenIngredient(KitchenIngredientDto newIngredient, PantryPlannerUser user)
+        public async Task<KitchenIngredient> AddKitchenIngredient(KitchenIngredientDto newIngredient, PantryPlannerUser user, bool updateQtyIfExists = false)
         {
             if (newIngredient == null)
             {
@@ -338,7 +338,7 @@ namespace PantryPlanner.Services
 
             KitchenIngredient kitchenIngredientToAdd = KitchenIngredientDto.Create(newIngredient);
             
-            return AddKitchenIngredient(kitchenIngredientToAdd, user);
+            return await AddKitchenIngredient(kitchenIngredientToAdd, user);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace PantryPlanner.Services
         /// </summary>
         /// <param name="newIngredient"> ingredient to add </param>
         /// <param name="user"> user who is adding ingredient </param>
-        public KitchenIngredient AddKitchenIngredient(KitchenIngredient newIngredient, PantryPlannerUser user)
+        public async Task<KitchenIngredient> AddKitchenIngredient(KitchenIngredient newIngredient, PantryPlannerUser user, bool updateQtyIfExists = false)
         {
             if (user == null)
             {
@@ -381,7 +381,25 @@ namespace PantryPlanner.Services
 
             if (Context.IngredientExistsForKitchen(newIngredient.IngredientId, newIngredient.KitchenId))
             {
-                throw new InvalidOperationException($"This ingredient has already been added.");
+                if (!updateQtyIfExists)
+                {
+                    throw new InvalidOperationException($"This ingredient has already been added.");
+                }
+
+                KitchenIngredient? existing = Context.KitchenIngredients.Where(k => k.KitchenId == newIngredient.KitchenId && k.IngredientId == newIngredient.IngredientId)
+                                                                        .Include(k => k.Category)
+                                                                        .Include(k => k.Kitchen)
+                                                                        .Include(k => k.AddedByKitchenUser)
+                                                                        .FirstOrDefault();
+
+                if (existing != null)
+                {
+                    existing.Quantity += newIngredient.Quantity;
+                    await UpdateKitchenIngredientAsync(existing, user);
+                    return existing;
+                }
+
+                return null;
             }
 
             // get KitchenUserID for the current user
@@ -425,7 +443,7 @@ namespace PantryPlanner.Services
         /// </summary>
         /// <param name="newIngredient"> ingredient to add </param>
         /// <param name="user"> user who is adding ingredient </param>
-        public KitchenIngredient AddIngredientToKitchen(Ingredient newIngredient, Kitchen kitchen, PantryPlannerUser user)
+        public async Task<KitchenIngredient> AddIngredientToKitchen(Ingredient newIngredient, Kitchen kitchen, PantryPlannerUser user)
         {
             if (user == null)
             {
@@ -442,7 +460,7 @@ namespace PantryPlanner.Services
                 throw new ArgumentNullException(nameof(newIngredient));
             }
 
-            return AddIngredientToKitchen(newIngredient.IngredientId, kitchen.KitchenId, user);
+            return await AddIngredientToKitchen(newIngredient.IngredientId, kitchen.KitchenId, user);
         }
 
         /// <summary>
@@ -450,7 +468,7 @@ namespace PantryPlanner.Services
         /// </summary>
         /// <param name="ingredientId"> ingredient to add </param>
         /// <param name="user"> user who is adding ingredient </param>
-        public KitchenIngredient AddIngredientToKitchen(long ingredientId, long kitchenId, PantryPlannerUser user)
+        public async Task<KitchenIngredient> AddIngredientToKitchen(long ingredientId, long kitchenId, PantryPlannerUser user)
         {
             if (user == null)
             {
@@ -489,7 +507,7 @@ namespace PantryPlanner.Services
                 LastUpdated = DateTime.Now,
             };
 
-            return AddKitchenIngredient(ingredientToAdd, user);
+            return await AddKitchenIngredient(ingredientToAdd, user);
         }
 
         #endregion

@@ -154,7 +154,7 @@ export class SearchIngredientsComponent implements OnInit {
 
     this.kitchenIngredientApi.addIngredientToKitchen(toAdd).subscribe(data => {
       this.kitchenIngredientApi.setAddedIngredient(data);
-      this.toastService.showSuccess("Added " + x.name);
+      // this.toastService.showSuccess("Added " + x.name);
       this.searchText = "";
       this.isSaving = false;
     },
@@ -180,7 +180,7 @@ export class SearchIngredientsComponent implements OnInit {
     }
     this.listIngredientService.addIngredientToList(toAdd).subscribe(data => {
       this.listIngredientService.setAddedIngredient(data);
-      this.toastService.showSuccess("Added " + x.name);
+      // this.toastService.showSuccess("Added " + x.name);
       this.isSaving = false;
       this.searchText = "";
     },

@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ToastService } from './toast.service';
+import { ActiveKitchenService } from './active-kitchen.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,30 +29,33 @@ export class UserLoginService {
   };
 
   public get authHeader() {
-    return { headers: { 'Authorization' :`Bearer ${this.token}`}};
+    return { headers: { 'Authorization': `Bearer ${this.token}` } };
   }
 
   public get authHeaderOnly() {
-    return { 'Authorization' :`Bearer ${this.token}`};
+    return { 'Authorization': `Bearer ${this.token}` };
   }
 
-  constructor(private http: HttpClient, private externalAuthService: SocialAuthService, private router: Router, private toasts: ToastService) { 
-      this.token$.next(localStorage.getItem("token"));
+  constructor(private http: HttpClient, private externalAuthService: SocialAuthService, private router: Router, private toasts: ToastService, private kitchen: ActiveKitchenService) {
+    this.token$.next(localStorage.getItem("token"));
+
+    if (!!!this.token) {
 
       this.externalAuthService.authState.subscribe((user) => {
-        console.log(user)
         this.extAuthChangeSub.next(user);
         this.externalLogin(user.idToken)
-        .subscribe({
-          next: (res) => {
-        },
-          error: (err: HttpErrorResponse) => {
-            this.toasts.showDanger(err.message, "Google Login Failed");
-            this.signOutExternal();
-          }
-        });
+          .subscribe({
+            next: (res) => {
+            },
+            error: (err: HttpErrorResponse) => {
+              this.toasts.showDanger(err.message, "Google Login Failed");
+              this.signOutExternal();
+            }
+          });
       })
+
     }
+  }
 
   // constructor(private http: HttpClient, private router: Router) { 
   //   this.token$.next(localStorage.getItem("token"));
@@ -59,7 +63,7 @@ export class UserLoginService {
 
   login(loginDto: LoginModel): Observable<any> {
     let sub = this.http.post<any>(`${this.AUTH_ENDPOINT}/Login`, loginDto).pipe(publishReplay(), refCount());
-    
+
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
       this.token$.next(resp.token);
@@ -71,11 +75,11 @@ export class UserLoginService {
 
   logout() {
     localStorage.removeItem('token');
+    this.kitchen.clearActiveKitchen(true);
     this.token$.next("");
   }
 
   public loginWithGoogle() {
-    console.log('google login', this.externalAuthService);
     this.externalAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
@@ -86,7 +90,7 @@ export class UserLoginService {
 
   externalLogin(token: string,) {
     let sub = this.http.post<any>(`api/GoogleTokenValidator/Login?idToken=${token}`, null).pipe(publishReplay(), refCount());
-    
+
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
       this.token$.next(resp.token);

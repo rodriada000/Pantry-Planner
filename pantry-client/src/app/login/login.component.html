@@ -1,6 +1,7 @@
 
-<p-toast></p-toast>
+<p-toast position="top-center"></p-toast>
 
+<p-progressBar class="col-12 mx-2 my-0 py-0" *ngIf="isLoading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
 <p-card styleClass="p-card-shadow mb-2 mt-2">
     <span class="p-float-label mb-5">
         <input type="text" pInputText [(ngModel)]="loginModel.Username" autocomplete="off"> 

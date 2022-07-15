@@ -1,7 +1,7 @@
 <div class="main-wrap">
 
   <!-- Sidebar -->
-  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '250px' : '0px'}">
+  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '350px' : '0px'}">
     <div class="flex flex-column">
       <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isAddPageSelected ? 'active' : ''" (click)="switchToAddIngredients()">Add Ingredients</a>
       <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isSearchPantryPageSelected ? 'active' : ''" (click)="switchToSearchPantry()">Search Pantry</a>
@@ -50,7 +50,7 @@
       <button class="btn btn-outline-danger" (click)="removeSelfFromKitchen()">Leave Pantry</button>
     </div>
 
-    <p-toast></p-toast>
+    <p-toast position="top-center"></p-toast>
 
   </div>
 

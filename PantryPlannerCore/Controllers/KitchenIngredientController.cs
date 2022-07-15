@@ -207,7 +207,7 @@ namespace PantryPlanner.Controllers
 
         // POST: api/KitchenIngredient
         [HttpPost]
-        public async Task<ActionResult<KitchenIngredientDto>> AddKitchenIngredientAsync([FromBody] KitchenIngredientDto kitchenIngredient)
+        public async Task<ActionResult<KitchenIngredientDto>> AddKitchenIngredientAsync([FromBody] KitchenIngredientDto kitchenIngredient, [FromQuery] bool updateQtyIfExists = false)
         {
             PantryPlannerUser user;
 
@@ -215,7 +215,7 @@ namespace PantryPlanner.Controllers
             {
                 user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
 
-                KitchenIngredient newIngredient = _service.AddKitchenIngredient(kitchenIngredient, user);
+                KitchenIngredient newIngredient = await _service.AddKitchenIngredient(kitchenIngredient, user, updateQtyIfExists);
                 return Ok(new KitchenIngredientDto(newIngredient));
             }
             catch (ArgumentNullException e)
@@ -250,7 +250,7 @@ namespace PantryPlanner.Controllers
             {
                 user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
 
-                KitchenIngredient newIngredient = _service.AddIngredientToKitchen(ingredientId, kitchenId, user);
+                KitchenIngredient newIngredient = await _service.AddIngredientToKitchen(ingredientId, kitchenId, user);
                 return Ok(new KitchenIngredientDto(newIngredient));
             }
             catch (ArgumentNullException e)

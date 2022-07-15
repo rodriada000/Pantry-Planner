@@ -21,6 +21,7 @@ import {ToastModule} from 'primeng/toast';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
     OverlayPanelModule,
     ToastModule,
     AutoCompleteModule,
-    SocialLoginModule
+    SocialLoginModule,
+    ProgressBarModule
   ],
   providers: [
     MessageService,

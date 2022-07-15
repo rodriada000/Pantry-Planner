@@ -43,7 +43,7 @@ export class AddIngredientModalComponent {
     this.apiService.addIngredientToKitchen(toAdd).subscribe(data => {
       this.apiService.setAddedIngredient(data);
       // this.activeModal.close(data);
-      this.toastService.showSuccess("Added " + this.ingredient.name);
+      // this.toastService.showSuccess("Added " + this.ingredient.name);
     },
       resp => {
         this.toastService.showDanger(resp.error);

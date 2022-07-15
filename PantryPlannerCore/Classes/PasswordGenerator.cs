@@ -33,6 +33,8 @@ namespace PantryPlanner.Classes
             const int PASSWORD_LENGTH_MIN = 6;
             const int PASSWORD_LENGTH_MAX = 128;
 
+            lengthOfPassword *= 2;
+
             if (lengthOfPassword < PASSWORD_LENGTH_MIN || lengthOfPassword > PASSWORD_LENGTH_MAX)
             {
                 throw new Exception($"Password length must be between {PASSWORD_LENGTH_MIN} and {PASSWORD_LENGTH_MAX}.");
@@ -70,18 +72,13 @@ namespace PantryPlanner.Classes
                 characterSet += SPACE_CHARACTER;
             }
 
-            char[] password = new char[lengthOfPassword];
+            List<char> password = new string(' ', lengthOfPassword).ToList();
             int characterSetLength = characterSet.Length;
 
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            byte[] byteArray = new byte[4];
 
             for (int characterPosition = 0; characterPosition < lengthOfPassword; characterPosition++)
             {
-                provider.GetBytes(byteArray);
-                //convert 4 bytes to an integer
-                int randomInteger = Math.Abs(BitConverter.ToInt32(byteArray, 0));
-                int charIndex = randomInteger % characterSetLength;
+                int charIndex = RandomNumberGenerator.GetInt32(characterSetLength - 1);
 
                 password[characterPosition] = characterSet[charIndex];
 
@@ -94,6 +91,25 @@ namespace PantryPlanner.Classes
                 {
                     characterPosition--;
                 }
+            }
+
+            // ensure password includes specific characters at end of generation
+            if (includeNumeric && !password.Any(c => NUMERIC_CHARACTERS.Contains(c)))
+            {
+                int charIndex = RandomNumberGenerator.GetInt32(NUMERIC_CHARACTERS.Length - 1);
+                password.Add(NUMERIC_CHARACTERS[charIndex]);
+            }
+
+            if (includeSpecial && !password.Any(c => SPECIAL_CHARACTERS.Contains(c)))
+            {
+                int charIndex = RandomNumberGenerator.GetInt32(SPECIAL_CHARACTERS.Length - 1);
+                password.Add(SPECIAL_CHARACTERS[charIndex]);
+            }
+
+            if (includeUppercase && !password.Any(c => UPPERCASE_CHARACTERS.Contains(c)))
+            {
+                int charIndex = RandomNumberGenerator.GetInt32(UPPERCASE_CHARACTERS.Length - 1);
+                password.Add(UPPERCASE_CHARACTERS[charIndex]);
             }
 
             return string.Join(null, password);

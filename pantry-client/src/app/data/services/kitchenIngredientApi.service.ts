@@ -21,8 +21,8 @@ export default class KitchenIngredientApi {
     this.observableAddedIngredient = new BehaviorSubject<KitchenIngredient>(this.addedIngredient);
   }
 
-  public addIngredientToKitchen(ingredient: KitchenIngredient): Observable<KitchenIngredient> {
-    return this.http.post<KitchenIngredient>(this.endPoint, ingredient, this.userService.authHeader);
+  public addIngredientToKitchen(ingredient: KitchenIngredient, updateQty: boolean = false): Observable<KitchenIngredient> {
+    return this.http.post<KitchenIngredient>(`${this.endPoint}?updateQtyIfExists=${updateQty}`, ingredient, this.userService.authHeader);
   }
 
   public updateKitchenIngredient(ingredient: KitchenIngredient): Observable<any> {

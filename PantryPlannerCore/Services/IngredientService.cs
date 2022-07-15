@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PantryPlanner.Exceptions;
 using PantryPlanner.Extensions;
+using PantryPlannerCore.Extensions;
 using PantryPlannerCore.Models;
 using System;
 using System.Collections.Generic;
@@ -280,6 +281,7 @@ namespace PantryPlanner.Services
                 throw new InvalidOperationException($"An ingredient with the name {newIngredient.Name} already exists");
             }
 
+            newIngredient.Name = newIngredient.Name?.ToProperCase();
             newIngredient.AddedByUserId = user.Id;
             newIngredient.DateAdded = DateTime.Now;
 
@@ -304,6 +306,7 @@ namespace PantryPlanner.Services
                 throw new InvalidOperationException($"An ingredient with the name {newIngredient.Name} already exists");
             }
 
+            newIngredient.Name = newIngredient.Name?.ToProperCase();
             newIngredient.AddedByUserId = null;
             newIngredient.IsPublic = true;
             newIngredient.DateAdded = DateTime.Now;

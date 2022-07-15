@@ -15,15 +15,15 @@ export class ToastService {
   }
 
   showStandard(msg: string, title: string = "") {
-    this.toasts.add({severity: "info", summary: title, detail: msg, life: 5000});
+    this.toasts.add({severity: "info", summary: title, detail: msg, life: 3000});
   }
 
   showSuccess(msg: string, title: string = "") {
-    this.toasts.add({severity: "success", summary: title, detail: msg, life: 5000});
+    this.toasts.add({severity: "success", summary: title, detail: msg, life: 2000});
   }
 
   showDanger(msg: string, title: string = "") {
-    this.toasts.add({severity: "error", summary: title, detail: msg, life: 8000});
+    this.toasts.add({severity: "error", summary: title, detail: msg, life: 4000});
   }
   
 }

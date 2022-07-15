@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="npm run-script build-prd" />
+    <Exec Command="if $(ConfigurationName) == Release npm run-script build-prd" />
   </Target>
 
   <Target Name="AddPayloadsFolder" AfterTargets="Publish">

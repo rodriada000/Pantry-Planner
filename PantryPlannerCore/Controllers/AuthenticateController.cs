@@ -117,11 +117,12 @@ namespace PantryPlannerCore.Controllers
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            DateTime expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JWT:ExpireDays"]));
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
+                expires: expires,
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

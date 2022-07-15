@@ -1,7 +1,7 @@
 <div class="main-wrap">
 
   <!-- Sidebar -->
-  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '250px' : '0px'}">
+  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '350px' : '0px'}">
     <div class="flex flex-column">
       <a *ngFor="let row of allLists; let index=index" (click)="switchList(index)" class="flex align-items-center justify-content-start sidebar-item sidebar-item pb-2" [ngClass]="{'active': index==selectedIndex}">{{row.name}}</a>
     
@@ -16,7 +16,7 @@
 
   <!-- Page Content -->
   <div #content id="page-content" class="pt-3 pl-3" [ngStyle]="{'margin-left': showSideMenu ? '250px' : '0px'}">
-    <p-toast></p-toast>
+    <p-toast position="top-center"></p-toast>
     <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
     </button>
 

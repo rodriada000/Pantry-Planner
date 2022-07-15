@@ -128,7 +128,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   updateIngredient(ingredient: ListIngredient, showToast: boolean = false) {
     this.service.updateListIngredient(ingredient).subscribe(response => {
       if (showToast) {
-        this.toasts.showSuccess("Updated " + ingredient.ingredient.name + ".");
+        // this.toasts.showSuccess("Updated " + ingredient.ingredient.name + ".");
       }
     },
     error => { this.toasts.showDanger(error.message + " - " + error.error); })
@@ -218,7 +218,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
       let k = this.pantryService.createEmpty(i.ingredient, this.selected.kitchenId);
       k.quantity = i.quantity ?? 1;
 
-      this.pantryService.addIngredientToKitchen(k).subscribe(data => {
+      this.pantryService.addIngredientToKitchen(k, true).subscribe(data => {
         this.pantryService.setAddedIngredient(data);
       }, error => {
         this.toasts.showDanger('could not add ' + i.ingredient?.name + ' to pantry - ' + error.error);
@@ -260,7 +260,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     this.service.updateListIngredient(ingredient).subscribe(data => {
       if (showToast) {
-        this.toasts.showSuccess("Updated " + ingredient.ingredient.name);
+        // this.toasts.showSuccess("Updated " + ingredient.ingredient.name);
       }
       this.isEditing = false;
       this.isSaving = false;
