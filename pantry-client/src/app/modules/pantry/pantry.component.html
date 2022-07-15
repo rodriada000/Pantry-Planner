@@ -3,6 +3,11 @@
   <!-- Sidebar -->
   <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '350px' : '0px'}">
     <div class="flex flex-column">
+      <div class="flex flex-row-reverse mr-2">
+        <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+        </button>
+      </div>
+      
       <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isAddPageSelected ? 'active' : ''" (click)="switchToAddIngredients()">Add Ingredients</a>
       <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isSearchPantryPageSelected ? 'active' : ''" (click)="switchToSearchPantry()">Search Pantry</a>
       <a class="flex align-items-center justify-content-start sidebar-item" *ngIf="isOwnerOfKitchen" [ngClass]="isManagePantryPageSelected ? 'active' : ''" (click)="switchToManagePantry()">Manage Pantry</a>

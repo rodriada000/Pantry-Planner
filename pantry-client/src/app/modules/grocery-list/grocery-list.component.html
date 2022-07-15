@@ -3,6 +3,11 @@
   <!-- Sidebar -->
   <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '350px' : '0px'}">
     <div class="flex flex-column">
+      <div class="flex flex-row-reverse mr-2">
+        <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+        </button>
+      </div>
+
       <a *ngFor="let row of allLists; let index=index" (click)="switchList(index)" class="flex align-items-center justify-content-start sidebar-item sidebar-item pb-2" [ngClass]="{'active': index==selectedIndex}">{{row.name}}</a>
     
       <div class="flex align-items-center justify-content-center ml-2 pb-2 sidebar-item" *ngIf="allLists?.length === 0">
