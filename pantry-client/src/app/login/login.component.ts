@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   private validateExternalAuth(token: string) {
+    this.isLoading = true;
     this.loginService.externalLogin(token)
       .subscribe({
         next: (res) => {
