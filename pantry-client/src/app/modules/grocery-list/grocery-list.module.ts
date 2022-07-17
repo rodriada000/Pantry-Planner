@@ -16,7 +16,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RippleModule} from 'primeng/ripple';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
 
 
 @NgModule({
@@ -39,9 +40,11 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     InputTextareaModule,
     CheckboxModule,
     RippleModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ConfirmDialogModule,
   ],
   providers: [
+    ConfirmationService
   ],
   exports: [
     GroceryListComponent,

@@ -77,18 +77,22 @@ export class PantryComponent implements OnInit, OnDestroy {
 
   public switchToAddIngredients(): void {
     this.pageService.switchToAddIngredients();
+    this.showSideMenu = false;
   }
 
   public switchToSearchPantry(): void {
     this.pageService.switchToSearchPantry();
+    this.showSideMenu = false;
   }
 
   public switchToManagePantry(): void {
     this.pageService.switchToManagePantry();
+    this.showSideMenu = false;
   }
 
   public switchToLeavePantry(): void {
     this.pageService.switchToLeavePantry();
+    this.showSideMenu = false;
   }
 
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import Category from 'src/app/data/models/Category';
 import KitchenList from 'src/app/data/models/KitchenList';
@@ -52,7 +52,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private service: ListIngredientApiService,
     private pantryService: KitchenIngredientApi,
-    private toasts: ToastService
+    private toasts: ToastService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -134,9 +135,12 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     error => { this.toasts.showDanger(error.message + " - " + error.error); })
   }
 
-  removeFromList(ingredient: ListIngredient, index: number) {
+  removeFromList(ingredient: ListIngredient, index: number, showToast: boolean = true) {
     this.service.removeListIngredient(ingredient).subscribe(data => {
-      this.toasts.showStandard("Removed " + ingredient.ingredient.name + " from list.");
+      if (showToast) {
+        this.toasts.showStandard("Removed " + ingredient.ingredient.name + " from list.");
+      }
+
       this.allIngredients.splice(index, 1);
       this.sortBy(this.selectedSort);
       this.doFilter();
@@ -204,9 +208,14 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   confirmAddToPantry() {
-    if (confirm('Are you sure you want to add checked items to the pantry?')) {
-      this.addCheckedToPantry();
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to add checked items to the pantry?',
+      header: 'Confirm Add',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.addCheckedToPantry();
+      }
+    });
   }
 
   addCheckedToPantry() {
@@ -285,57 +294,26 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     $event.stopPropagation();
   }
 
-  // onBlur() {
-  //   console.log('blurred')
-  // }
+  removeChecked() {
 
-  // onKeyDown($event: KeyboardEvent) {
-  //   if ($event.key === 'Enter' || $event.key === 'Tab') {
-  //     console.log('keydown', this.lastCatSearch, this.categories);
-  //     if (this.lastCatSearch && this.categories.findIndex(c => c.name.toLowerCase() === this.lastCatSearch.toLowerCase()) === -1) {
-  //       let newCat = new Category();
-  //       newCat.name = this.lastCatSearch;
-  //       this.categories = [...this.categories, newCat];
-        
-  //       this.filteredList[this.hoveredIndex].category = newCat;
-  //       console.log(this.categories, this.filteredList[this.hoveredIndex].category);
-  //       this.lastCatSearch = null;
-  //       return false;
-  //     }
-  //   }
-
-  //   return true;
-  // }
-
-  doCatSearch(text$: Observable<string>) {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to clear all checked items?',
+      header: 'Confirm Clear',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        for (let i = this.allIngredients.length - 1; i >= 0; i--) {
+          const element = this.allIngredients[i];
+          if (!element.isChecked) {
+            continue;
+          }
+          
+          this.removeFromList(element, i, false);
+        }
+      }
+    });
+    
 
   }
 
-  // doCatSearch = (text$: Observable<string>) =>
-  // text$.pipe(
-  //   debounceTime(300),
-  //   distinctUntilChanged(),
-  //   tap(() => this.isSearching = true),
-  //   switchMap(term => term === "" || term.length < 2 ? of([]) :
-  //     this.service.getIngredientsByName(term).pipe(
-  //       tap(() => this.searchFailed = false),
-  //       map(r => r.slice(0, 20)),
-  //       map(r => {
-  //         const createMissing: Ingredient = new Ingredient();
-  //         createMissing.name = "Create Missing Ingredient";
-  //         createMissing.categoryName = "CreateMissing";
-  //         r.push(createMissing);
-
-  //         return r;
-  //       }),
-  //       catchError(() => {
-  //         this.searchFailed = true;
-  //         return of([]);
-  //       }))
-  //   ),
-  //   tap(() => {
-  //     this.isSearching = false;
-  //   })
-  // )
 
 }

@@ -34,11 +34,8 @@ namespace PantryPlanner.Controllers
         {
             try
             {
-                string token = await _accountService.LoginUsingGoogleIdToken(idToken);
-                return Ok(new
-                {
-                    token = token
-                });
+                TokenDto? token = await _accountService.LoginUsingGoogleIdToken(idToken);
+                return Ok(token);
             }
             catch (AccountException e)
             {

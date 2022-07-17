@@ -1,14 +1,15 @@
-<div class="list-group mr-3">
-    <div class="flex justify-content-between align-items-end">
-        <h4>{{this.selectedName}}</h4>
-        
-        <div class="flex justify-content-end">
-            <button pButton icon="pi pi-sign-in" class="mr-2 mb-2" (click)="confirmAddToPantry()" pTooltip="Add Checked Items to Pantry" tooltipPosition="top"></button>
-    
-            <button pButton icon="pi pi-refresh" class="mr-2 mb-2" (click)="refreshList()"  pTooltip="Refresh List" tooltipPosition="top"></button>
+<p-confirmDialog></p-confirmDialog>
 
-            <p-splitButton label="Sort" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems"></p-splitButton>
-        </div>
+<div class="list-group">
+    <h4>{{this.selectedName}}</h4>
+    <div class="flex justify-content-end align-items-end">
+        <button pButton icon="pi pi-check-square" class="mr-2 mb-1" (click)="removeChecked()" pTooltip="Clear Checked Items" tooltipPosition="top"></button>
+
+        <button pButton icon="pi pi-sign-in" class="mr-2 mb-1" (click)="confirmAddToPantry()" pTooltip="Add Checked Items to Pantry" tooltipPosition="top"></button>
+
+        <button pButton icon="pi pi-refresh" class="mr-2 mb-1" (click)="refreshList()"  pTooltip="Refresh List" tooltipPosition="top"></button>
+
+        <p-splitButton label="Sort" class="mr-2 mb-1" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems"></p-splitButton>
     </div>
 
     <pantry-search-ingredients [addMode]="'GroceryList'" [activeList]="selected"></pantry-search-ingredients>
@@ -18,7 +19,7 @@
         <span>It seems {{selectedName}} is empty ... </span>
     </div>
 
-    <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2" *ngFor="let row of filteredList; let index=index"
+    <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2" *ngFor="let row of filteredList; let index=index"
         (click)="setSelected(index, $event)">
     
         

@@ -76,6 +76,7 @@ export class GroceryListComponent implements OnInit {
   switchList(index: number) {
     this.selectedIndex = index;
     localStorage.setItem("LastSelectedKitchenListId", this.allLists[index]?.kitchenListId?.toString());
+    this.showSideMenu = false;
   }
 
   getSelected(): KitchenList {

@@ -66,6 +66,7 @@ export class UserLoginService {
 
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
+      localStorage.setItem("token-expiration", resp.validTo);
       this.token$.next(resp.token);
       this.router.navigate(['/pantry']);
     });
@@ -93,6 +94,7 @@ export class UserLoginService {
 
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
+      localStorage.setItem("token-expiration", resp.validTo);
       this.token$.next(resp.token);
       this.router.navigate(['/pantry']);
     });
