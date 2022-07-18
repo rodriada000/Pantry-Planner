@@ -16,6 +16,15 @@
 </p-dialog>
 
 <div class="grid pb-0">
-  <p-autoComplete inputStyleClass="col-12" styleClass="col-12 pb-0" class="col-12 pb-0 px-0" placeholder="Search Ingredients..." [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)"></p-autoComplete>
+  <p-autoComplete inputStyleClass="col-12" 
+    styleClass="col-12 pb-0" 
+    class="col-12 pb-0 px-0" 
+    placeholder="Search Ingredients..." 
+    [(ngModel)]="searchText" 
+    [suggestions]="searchResults" 
+    field="name" 
+    [minLength]="2"
+    (completeMethod)="search($event)" 
+    (onSelect)="addSelected($event)"></p-autoComplete>
   <p-progressBar class="col-11 mx-2" *ngIf="isSearching || isSaving" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
 </div>

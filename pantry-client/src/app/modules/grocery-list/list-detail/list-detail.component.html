@@ -1,7 +1,7 @@
 <p-confirmDialog></p-confirmDialog>
 
 <div class="list-group">
-    <h4>{{this.selectedName}}</h4>
+    <h2>{{this.selectedName}}</h2>
     <div class="flex justify-content-end align-items-end">
         <button pButton icon="pi pi-check-square" class="mr-2 mb-1" (click)="removeChecked()" pTooltip="Clear Checked Items" tooltipPosition="top"></button>
 
@@ -28,6 +28,7 @@
             <div class="flex justify-content-start ml-2">
                 <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
                 <div class="p-2" (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
+                <div class="p-2 pl-0 p-text-secondary" *ngIf="hoveredIndex != index && !!row.note" (click)="unselect(index, $event)"> ({{row.note}})</div>
             </div>
             
             <div class="flex justify-content-end mr-2">

@@ -547,10 +547,7 @@ namespace PantryPlanner.Services
                                                                  .FirstOrDefault();
 
             // only update fields that are not null in the DTO
-            if (ingredientDto.Note != null)
-            {
-                kitchenIngredientToUpdate.Note = ingredientDto.Note;
-            }
+            kitchenIngredientToUpdate.Note = ingredientDto.Note;
 
             if (ingredientDto.Quantity != null)
             {

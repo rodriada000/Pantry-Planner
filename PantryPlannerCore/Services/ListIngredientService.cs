@@ -302,10 +302,7 @@ namespace PantryPlanner.Services
                 ingredientToUpdate.SortOrder = ingredientDto.SortOrder.Value;
             }
 
-            if (!string.IsNullOrEmpty(ingredientDto.Note))
-            {
-                ingredientToUpdate.Note = ingredientDto.Note;
-            }
+            ingredientToUpdate.Note = ingredientDto.Note;
 
             CreateCategoryIfNotExists(ingredientDto);
 

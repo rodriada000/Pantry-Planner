@@ -269,7 +269,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     this.service.updateListIngredient(ingredient).subscribe(data => {
       if (showToast) {
-        // this.toasts.showSuccess("Updated " + ingredient.ingredient.name);
+        this.toasts.showSuccess("Updated " + ingredient.ingredient.name);
       }
       this.isEditing = false;
       this.isSaving = false;
