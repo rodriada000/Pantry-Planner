@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { Observable, Subscription } from 'rxjs';
+import { forkJoin, Observable, publishReplay, refCount, Subscription } from 'rxjs';
 import Category from 'src/app/data/models/Category';
 import KitchenList from 'src/app/data/models/KitchenList';
 import ListIngredient from 'src/app/data/models/ListIngredient';
@@ -48,6 +48,10 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   
   private itemAddedSub: Subscription;
   origIngredient: ListIngredient;
+
+  get hasCheckedItems(): boolean {
+    return this.allIngredients.some(i => i.isChecked);
+  }
 
   constructor(
     private service: ListIngredientApiService,
@@ -219,6 +223,9 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   addCheckedToPantry() {
+
+    let observables: any[] = [];
+    
     this.allIngredients.forEach(i => {
       if (!i.isChecked) {
         return;
@@ -227,12 +234,19 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
       let k = this.pantryService.createEmpty(i.ingredient, this.selected.kitchenId);
       k.quantity = i.quantity ?? 1;
 
-      this.pantryService.addIngredientToKitchen(k, true).subscribe(data => {
+      let addObs = this.pantryService.addIngredientToKitchen(k, true).pipe(publishReplay(), refCount());
+
+      addObs.subscribe(data => {
         this.pantryService.setAddedIngredient(data);
       }, error => {
         this.toasts.showDanger('could not add ' + i.ingredient?.name + ' to pantry - ' + error.error);
       });
-      
+
+      observables.push(addObs);
+    })
+
+    forkJoin(observables).subscribe(o => {
+      this.removeChecked(true);
     })
   }
 
@@ -294,21 +308,27 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     $event.stopPropagation();
   }
 
-  removeChecked() {
+  removeChecked(afterAdd: boolean = false) {
+
+    let msg = 'Are you sure you want to clear all checked items?';
+
+    if (afterAdd) {
+      msg = 'Do you also want to clear all checked items?';
+    }
 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to clear all checked items?',
+      message: msg,
       header: 'Confirm Clear',
       icon: 'pi pi-info-circle',
       accept: () => {
-        for (let i = this.allIngredients.length - 1; i >= 0; i--) {
-          const element = this.allIngredients[i];
-          if (!element.isChecked) {
-            continue;
-          }
-          
-          this.removeFromList(element, i, false);
-        }
+        this.service.removeCheckedIngredients(this.selected.kitchenListId).subscribe(resp => {
+          this.allIngredients = this.allIngredients.filter(i => !i.isChecked);
+          this.sortBy(this.selectedSort);
+          this.doFilter();
+        },
+        error => {
+          this.toasts.showDanger('Could not remove checked items from list: ' + error.message ,'Update Failed')
+        })
       }
     });
     

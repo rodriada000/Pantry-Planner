@@ -34,6 +34,11 @@ export default class ListIngredientApiService {
     return this.http.delete<ListIngredient>(this.endPoint + "/" + ingredient.id.toString(), this.userService.authHeader);
   }
 
+  public removeCheckedIngredients(kitchenListId: number): Observable<any> {
+    return this.http.delete<ListIngredient>(this.endPoint + "/Checked/" + kitchenListId.toString(), this.userService.authHeader);
+  }
+
+
   public setAddedIngredient(ingredient: ListIngredient): void {
     this.addedIngredient = ingredient;
     this.observableAddedIngredient.next(this.addedIngredient);

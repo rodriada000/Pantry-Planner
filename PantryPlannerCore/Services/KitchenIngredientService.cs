@@ -338,7 +338,7 @@ namespace PantryPlanner.Services
 
             KitchenIngredient kitchenIngredientToAdd = KitchenIngredientDto.Create(newIngredient);
             
-            return await AddKitchenIngredient(kitchenIngredientToAdd, user);
+            return await AddKitchenIngredient(kitchenIngredientToAdd, user, updateQtyIfExists);
         }
 
         /// <summary>

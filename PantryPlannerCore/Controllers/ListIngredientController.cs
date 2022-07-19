@@ -253,6 +253,37 @@ namespace PantryPlanner.Controllers
             }
         }
 
+        // DELETE: api/KitchenIngredient/Checked
+        [HttpDelete("Checked/{kitchenListId}")]
+        public async Task<ActionResult<KitchenIngredient>> DeleteCheckedIngredientsInList(long kitchenListId)
+        {
+            PantryPlannerUser user;
+
+            try
+            {
+                user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
+
+                await _service.DeleteCheckedIngredientsInList(kitchenListId, user);
+                return Ok();
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (IngredientNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (PermissionsException e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
         #endregion
 
 

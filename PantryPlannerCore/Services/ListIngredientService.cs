@@ -388,6 +388,35 @@ namespace PantryPlanner.Services
             return ingredientToDelete;
         }
 
+
+        public async Task DeleteCheckedIngredientsInList(long kitchenListId, PantryPlannerUser userDeleting)
+        {
+            if (userDeleting == null)
+            {
+                throw new ArgumentNullException(nameof(userDeleting));
+            }
+
+            if (!Context.KitchenListExists(kitchenListId))
+            {
+                throw new IngredientNotFoundException($"KitchenListIngredient with ID {kitchenListId} does not exist.");
+            }
+
+            if (!Permissions.UserHasRightsToKitchenList(userDeleting, kitchenListId))
+            {
+                throw new PermissionsException($"You do not have rights to delete from this list");
+            }
+
+            List<KitchenListIngredient>? ingredientsToDelete = await Context.KitchenListIngredients.Where(k => k.KitchenListId == kitchenListId && k.IsChecked).ToListAsync();
+
+            foreach (var item in ingredientsToDelete)
+            {
+                item.IsDeleted = true;
+            }
+
+            Context.KitchenListIngredients.UpdateRange(ingredientsToDelete);
+            await Context.SaveChangesAsync();
+        }
+
         #endregion
 
     }
