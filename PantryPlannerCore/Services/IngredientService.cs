@@ -237,7 +237,7 @@ namespace PantryPlanner.Services
                 publicCategories.AddRange(privateCategories);
             }
 
-            return publicCategories;
+            return publicCategories.OrderBy(c => c.Name).ToList();
         }
 
 
