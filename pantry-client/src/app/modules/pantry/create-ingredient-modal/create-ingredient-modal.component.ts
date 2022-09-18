@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import Category from '../../../data/models/Category';
 import { ToastService } from '../../../shared/services/toast.service';
 import Ingredient from '../../../data/models/Ingredient';
@@ -9,13 +9,15 @@ import { ActiveKitchenService } from '../../../shared/services/active-kitchen.se
 import KitchenList from 'src/app/data/models/KitchenList';
 import ListIngredient from 'src/app/data/models/ListIngredient';
 import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
+import GroceryListApi from 'src/app/data/services/grocery-list.service';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-ingredient-modal',
   templateUrl: './create-ingredient-modal.component.html',
   styleUrls: ['./create-ingredient-modal.component.css']
 })
-export class CreateIngredientModalComponent implements OnInit, OnChanges {
+export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   public ingredientName: string;
@@ -41,12 +43,19 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
   public searchText: string;
   public searchResults: Category[] = [];
 
+  private $destructor: Subject<any> = new Subject<any>();
+
   constructor(
     private toastService: ToastService,
     private apiService: IngredientApi,
     private listIngredientService: ListIngredientApiService,
+    private groceryListApi: GroceryListApi,
     private kitchenIngredientApi: KitchenIngredientApi,
     private activeKitchen: ActiveKitchenService) { }
+
+  ngOnDestroy(): void {
+    this.$destructor.next(null);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     const isString: boolean = changes['ingredientName'] && typeof changes['ingredientName'].currentValue === 'string';
@@ -68,6 +77,9 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
     this.quantity = 1;
     this.notes = "";
     
+    this.groceryListApi.activeList.pipe(takeUntil(this.$destructor)).subscribe(o => {
+      this.activeList = o;
+    })
 
     this.apiService.getIngredientCategories().subscribe(
       data => {
@@ -110,9 +122,9 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
           } else {
             this.addToGroceryList(data);
           }
-        } else {
-          this.isAdding = false;
         }
+
+        this.isAdding = false;
 
       },
       error => {
@@ -123,6 +135,8 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
 
   private addToGroceryList(x: Ingredient) {
     const toAdd: ListIngredient = this.listIngredientService.createEmpty(x, this.activeList);
+    toAdd.quantity = this.quantity;
+    toAdd.note = this.notes;
 
     if (toAdd.kitchenId === 0 || toAdd.kitchenListId === 0) {
       this.toastService.showDanger("Cannot add to list - id is 0");
@@ -133,6 +147,8 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
       this.listIngredientService.setAddedIngredient(data);
       // this.toastService.showSuccess("Added " + x.name);
       this.isAdding = false;
+      this.quantity = 1;
+      this.notes = '';
     },
       error => {
         this.toastService.showDanger(error.error);
@@ -152,6 +168,8 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges {
         this.kitchenIngredientApi.setAddedIngredient(data);
         // this.toastService.showSuccess("Added to pantry - " + toAdd.name);
         this.isAdding = false;
+        this.quantity = 1;
+        this.notes = '';
       },
       error => {
         this.toastService.showDanger("Could not add " + toAdd.name + " to pantry - " + error.error);

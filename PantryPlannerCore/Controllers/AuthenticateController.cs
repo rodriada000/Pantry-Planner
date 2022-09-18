@@ -68,7 +68,10 @@ namespace PantryPlannerCore.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            {
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse { Status = "Error", Message = $"User creation failed! Please check requirements: {string.Join(" ", result.Errors.Select(e => e.Description).ToList())}." });
+            }
 
             return Ok(new ApiResponse { Status = "Success", Message = "User created successfully!" });
         }

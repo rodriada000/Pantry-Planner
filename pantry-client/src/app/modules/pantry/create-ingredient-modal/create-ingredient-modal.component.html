@@ -23,19 +23,19 @@
 
   <br />
 
-  <div *ngIf="addMode == 'Pantry'" class="p-field-checkbox pb-5">
+  <div class="p-field-checkbox pb-5">
     <p-checkbox [(ngModel)]="isAddToPantry" [binary]="true"></p-checkbox>
-    <label class="ml-2">Add To Pantry</label>
+    <label class="ml-2">Add To {{addMode == 'Pantry' ? 'Pantry' : 'List'}}</label>
   </div>
 
 
-  <div class="font-semibold text-lg text-color-secondary" *ngIf="isAddToPantry"> Pantry Info </div>
+  <div class="font-semibold text-lg text-color-secondary" *ngIf="isAddToPantry"> Additional Info </div>
   
   <div class="field pb-0 mb-1 pt-1" *ngIf="isAddToPantry">
     <label class="block" for="quantityInput">Quantity</label>
     <input pInputText type="number" class="form-control" id="quantityInput" [(ngModel)]="quantity">
   </div>
-  <div class="field" *ngIf="isAddToPantry && addMode === 'Pantry'">
+  <div class="field" *ngIf="isAddToPantry">
     <label class="block" for="notesTextarea">Notes</label>
     <div class="grid ml-0">
       <textarea pInputTextarea class="col-12" id="notesTextarea" rows="3" [(ngModel)]="notes"></textarea>

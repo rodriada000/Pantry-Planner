@@ -14,6 +14,10 @@ export default class GroceryListApi {
   public KITCHEN_ENDPOINT = `${this.API}/KitchenList`;
 
   public observableList: BehaviorSubject<Array<KitchenList>>;
+  private $activeList: BehaviorSubject<KitchenList> = new BehaviorSubject<KitchenList>(null);
+
+  public activeList: Observable<KitchenList> = this.$activeList.asObservable();
+
 
   constructor(private http: HttpClient, private userService: UserLoginService) {
     this.observableList = new BehaviorSubject<Array<KitchenList>>([]);
@@ -21,6 +25,10 @@ export default class GroceryListApi {
 
   public setObservable(lists: Array<KitchenList>) {
     this.observableList.next(lists);
+  }
+
+  public setActiveList(list: KitchenList) {
+    this.$activeList.next(list);
   }
 
   public addToObservable(addedList: KitchenList): void {

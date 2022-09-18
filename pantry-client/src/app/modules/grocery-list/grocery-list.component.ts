@@ -53,10 +53,12 @@ export class GroceryListComponent implements OnInit {
         
         if (lastSelected !== null && lastSelected !== undefined) {
           this.selectedIndex = this.allLists.findIndex(k => k.kitchenListId === parseInt(lastSelected));
+          this.listService.setActiveList(this.allLists[this.selectedIndex]);
         }
         
         if (this.selectedIndex >= this.allLists.length) {
           this.selectedIndex = 0;
+          this.listService.setActiveList(this.allLists[this.selectedIndex]);
         }
       }
 
@@ -76,6 +78,7 @@ export class GroceryListComponent implements OnInit {
   switchList(index: number) {
     this.selectedIndex = index;
     localStorage.setItem("LastSelectedKitchenListId", this.allLists[index]?.kitchenListId?.toString());
+    this.listService.setActiveList(this.allLists[this.selectedIndex]);
     this.showSideMenu = false;
   }
 
