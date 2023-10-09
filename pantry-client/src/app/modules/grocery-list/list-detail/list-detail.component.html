@@ -23,10 +23,52 @@
         <span>It seems {{selectedName}} is empty ... </span>
     </div>
 
-    <div *ngIf="!isLoading">
+    <div *ngIf="!isLoading && selectedSort == 'category'">
+        <div class="flex flex-column align-content-start align-item-start my-1 pb-2 pt-2" *ngFor="let cat of categories">
+            <span class="cat-header">{{cat}}</span>
+            <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2" *ngFor="let row of getIngredientsByCategory(cat); let index=index"
+                (click)="setSelected(index, $event)">
+                <div class="flex justify-content-between align-content-center pb-0" [ngClass]="{'font-medium': hoveredIndex==index}">
+                    <div class="flex justify-content-start ml-2">
+                        <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
+                        <div class="p-2" (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
+                        <div class="p-2 pl-0 p-text-secondary" *ngIf="hoveredIndex != index && !!row.note" (click)="unselect(index, $event)"> ({{row.note}})</div>
+                    </div>
+            
+                    <div class="flex justify-content-end mr-2">
+                        <button pButton pRipple *ngIf="hoveredIndex==index" icon="pi pi-minus-circle"
+                            class="p-button-rounded p-button-text p-0 mr-1" (click)="quickEditQty(row, -1)"></button>
+                        <small class="text-muted p-0 flex align-items-center justify-content-center"
+                            [ngClass]="{'bold-text': hoveredIndex==index}">Qty: {{row.quantity}}</small>
+                        <button pButton pRipple *ngIf="hoveredIndex==index" icon="pi pi-plus-circle"
+                            class="p-button-rounded p-button-text p-0 ml-1" (click)="quickEditQty(row, 1)"></button>
+                    </div>
+                </div>
+                <div *ngIf="hoveredIndex==index" class="pt-0">
+                    <p *ngIf="!isEditing" class="ml-4 my-0 text-sm">{{row.note}}</p>
+            
+                    <div *ngIf="isEditing" class="grid my-0 ml-4">
+                        <textarea pInputTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note"
+                            placeholder="Notes"></textarea>
+                    </div>
+            
+                    <div class="flex justify-content-end mr-2">
+                        <button pButton pRipple class="p-button-outlined mr-2" *ngIf="!isEditing" icon="pi pi-pencil"
+                            (click)="editIngredient(row, $event)"></button>
+                        <button pButton pRipple class="p-button-outlined p-button-danger" *ngIf="!isEditing" icon="pi pi-trash"
+                            (click)="removeFromList(row, index)"></button>
+                        <button pButton *ngIf="isEditing" class="p-button-text p-button-sm" (click)="saveEdit(row)">Save</button>
+                        <button pButton *ngIf="isEditing" class="p-button-text p-button-sm"
+                            (click)="cancelEdit(row, $event)">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!isLoading && selectedSort == 'name'">
         <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2" *ngFor="let row of filteredList; let index=index"
             (click)="setSelected(index, $event)">
-        
             <div class="flex justify-content-between align-content-center pb-0" [ngClass]="{'font-medium': hoveredIndex==index}">
                 <div class="flex justify-content-start ml-2">
                     <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">

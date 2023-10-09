@@ -130,7 +130,7 @@ export class MyIngredientsComponent implements OnInit, OnDestroy {
       if (field == 'category') {
         this.selectedSort = "Category";
         valA = a.ingredient.categoryName;
-        valB = a.ingredient.categoryName;
+        valB = b.ingredient.categoryName;
       }
 
       if (valA.toLowerCase() > valB.toLowerCase()) {

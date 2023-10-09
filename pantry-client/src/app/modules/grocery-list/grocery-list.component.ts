@@ -7,6 +7,7 @@ import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredi
 import GroceryListApi from 'src/app/data/services/grocery-list.service';
 import KitchenUserApi from 'src/app/data/services/kitchenUserApi.service';
 import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.service';
+import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
@@ -23,9 +24,14 @@ export class GroceryListComponent implements OnInit {
   public allLists: Array<KitchenList> = [];
   public selectedIndex: number = 0;
 
+  public get sideMenuSize() {
+    return this.layoutService.sideMenuSize;
+  }
+
   constructor(
     private activeKitchenService: ActiveKitchenService,
     private listService: GroceryListApi,
+    private layoutService: LayoutService,
     private ingredientService: ListIngredientApiService,
     private toastService: ToastService,
     private kitchenUserApi: KitchenUserApi,
@@ -60,6 +66,8 @@ export class GroceryListComponent implements OnInit {
           this.selectedIndex = 0;
           this.listService.setActiveList(this.allLists[this.selectedIndex]);
         }
+      } else {
+        this.showSideMenu = true;
       }
 
     })

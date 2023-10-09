@@ -1,0 +1,39 @@
+<div class="main-wrap">
+
+    <!-- Sidebar -->
+    <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? sideMenuSize : '0px'}">
+      <div class="flex flex-column">
+        <div class="flex flex-row-reverse mr-2">
+          <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+          </button>
+        </div>
+        
+        <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isMyRecipesSelected ? 'active' : ''" (click)="switchToMyRecipes()">My Recipes</a>
+        <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isSearchRecipesSelected ? 'active' : ''" (click)="switchToSearchRecipes()">Search Recipes</a>
+        <a class="flex align-items-center justify-content-start sidebar-item" [ngClass]="isCreateRecipeSelected ? 'active' : ''" (click)="switchToCreateRecipe()">Create Recipe</a>
+      </div>
+    </div>
+  
+    <!-- Page Content -->
+    <div #content id="page-content" class="pt-3 pl-1 pr-0" [ngStyle]="{'margin-left': showSideMenu ? '250px' : '0px'}">
+      <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+      </button>
+  
+      <div id="myRecipesPage" *ngIf="isMyRecipesSelected" class="flex flex-column pt-4">
+
+      </div>
+  
+      <div id="searchRecipesPage" *ngIf="isSearchRecipesSelected">
+
+      </div>
+  
+      <div id="createRecipePage" *ngIf="isCreateRecipeSelected">
+        <app-create-recipe></app-create-recipe>
+      </div>
+  
+      <p-toast position="top-center"></p-toast>
+  
+    </div>
+  
+  </div>
+  

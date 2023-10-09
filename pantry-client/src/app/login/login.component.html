@@ -14,7 +14,7 @@
     </span>
 
     <ng-template pTemplate="footer">
-        <button pButton label="Login" (click)="login()"></button>
+        <button pButton label="Login" (click)="login()"  [disabled]="isLoading"></button>
     </ng-template>
 </p-card>
 

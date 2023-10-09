@@ -35,7 +35,6 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   public allIngredients: Array<ListIngredient> = [];
   public filteredList: Array<ListIngredient> = [];
-  public categories: Array<Category> = [];
 
   public lastCatSearch: string;
   public filterText: string = "";
@@ -51,6 +50,17 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   get hasCheckedItems(): boolean {
     return this.allIngredients.some(i => i.isChecked);
+  }
+
+  get categories(): string[] {
+    let cats: string[] = [];
+    this.allIngredients.forEach(i => {
+      if (!cats.includes(i.ingredient.categoryName)) {
+        cats.push(i.ingredient.categoryName);
+      }
+    });
+
+    return cats;
   }
 
   constructor(
@@ -96,7 +106,9 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     this.service.getIngredientsForList(this.selected?.kitchenListId).subscribe(data => {
       this.allIngredients = data;
-      this.sortBy('name')
+
+
+      this.sortBy(this.selectedSort)
       this.doFilter();
     },
       error => { this.toasts.showDanger(error.message + " - " + error.error); },
@@ -183,6 +195,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
 
     this.allIngredients = uncheckedItems.concat(checkedItems);
+    console.log(this.allIngredients);
   }
 
   sortFn(a: ListIngredient, b: ListIngredient) {
@@ -191,7 +204,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     if (this.selectedSort == 'category') {
       valA = a.ingredient.categoryName;
-      valB = a.ingredient.categoryName;
+      valB = b.ingredient.categoryName;
     }
 
     if (valA.toLowerCase() > valB.toLowerCase()) {
@@ -209,6 +222,10 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     return 0;
+  }
+
+  getIngredientsByCategory(category: string) {
+    return this.allIngredients.filter(i => i.ingredient.categoryName.toLowerCase() == category.toLowerCase());
   }
 
   confirmAddToPantry() {

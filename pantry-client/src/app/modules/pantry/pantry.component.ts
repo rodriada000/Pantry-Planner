@@ -7,6 +7,7 @@ import KitchenApi from '../../data/services/kitchenApi.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { skipWhile, skipUntil } from 'rxjs/operators';
 import { PantryPageService } from './pantry-page.service';
+import { LayoutService } from 'src/app/shared/services/layout-service.service';
 
 @Component({
   selector: 'pantry-root',
@@ -27,11 +28,16 @@ export class PantryComponent implements OnInit, OnDestroy {
   private pageSelection: Subscription;
   private observingKitchen: Subscription;
   showNewIngredientDialog: boolean;
+  
+  public get sideMenuSize() {
+    return this.layoutService.sideMenuSize;
+  }
 
   constructor(
     // private modalService: NgbModal,
     private activeKitchenService: ActiveKitchenService,
     private toastService: ToastService,
+    private layoutService: LayoutService,
     private kitchenUserApi: KitchenUserApi,
     private kitchenApi: KitchenApi,
     private pageService: PantryPageService) { 

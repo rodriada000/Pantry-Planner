@@ -1,7 +1,7 @@
 <div class="main-wrap">
 
   <!-- Sidebar -->
-  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? '100vw' : '0px'}">
+  <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? sideMenuSize : '0px'}">
     <div class="flex flex-column">
       <div class="flex flex-row-reverse mr-2">
         <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
