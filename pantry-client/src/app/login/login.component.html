@@ -1,26 +1,25 @@
-
 <p-toast position="top-center"></p-toast>
 
-<p-progressBar class="col-12 mx-2 my-0 py-0" *ngIf="isLoading" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+<p-progressBar class="col-12 mx-2 my-0 py-0" *ngIf="isLoading" mode="indeterminate"
+    [style]="{'height': '3px'}"></p-progressBar>
 <p-card styleClass="p-card-shadow mb-2 mt-2">
     <span class="p-float-label mb-5">
-        <input type="text" pInputText [(ngModel)]="loginModel.Username" autocomplete="off"> 
+        <input type="text" pInputText [(ngModel)]="loginModel.Username" autocomplete="off">
         <label for="float-input">Username</label>
     </span>
-    
+
     <span class="p-float-label">
-        <input type="password" pInputText [(ngModel)]="loginModel.Password" autocomplete="off" (keydown.Enter)="login()"> 
+        <input type="password" pInputText [(ngModel)]="loginModel.Password" autocomplete="off"
+            (keydown.Enter)="login()">
         <label for="float-input">Password</label>
     </span>
 
     <ng-template pTemplate="footer">
-        <button pButton label="Login" (click)="login()"  [disabled]="isLoading"></button>
+        <button pButton label="Login" (click)="login()" [disabled]="isLoading"></button>
     </ng-template>
 </p-card>
 
 <p-card header="External Login" styleClass="p-card-shadow">
-    <div class="ml-3">
-        <asl-google-signin-button class="ml-3" [ngStyle]="{'width': '200px'}">
-        </asl-google-signin-button>
+    <div id="google_btn" style="color-scheme: 'light'">
     </div>
 </p-card>

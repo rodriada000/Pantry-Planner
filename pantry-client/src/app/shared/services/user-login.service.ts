@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, publishReplay, refCount, Subject } from 'rxjs';
 import LoginModel from 'src/app/data/models/LoginModel';
@@ -36,23 +36,12 @@ export class UserLoginService {
     return { 'Authorization': `Bearer ${this.token}` };
   }
 
-  constructor(private http: HttpClient, private externalAuthService: SocialAuthService, private router: Router, private toasts: ToastService, private kitchen: ActiveKitchenService) {
+  constructor(private http: HttpClient, private router: Router, private toasts: ToastService, private kitchen: ActiveKitchenService, private ngZone: NgZone) {
     this.token$.next(localStorage.getItem("token"));
 
     if (!!!this.token) {
 
-      this.externalAuthService.authState.subscribe((user) => {
-        this.extAuthChangeSub.next(user);
-        this.externalLogin(user.idToken)
-          .subscribe({
-            next: (res) => {
-            },
-            error: (err: HttpErrorResponse) => {
-              this.toasts.showDanger(err.message, "Google Login Failed");
-              this.signOutExternal();
-            }
-          });
-      })
+
 
     }
   }
@@ -80,12 +69,10 @@ export class UserLoginService {
     this.token$.next("");
   }
 
-  public loginWithGoogle() {
-    this.externalAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
 
   public signOutExternal() {
-    this.externalAuthService.signOut();
+    // @ts-ignore
+    google?.accounts?.id?.disableAutoSelect();
     this.logout();
   }
 
@@ -96,7 +83,10 @@ export class UserLoginService {
       localStorage.setItem("token", resp.token);
       localStorage.setItem("token-expiration", resp.validTo);
       this.token$.next(resp.token);
-      this.router.navigate(['/pantry']);
+
+      this.ngZone.run(() => {
+        this.router.navigate(['/pantry']);
+      });
     });
 
     return sub;

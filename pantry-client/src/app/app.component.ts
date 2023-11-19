@@ -15,9 +15,6 @@ export class AppComponent {
     this.userService.token$.subscribe(t => {
       this.isLoggedIn = !!t;
     })
-    // http.get<WeatherForecast[]>('api/weatherforecast').subscribe(result => {
-    //   this.forecasts = result;
-    // }, error => console.error(error));
   }
 
   logout() {

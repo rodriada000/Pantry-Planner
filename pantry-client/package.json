@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@types/google-one-tap": "^1.2.5",
     "jest-editor-support": "*",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
