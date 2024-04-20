@@ -5,8 +5,9 @@ export default class RecipeIngredient {
   ingredientId: number;
   recipeId: number;
   quantity: number;
-  unitOfMeasure: string;
-  method: string;
+  quantityText: string;
+  unitOfMeasure: string = '';
+  method: string = '';
   sortOrder: number;
   ingredient: Ingredient;
 }

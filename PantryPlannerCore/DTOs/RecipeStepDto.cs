@@ -31,6 +31,10 @@ namespace PantryPlanner.DTOs
             SortOrder = step.SortOrder;
         }
 
+        public RecipeStepDto()
+        {
+        }
+
         public static List<RecipeStepDto> ToList(IEnumerable<RecipeStep> list)
         {
             return list?.Select(k => new RecipeStepDto(k))?.ToList();

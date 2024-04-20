@@ -14,7 +14,7 @@
         <p-splitButton label="Sort" class="mr-2 mb-1" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems" [disabled]="isLoading"></p-splitButton>
     </div>
 
-    <pantry-search-ingredients [addMode]="'GroceryList'" [activeList]="selected"></pantry-search-ingredients>
+    <pantry-search-ingredients [mode]="'GroceryList'" [activeList]="selected"></pantry-search-ingredients>
 
     <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
 

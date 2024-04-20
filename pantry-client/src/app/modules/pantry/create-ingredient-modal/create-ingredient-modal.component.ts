@@ -26,7 +26,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
   public closeDialog: EventEmitter<Ingredient> = new EventEmitter<Ingredient>(null);
 
   @Input()
-  public addMode: string = "Pantry"; // "Pantry" or "GroceryList"
+  public mode: string = "Pantry"; // "Pantry" or "GroceryList"
   
   public activeList: KitchenList;
   public name: string;
@@ -117,9 +117,9 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
         this.closeDialog.emit(data);
 
         if (this.isAddToPantry) {
-          if (this.addMode === 'Pantry') {
+          if (this.mode === 'Pantry') {
             this.addToPantry(data);
-          } else {
+          } else if (this.mode === 'Grocery') {
             this.addToGroceryList(data);
           }
         }

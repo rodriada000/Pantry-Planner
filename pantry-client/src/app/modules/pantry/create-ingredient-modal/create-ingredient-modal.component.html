@@ -23,9 +23,9 @@
 
   <br />
 
-  <div class="p-field-checkbox pb-5">
+  <div class="p-field-checkbox pb-5" *ngIf="mode != 'View'">
     <p-checkbox [(ngModel)]="isAddToPantry" [binary]="true"></p-checkbox>
-    <label class="ml-2">Add To {{addMode == 'Pantry' ? 'Pantry' : 'List'}}</label>
+    <label class="ml-2">Add To {{mode == 'Pantry' ? 'Pantry' : 'List'}}</label>
   </div>
 
 

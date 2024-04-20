@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
@@ -18,12 +18,18 @@ import KitchenList from 'src/app/data/models/KitchenList';
   templateUrl: './search-ingredients.component.html',
   styleUrls: ['./search-ingredients.component.css']
 })
-export class SearchIngredientsComponent implements OnInit {
+export class SearchIngredientsComponent implements OnInit, OnChanges {
   @Input()
-  public addMode: string = "Pantry"; // "Pantry" or "GroceryList"
+  public mode: string = "Pantry"; // "Pantry" or "GroceryList"
 
   @Input()
   public activeList: KitchenList;
+
+  @Input()
+  public selectedIngredient: Ingredient;
+
+  @Output() 
+  selectedIngredientChange = new EventEmitter<Ingredient>();
 
   public isSearching: boolean;
   public isSaving: boolean = false;
@@ -44,6 +50,13 @@ export class SearchIngredientsComponent implements OnInit {
     private activeKitchen: ActiveKitchenService,
     private toastService: ToastService) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedIngredient'] && !changes['selectedIngredient'].firstChange && !!!changes['selectedIngredient'].currentValue) {
+      this.searchText = '';
+      this.searchResults = [];
+    }
+  }
+
   ngOnInit(): void {
     this.searchText = "";
     this.searchResults = [];
@@ -52,9 +65,12 @@ export class SearchIngredientsComponent implements OnInit {
   }
 
   itemClicked(x: Ingredient): void {
-    if (this.addMode === 'GroceryList') {
+    this.selectedIngredient = x;
+    this.selectedIngredientChange.emit(this.selectedIngredient);
+
+    if (this.mode === 'GroceryList') {
       this.addToGroceryList(x);
-    } else {
+    } else if (this.mode === 'Pantry') {
       this.openAddModal(x);
     }
   }
@@ -130,9 +146,12 @@ export class SearchIngredientsComponent implements OnInit {
       return;
     }
 
-    if (this.addMode === "Pantry") {
+    this.selectedIngredient = x;
+    this.selectedIngredientChange.emit(this.selectedIngredient);
+
+    if (this.mode === "Pantry") {
       this.addToKitchen(x);
-    } else {
+    } else if (this.mode === "GroceryList") {
       this.addToGroceryList(x);
     }
 

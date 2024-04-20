@@ -42,42 +42,45 @@
     
     <div class="font-semibold text-lg text-color-secondary pt-4 pb-2" *ngIf="!isCreated">Save your recipe to start adding ingredients and steps.</div>
 
-    <ng-template *ngIf="isCreated">
+    <div *ngIf="isCreated">
         <div class="font-semibold text-lg text-color-secondary pt-4 pb-0"> Ingredients </div>
+        <div></div>
         <div class="flex flex-row align-items-center">
             <div class="field pb-0 mb-1 pt-4 mr-2">
-                <pantry-search-ingredients></pantry-search-ingredients>
+                <pantry-search-ingredients mode="View" [(selectedIngredient)]="selectedIng"></pantry-search-ingredients>
             </div>
             <div class="field pb-0 mb-1 pt-1 mr-2">
                 <label class="block" for="qtyInput">Quantity</label>
-                <input pInputText type="number" class="form-control" id="qtyInput" [(ngModel)]="ingredientQty" min="0">
+                <input pInputText type="text" class="form-control" id="qtyInput" placeholder="e.g. 1/4 or .25" [(ngModel)]="ingredientQtyText">
             </div>
             <div class="field pb-0 mb-1 pt-1 mr-2">
                 <label class="block" for="uomInput">Unit of Measure</label>
-                <input pInputText type="text" class="form-control" id="uomInput" [(ngModel)]="unitOfMeasure" />
+                <input pInputText type="text" class="form-control" id="uomInput" placeholder="cups, tsp, tbsp, etc..." [(ngModel)]="unitOfMeasure" />
             </div>
             <div class="field pb-0 mb-1 pt-1">
                 <label class="block" for="methodInput">Method</label>
-                <input pInputText type="text" class="form-control" id="methodInput" [(ngModel)]="method" />
+                <input pInputText type="text" class="form-control" id="methodInput" placeholder="minced, shredded, etc..." [(ngModel)]="method" />
             </div>
-            <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="addIngredient()"></button>
+            <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1 mt-4" (click)="addIngredient()"></button>
         </div>
-        <div *ngFor="let ingredient of ingredients; let index=index">
-            {{ingredient.sortOrder}}) {{ingredient.quantity}} {{ingredient.unitOfMeasure}} {{ingredient.method}}
+        <div class="flex grid align-items-center" *ngFor="let i of ingredients; let index=index">
+            <span><button pButton pRipple class="pl-2 p-button-rounded p-button-text p-button-danger" *ngIf="isEditing" icon="pi pi-trash" (click)="removeIngredient(i, index)"></button></span>
+            <span class="col-4">{{i.sortOrder}}) {{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span>
         </div>
         <div class="font-semibold text-lg text-color-secondary pt-4 pb-2"> Steps </div>
-        <div class="flex flex-row align-items-center">
-            <div class="field pb-0 mb-1 pt-1">
-                <div class="grid ml-0">
-                  <textarea pInputTextarea class="col-12" rows="2" [(ngModel)]="stepText" (keyup.Enter)="addStep()"></textarea>
-                </div>
+        <div class="flex flex-row">
+            <div class="flex-1 grid ml-0 align-items-center">
+              <textarea pInputTextarea class="col-6" rows="2" [(ngModel)]="stepText" (keyup.Enter)="addStep()"></textarea>
+              <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="addStep()"></button>
             </div>
-            <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="addStep()"></button>
         </div>
-        <div *ngFor="let step of steps; let index=index">
-            {{step.sortOrder}}) {{step.text}}
+        <div class="flex grid align-items-center pt-2" *ngFor="let step of steps; let index=index">
+            <span><button pButton pRipple class="mr-3 p-button-rounded p-button-text p-button-danger" *ngIf="isEditing" icon="pi pi-trash" (click)="removeStep(step, index)"></button></span>
+            <span><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary" *ngIf="isEditing" icon="pi pi-angle-up" (click)="moveStep(index, -1)"></button></span>
+            <span><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary" *ngIf="isEditing" icon="pi pi-angle-down" (click)="moveStep(index, 1)"></button></span>
+            <span class="col-10">{{step.sortOrder}}) {{step.text}}</span>
         </div>
-    </ng-template>
+    </div>
 
   </div>
   

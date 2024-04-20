@@ -12,7 +12,7 @@
 </p-dialog>
 
 <p-dialog header="Create New Ingredient" [(visible)]="showNewIngredientDialog" [style]="{width: '95vw'}" >
-  <app-create-ingredient-modal [addMode]="addMode" (closeDialog)="showNewIngredientDialog = false" [ingredientName]="searchText"></app-create-ingredient-modal>
+  <app-create-ingredient-modal [mode]="mode" (closeDialog)="showNewIngredientDialog = false" [ingredientName]="searchText"></app-create-ingredient-modal>
 </p-dialog>
 
 <div class="grid pb-0">

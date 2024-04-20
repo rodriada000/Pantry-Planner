@@ -16,6 +16,7 @@ namespace PantryPlanner.Services
 
         private PermissionService Permissions { get; set; }
 
+
         public RecipeService(PantryPlannerContext context)
         {
             Context = context;
@@ -51,8 +52,8 @@ namespace PantryPlanner.Services
         public Recipe GetRecipeById(long recipeId)
         {
             return Context.Recipes.Where(r => r.RecipeId == recipeId)
-                                            .Include(i => i.RecipeIngredients)
-                                            .Include(i => i.RecipeSteps)
+                                            .Include(i => i.RecipeIngredients.OrderBy(r => r.SortOrder))
+                                            .Include(i => i.RecipeSteps.OrderBy(r => r.SortOrder))
                                             .Include(i => i.CreatedByUser)
                                             .FirstOrDefault();
         }

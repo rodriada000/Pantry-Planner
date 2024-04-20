@@ -16,7 +16,7 @@ import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { PantryModule } from '../pantry/pantry.module';
-
+import {SelectButtonModule} from 'primeng/selectbutton'
 
 
 @NgModule({
@@ -39,7 +39,8 @@ import { PantryModule } from '../pantry/pantry.module';
     RippleModule,
     ProgressSpinnerModule,
     ProgressBarModule,
-    PantryModule
+    PantryModule,
+    SelectButtonModule
   ]
 })
 export class RecipeModule { }
