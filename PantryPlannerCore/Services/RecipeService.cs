@@ -53,6 +53,7 @@ namespace PantryPlanner.Services
         {
             return Context.Recipes.Where(r => r.RecipeId == recipeId)
                                             .Include(i => i.RecipeIngredients.OrderBy(r => r.SortOrder))
+                                            .ThenInclude(i => i.Ingredient)
                                             .Include(i => i.RecipeSteps.OrderBy(r => r.SortOrder))
                                             .Include(i => i.CreatedByUser)
                                             .FirstOrDefault();

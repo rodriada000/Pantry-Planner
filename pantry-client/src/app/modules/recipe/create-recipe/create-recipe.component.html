@@ -1,23 +1,24 @@
 <div>
+    <div class="font-semibold text-lg text-color-secondary pb-4"> Recipe Details </div>
     <div class="field">
       <label class="block" for="nameInput">Name</label>
-      <input pInputText type="text" class="form-control" id="nameInput" [(ngModel)]="name" />
+      <input pInputText type="text" class="form-control" id="nameInput" [(ngModel)]="name" [disabled]="!isEditing" />
     </div>
 
     <div class="field">
         <label class="block" for="urlInput">URL</label>
-        <input pInputText type="text" class="form-control" id="urlInput" [(ngModel)]="recipeUrl" placeholder="Optional" />
+        <input pInputText type="text" class="form-control" id="urlInput" [(ngModel)]="recipeUrl" placeholder="Optional" [disabled]="!isEditing" />
     </div>
 
     <div class="field">
         <label class="block" for="notesTextarea">Description</label>
         <div class="grid ml-0">
-          <textarea pInputTextarea class="col-12" id="notesTextarea" rows="3" [(ngModel)]="description"></textarea>
+          <textarea pInputTextarea class="col-12" style="max-width: 600px;" id="notesTextarea" rows="3" [(ngModel)]="description" [disabled]="!isEditing"></textarea>
         </div>
     </div>
     
   
-    <div class="p-field-checkbox">
+    <div class="p-field-checkbox" *ngIf="isEditing">
       <p-checkbox [(ngModel)]="isPublic" [binary]="true"></p-checkbox>
       <label class="ml-2">Is Public</label>
     </div>
@@ -25,17 +26,17 @@
     <div class="flex flex-row flex-wrap">
         <div class="field pb-0 mb-1 pt-1 mr-2">
           <label class="block" for="prepTimeInput">Prep Time (minutes)</label>
-          <input pInputText type="number" class="form-control" id="prepTimeInput" [(ngModel)]="prepTime" min="0">
+          <input pInputText type="number" class="form-control" id="prepTimeInput" [(ngModel)]="prepTime" min="0" [disabled]="!isEditing">
         </div>
     
         <div class="field pb-0 mb-1 pt-1 mr-2">
             <label class="block" for="cookTimeInput">Cook Time (minutes)</label>
-            <input pInputText type="number" class="form-control" id="cookTimeInput" [(ngModel)]="cookTime" min="0">
+            <input pInputText type="number" class="form-control" id="cookTimeInput" [(ngModel)]="cookTime" min="0" [disabled]="!isEditing">
         </div>
     
         <div class="field pb-0 mb-1 pt-1">
             <label class="block" for="sizeInput">Serving Size</label>
-            <input pInputText type="text" class="form-control" id="sizeInput" [(ngModel)]="servingSize" />
+            <input pInputText type="text" class="form-control" id="sizeInput" [(ngModel)]="servingSize" [disabled]="!isEditing"/>
         </div>
     </div>
   
@@ -45,7 +46,7 @@
     <div *ngIf="isCreated">
         <div class="font-semibold text-lg text-color-secondary pt-4 pb-0"> Ingredients </div>
         <div></div>
-        <div class="flex flex-row align-items-center">
+        <div *ngIf="isEditing" class="flex flex-row align-items-center flex-wrap">
             <div class="field pb-0 mb-1 pt-4 mr-2">
                 <pantry-search-ingredients mode="View" [(selectedIngredient)]="selectedIng"></pantry-search-ingredients>
             </div>
@@ -68,9 +69,9 @@
             <span class="col-4">{{i.sortOrder}}) {{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span>
         </div>
         <div class="font-semibold text-lg text-color-secondary pt-4 pb-2"> Steps </div>
-        <div class="flex flex-row">
+        <div class="flex flex-row" *ngIf="isEditing">
             <div class="flex-1 grid ml-0 align-items-center">
-              <textarea pInputTextarea class="col-6" rows="2" [(ngModel)]="stepText" (keyup.Enter)="addStep()"></textarea>
+              <textarea  class="flex-1" style="max-width: 600px;" pInputTextarea rows="2" [(ngModel)]="stepText" (keyup.Enter)="addStep()"></textarea>
               <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="addStep()"></button>
             </div>
         </div>
@@ -84,7 +85,8 @@
 
   </div>
   
-  <div class="flext justify-content-center mt-4">
-    <button pButton type="button" class="mr-2" (click)="confirmAdd()" [disabled]="isSaving" iconPos="right" [loading]="isSaving">Save</button>
-    <button pButton type="button" class="p-button-danger" [disabled]="isSaving"  (click)="discardChanges()">Cancel</button>
+  <div class="flex justify-content-center mt-4" >
+    <button *ngIf="!isEditing" pButton type="button" class="mr-2" (click)="isEditing = true;" iconPos="right">Edit</button>
+    <button *ngIf="isEditing" pButton type="button" class="mr-2" (click)="confirmAdd()" [disabled]="isSaving" iconPos="right" [loading]="isSaving">Save</button>
+    <button *ngIf="isEditing" pButton type="button" class="p-button-danger" [disabled]="isSaving"  (click)="discardChanges()">Cancel</button>
   </div>

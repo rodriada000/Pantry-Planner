@@ -62,8 +62,6 @@ export class CreateRecipeComponent implements OnInit {
     private toastService: ToastService) { }
 
   ngOnInit(): void {
-    this.isEditing = true;
-
     this.route.paramMap.subscribe(p => {
       if (p['params']['id']) {
         this.recipeId = p['params']['id'];
@@ -94,7 +92,7 @@ export class CreateRecipeComponent implements OnInit {
       if (!!!this.name || !!!this.description) {
         return;
       }
-      
+
       this.recipeService.addRecipe({
         name: this.name,
         recipeUrl: this.recipeUrl,
@@ -135,7 +133,9 @@ export class CreateRecipeComponent implements OnInit {
         ingredients: this.ingredients.map(i => { delete i.quantityText; return i;})
       } as Recipe).subscribe(
         data => {
+          this.originalRecipe = data;
           this.toastService.showSuccess('Updated recipe!');
+          this.isEditing = false;
         },
         error => {
           this.toastService.showDanger("Failed to update recipe - " + error.error);
@@ -152,6 +152,7 @@ export class CreateRecipeComponent implements OnInit {
     this.prepTime = this.originalRecipe.prepTime;
     this.cookTime = this.originalRecipe.cookTime;
     this.servingSize = this.originalRecipe.servingSize;
+    this.isEditing = false;
   }
 
   addStep() {
