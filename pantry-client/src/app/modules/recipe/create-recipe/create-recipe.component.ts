@@ -82,7 +82,7 @@ export class CreateRecipeComponent implements OnInit {
             this.ingredients = data.ingredients.map(i => { return {...i, quantityText: i.quantity.toString()} as RecipeIngredient});
           },
           error => {
-            this.toastService.showDanger(`Failed to load recipe id ${this.recipeId}`);
+            this.toastService.showDanger(`Failed to load recipe id ${this.recipeId} - ` + error.error);
           }
         )
       }
@@ -91,6 +91,10 @@ export class CreateRecipeComponent implements OnInit {
 
   confirmAdd() {
     if (!this.isCreated) {
+      if (!!!this.name || !!!this.description) {
+        return;
+      }
+      
       this.recipeService.addRecipe({
         name: this.name,
         recipeUrl: this.recipeUrl,
