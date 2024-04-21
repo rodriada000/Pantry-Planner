@@ -5,6 +5,7 @@ import Recipe from 'src/app/data/models/Recipe';
 import RecipeIngredient from 'src/app/data/models/RecipeIngredient';
 import RecipeStep from 'src/app/data/models/RecipeStep';
 import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
+import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
@@ -59,6 +60,7 @@ export class CreateRecipeComponent implements OnInit {
 
   constructor(private recipeService: RecipeApiService,
     private route: ActivatedRoute,
+    private mathUtil: MathUtilService,
     private toastService: ToastService) { }
 
   ngOnInit(): void {
@@ -77,7 +79,10 @@ export class CreateRecipeComponent implements OnInit {
             this.cookTime = data.cookTime;
             this.servingSize = data.servingSize;
             this.steps = data.steps;
-            this.ingredients = data.ingredients.map(i => { return {...i, quantityText: i.quantity.toString()} as RecipeIngredient});
+            this.ingredients = data.ingredients;
+            this.ingredients.forEach(i => {
+              i.quantityText = i.quantity % 1 == 0 ? i.quantity.toString() : this.mathUtil.decimalToFraction(i.quantity);
+            });
           },
           error => {
             this.toastService.showDanger(`Failed to load recipe id ${this.recipeId} - ` + error.error);
@@ -85,6 +90,11 @@ export class CreateRecipeComponent implements OnInit {
         )
       }
     });
+
+    if (!!!this.recipeId) {
+      this.isCreated = false;
+      this.isEditing = true;
+    }
   }
 
   confirmAdd() {
@@ -191,6 +201,7 @@ export class CreateRecipeComponent implements OnInit {
 
     this.recipeService.addRecipeIngredient(i).subscribe(
       data => {
+        data.quantityText = data.quantity % 1 == 0 ? data.quantity.toString() : this.mathUtil.decimalToFraction(data.quantity);
         this.ingredients.push(data);
 
         this.method = "";

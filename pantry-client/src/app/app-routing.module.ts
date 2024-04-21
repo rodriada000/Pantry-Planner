@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'pantry', component: PantryComponent },
   { path: 'grocery', component: GroceryListComponent },
-  { path: 'recipe/', component: RecipeComponent },
+  { path: 'recipe', component: RecipeComponent },
   { path: 'recipe/:id', component: RecipeComponent },
   { path: 'recipe/details/:id', component: RecipeComponent },
 

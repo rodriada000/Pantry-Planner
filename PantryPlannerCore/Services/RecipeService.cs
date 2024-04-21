@@ -60,7 +60,7 @@ namespace PantryPlanner.Services
         }
 
         /// <summary>
-        /// Return list of Recipes with names that match the given <paramref name="name"/> passed in.
+        /// Return list of public Recipes with names that match the given <paramref name="name"/> passed in.
         /// </summary>
         /// <param name="name"> name to search for </param>
         public List<Recipe> GetRecipeByName(string name)
@@ -71,9 +71,9 @@ namespace PantryPlanner.Services
             }
 
             // first check for exact match
-            if (Context.Recipes.Any(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && r.IsPublic.Value))
+            if (Context.Recipes.Any(r => r.Name.ToUpper() == name.ToUpper() && r.IsPublic == true))
             {
-                return Context.Recipes.Where(r => r.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && r.IsPublic.Value)
+                return Context.Recipes.Where(r => r.Name.ToUpper() == name.ToUpper() && r.IsPublic == true)
                                      .Include(i => i.RecipeIngredients)
                                      .Include(i => i.RecipeSteps)
                                      .Include(i => i.CreatedByUser)
@@ -82,26 +82,19 @@ namespace PantryPlanner.Services
 
 
             // second check for any matches that have all the words entered
+            List<Recipe> recipes = new List<Recipe>();
             List<string> wordsToSearchFor = name.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-            List<Recipe> ingredients = Context.Recipes.Where(r => wordsToSearchFor.All(w => r.Name.Contains(w, StringComparison.OrdinalIgnoreCase)) && r.IsPublic.Value)
-                            .Include(i => i.RecipeIngredients)
-                            .Include(i => i.RecipeSteps)
-                            .Include(i => i.CreatedByUser)
-                            .ToList();
-
-
-            if (ingredients.Count == 0)
+            foreach (var word in wordsToSearchFor)
             {
-                // if no matches then lastly check if any word entered matches
-                ingredients = Context.Recipes.Where(r => wordsToSearchFor.Any(w => r.Name.Contains(w, StringComparison.OrdinalIgnoreCase)) && r.IsPublic.Value)
-                            .Include(i => i.RecipeIngredients)
-                            .Include(i => i.RecipeSteps)
-                            .Include(i => i.CreatedByUser)
-                            .ToList();
+                recipes.AddRange(Context.Recipes.Where(r => EF.Functions.Like(r.Name, '%' + word + '%') && r.IsPublic == true)
+                     .Include(i => i.RecipeIngredients)
+                     .Include(i => i.RecipeSteps)
+                     .Include(i => i.CreatedByUser)
+                     .ToList());
             }
 
-            return ingredients;
+            return recipes;
         }
 
         #endregion

@@ -24,8 +24,9 @@
       </div>
   
       <div id="searchRecipesPage" *ngIf="isSearchRecipesSelected">
+        <app-recipe-search *ngIf="!!!recipeId" (recipeSelected)="viewRecipe($event)"></app-recipe-search>
 
-        <app-recipe-details [recipeId]="recipeId"></app-recipe-details>
+        <app-recipe-details *ngIf="!!recipeId" [recipeId]="recipeId"></app-recipe-details>
       </div>
   
       <div id="createRecipePage" *ngIf="isCreateRecipeSelected" class="flex flex-column pt-4">

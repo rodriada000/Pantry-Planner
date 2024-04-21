@@ -6,7 +6,8 @@ import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.ser
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PantryPageService } from '../pantry/pantry-page.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Recipe from 'src/app/data/models/Recipe';
 
 @Component({
   selector: 'app-recipe',
@@ -14,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./recipe.component.css']
 })
 export class RecipeComponent implements OnInit {
+
 
   public isMyRecipesSelected: boolean;
   public isSearchRecipesSelected: boolean;
@@ -37,14 +39,15 @@ export class RecipeComponent implements OnInit {
     private layoutService: LayoutService,
     private kitchenUserApi: KitchenUserApi,
     private route: ActivatedRoute,
+    private router: Router,
     private kitchenApi: KitchenApi) { 
     }
 
   ngOnInit(): void {
     this.showSideMenu = true;
     this.activeKitchenName = "";
-    this.switchToCreateRecipe();
     this.isOwnerOfKitchen = false;
+    this.switchToSearchRecipes();
 
     this.observingKitchen = this.activeKitchenService.observableKitchen.pipe(skipWhile(k => !k)).subscribe(k => {
       if (k !== null && k !== undefined) {
@@ -89,6 +92,7 @@ export class RecipeComponent implements OnInit {
     this.isCreateRecipeSelected = false;
     this.isMyRecipesSelected = false;
     this.showSideMenu = false;
+    this.recipeId = null;
   }
 
   public switchToCreateRecipe(): void {
@@ -102,5 +106,8 @@ export class RecipeComponent implements OnInit {
     this.showSideMenu = !this.showSideMenu;
   }
 
+  viewRecipe(r: Recipe) {
+    this.recipeId = r.recipeId; 
+  }
 
 }
