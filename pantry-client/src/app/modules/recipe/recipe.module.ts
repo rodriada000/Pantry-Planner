@@ -16,13 +16,15 @@ import { RippleModule } from 'primeng/ripple';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { CreateRecipeComponent } from './create-recipe/create-recipe.component';
 import { PantryModule } from '../pantry/pantry.module';
-import {SelectButtonModule} from 'primeng/selectbutton'
+import {SelectButtonModule} from 'primeng/selectbutton';
+import { RecipeDetailsComponent } from './recipe-details/recipe-details.component'
 
 
 @NgModule({
   declarations: [
     RecipeComponent,
-    CreateRecipeComponent
+    CreateRecipeComponent,
+    RecipeDetailsComponent
   ],
   imports: [
     CommonModule,

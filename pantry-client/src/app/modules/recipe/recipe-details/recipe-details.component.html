@@ -1,0 +1,39 @@
+<div class="pt-5">
+    <h1 class="font-semibold pb-0 mb-0"> {{recipe?.name}} <span *ngIf="!!recipe?.recipeUrl" class="text-color-secondary" style="font-size: .5em;">via <a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span> </h1>
+    <p>{{recipe?.description}}</p>
+    <p-card class="time-card" [style]="{'padding-top': '0', 'padding-bottom': '0'}">
+        <div class="grid">
+            <div class="col-6">
+                <span><b>Prep Time:</b></span>
+                <div>{{recipe?.prepTime}} minutes</div>
+            </div>
+            <div class="col-6">
+                <span><b>Cook Time:</b></span>
+                <div>{{recipe?.cookTime}} minutes</div>
+            </div>
+            <div class="col-6 pb-0">
+                <span><b>Total Time:</b></span>
+                <div>{{recipe?.prepTime + recipe?.cookTime}} minutes</div>
+            </div>
+            <div class="col-6 pb-0">
+                <span><b>Servings:</b></span>
+                <div>{{recipe?.servingSize}}</div>
+            </div>
+        </div>
+    </p-card>
+
+    <p-card header="Ingredients" [style]="{'margin-top': '1em'}">
+        <div class="flex grid align-items-center" *ngFor="let i of recipe?.ingredients; let index=index">
+            <li class="pt-3"><span>{{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span></li>
+        </div>
+    </p-card>
+
+    <!-- <h2 class="font-semibold pb-0 mb-0"> Ingredients </h2> -->
+
+    <p-card header="Directions" [style]="{'margin-top': '1em'}">
+        <div class="pb-3" *ngFor="let i of recipe?.steps; let index=index">
+            <div><b>Step {{i.sortOrder}}</b></div>
+            <div class="col-4">{{i.text}}</div>
+        </div>
+    </p-card>
+</div>

@@ -6,6 +6,7 @@ import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.ser
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PantryPageService } from '../pantry/pantry-page.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-recipe',
@@ -23,6 +24,7 @@ export class RecipeComponent implements OnInit {
 
   
   private observingKitchen: Subscription;
+  recipeId: any;
   
   public get sideMenuSize() {
     return this.layoutService.sideMenuSize;
@@ -34,6 +36,7 @@ export class RecipeComponent implements OnInit {
     private toastService: ToastService,
     private layoutService: LayoutService,
     private kitchenUserApi: KitchenUserApi,
+    private route: ActivatedRoute,
     private kitchenApi: KitchenApi) { 
     }
 
@@ -52,6 +55,19 @@ export class RecipeComponent implements OnInit {
             this.isOwnerOfKitchen = data;
           }
         );
+      }
+    });
+
+    this.route.paramMap.subscribe(p => {
+      if (p['params']['id']) {
+        this.recipeId = p['params']['id'];
+        if (this.route.snapshot.url.find(u => u.path === 'details')) {
+          this.isSearchRecipesSelected = true;
+          this.isCreateRecipeSelected = false;
+        } else {
+          this.isCreateRecipeSelected = true;
+          this.isSearchRecipesSelected = false;
+        }
       }
     });
 
