@@ -32,6 +32,10 @@ export class RecipeSearchComponent implements OnInit {
   }
 
   doSearch() {
+    if (!!!this.searchText) {
+      return;
+    }
+    
     this.recipeService.getRecipesByName(this.searchText).subscribe(
       data => {
         this.results = data;

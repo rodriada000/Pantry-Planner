@@ -1,5 +1,6 @@
 <div class="grid mt-4 mr-2">
-    <input class="col-12" placeholder="Search Recipes..." pInputText type="text" [(ngModel)]="searchText" (keydown)="searchKeyPress($event)"/>
+    <input class="col-11" placeholder="Search Recipes..." pInputText type="text" [(ngModel)]="searchText" (keydown)="searchKeyPress($event)"/>
+    <button class="ml-2" (click)="doSearch()" pButton type="button" icon="pi pi-search" iconPos="left"></button>
 
     <div class="col-12">
         <div [style]="{'margin-top': '1em', 'padding-bottom': '0', 'padding-top': '0'}" class="" *ngFor="let i of results; let index=index">
