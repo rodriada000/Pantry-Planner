@@ -16,6 +16,8 @@ export class RecipeDetailsComponent implements OnInit {
   recipeId: number;
   recipe: Recipe;
 
+  steps: any[] = [];
+
   constructor(private recipeService: RecipeApiService,
     private route: ActivatedRoute,
     private mathUtil: MathUtilService,
@@ -28,13 +30,27 @@ export class RecipeDetailsComponent implements OnInit {
           this.recipe = data;
           this.recipe.ingredients.forEach(i => {
             i.quantityText = i.quantity % 1 == 0 ? i.quantity.toString() : this.mathUtil.decimalToFraction(i.quantity);
-          })
+          });
+          this.calcStepNum();
         },
         error => {
           this.toastService.showDanger(`Failed to load recipe id ${this.recipeId} - ` + error.error);
         }
       );
     }
+  }
+
+  calcStepNum() {
+    let stepNum: number = 1;
+    this.steps = [...this.recipe.steps];
+
+    this.steps.forEach(s => {
+      if (s?.text?.startsWith('#')) {
+        stepNum = 1;
+      } else {
+        s.displayStep = stepNum++;
+      }
+    });
   }
 
 }

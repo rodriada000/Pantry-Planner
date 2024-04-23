@@ -79,7 +79,8 @@
             <span><button pButton pRipple class="mr-3 p-button-rounded p-button-text p-button-danger" *ngIf="isEditing" icon="pi pi-trash" (click)="removeStep(step, index)"></button></span>
             <span><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary" *ngIf="isEditing" icon="pi pi-angle-up" (click)="moveStep(index, -1)"></button></span>
             <span><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary" *ngIf="isEditing" icon="pi pi-angle-down" (click)="moveStep(index, 1)"></button></span>
-            <span class="col-10">{{step.sortOrder}}) {{step.text}}</span>
+            <span class="col-10" *ngIf="!step?.text?.startsWith('#')">{{step.sortOrder}}) {{step.text}}</span>
+            <h4 class="col-10 m-0" *ngIf="step?.text?.startsWith('#')">{{step.text.replace('#', '')}}</h4>
         </div>
     </div>
 

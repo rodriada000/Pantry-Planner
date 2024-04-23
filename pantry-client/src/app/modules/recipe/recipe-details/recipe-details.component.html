@@ -31,9 +31,11 @@
     <!-- <h2 class="font-semibold pb-0 mb-0"> Ingredients </h2> -->
 
     <p-card header="Directions" [style]="{'margin-top': '1em'}">
-        <div class="pb-3" *ngFor="let i of recipe?.steps; let index=index">
-            <div><b>Step {{i.sortOrder}}</b></div>
-            <div class="col-4">{{i.text}}</div>
+        <div class="pb-2" *ngFor="let i of steps; let index=index">
+            <div class="pl-2 text-color-secondary" *ngIf="!i?.text?.startsWith('#')"><b>Step {{i.displayStep}}</b></div>
+            <div class="pl-2" *ngIf="!i?.text?.startsWith('#')">{{i.text}}</div>
+
+            <h3 class="col-10 p-0 py-3 m-0" *ngIf="i?.text?.startsWith('#')">{{i.text.replace('#', '')}}</h3>
         </div>
     </p-card>
 </div>
