@@ -24,7 +24,7 @@
 
     <p-card header="Ingredients" [style]="{'margin-top': '1em'}">
         <div class="flex grid align-items-center" *ngFor="let i of recipe?.ingredients; let index=index">
-            <li class="pt-3"><span>{{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span></li>
+            <li class="pt-3"><span><i [class]="ingredientInKitchen(i.ingredientId) ? 'pi pi-check-circle' : 'pi pi-exclamation-circle'" [style]="{'color': ingredientInKitchen(i.ingredientId) ? 'green' : 'var(--yellow-500)'}"></i> {{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span></li>
         </div>
     </p-card>
 

@@ -45,6 +45,13 @@ export default class KitchenIngredientApi {
     });
   }
 
+  public getExistingIngredientsInKitchen(kitchenId: number, ingredientIds: number[]): Observable<Array<KitchenIngredient>> {
+    return this.http.post<Array<KitchenIngredient>>(this.endPoint + '/' + 'IngredientExists', ingredientIds, {
+      params: { 'kitchenId': kitchenId.toString() },
+      headers: this.userService.authHeaderOnly
+    });
+  }
+
   public createEmpty(i: Ingredient, kitchenId: number): KitchenIngredient {
     const toAdd: KitchenIngredient = new KitchenIngredient();
     toAdd.ingredientId = i.ingredientId;

@@ -647,6 +647,12 @@ namespace PantryPlanner.Services
             return ingredientToDelete;
         }
 
+        internal async Task<List<KitchenIngredient>> GetIngredientsExistForKitchen(long kitchenId, long[] ingredientIds, PantryPlannerUser user)
+        {
+            List<KitchenIngredient> kitchenIngredients = GetKitchenIngredients(kitchenId, user);
+            return kitchenIngredients.Where(k => ingredientIds.Contains(k.IngredientId)).ToList();
+        }
+
         #endregion
 
     }

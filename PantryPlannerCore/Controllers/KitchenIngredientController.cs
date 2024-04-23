@@ -64,6 +64,38 @@ namespace PantryPlanner.Controllers
             }
         }
 
+        // GET: api/KitchenIngredient
+        [HttpPost("IngredientExists")]
+        public async Task<ActionResult<List<KitchenIngredientDto>>> GetIngredientsExistForKitchen([FromQuery] long kitchenId, [FromBody] long[] ingredientIds)
+        {
+            PantryPlannerUser user;
+
+            try
+            {
+                user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
+
+                List<KitchenIngredient> ingredientsInKitchen = await _service.GetIngredientsExistForKitchen(kitchenId, ingredientIds, user);
+
+                return Ok(KitchenIngredientDto.ToList(ingredientsInKitchen));
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (KitchenNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (PermissionsException e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
         // GET: api/KitchenIngredient/ByName
         [HttpGet("ByName")]
         public async Task<ActionResult<List<KitchenIngredientDto>>> GetIngredientsForKitchenByName(long kitchenId, string ingredientName)
