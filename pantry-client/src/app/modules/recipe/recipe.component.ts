@@ -107,6 +107,7 @@ export class RecipeComponent implements OnInit {
   }
 
   viewRecipe(r: Recipe) {
+    this.router.navigate(['details', r.recipeId], {relativeTo: this.route})
     this.recipeId = r.recipeId; 
   }
 
