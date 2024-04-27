@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import Ingredient from 'src/app/data/models/Ingredient';
 import Recipe from 'src/app/data/models/Recipe';
 import RecipeIngredient from 'src/app/data/models/RecipeIngredient';
 import RecipeStep from 'src/app/data/models/RecipeStep';
 import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
+import { RecipeScraperService } from 'src/app/data/services/recipe-scraper.service';
 import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
@@ -37,9 +39,15 @@ export class CreateRecipeComponent implements OnInit {
   public ingredients: RecipeIngredient[] = [];
   public steps: RecipeStep[] = [];
 
+  public selectedIngredientIdx: number = -1;
+  ingredientEditIndex: number = -1;
+  public selectedStepIdx: number = -1;
+  stepEditIndex: number = -1;
+
   public isSaving: boolean = false;
   public isCreated: boolean = false;
   public isEditing: boolean = false;
+  public isScraped: boolean = false;
 
 
   get ingredientQty(): number {
@@ -61,6 +69,7 @@ export class CreateRecipeComponent implements OnInit {
   constructor(private recipeService: RecipeApiService,
     private route: ActivatedRoute,
     private mathUtil: MathUtilService,
+    private scraper: RecipeScraperService,
     private toastService: ToastService) { }
 
   ngOnInit(): void {
@@ -166,16 +175,27 @@ export class CreateRecipeComponent implements OnInit {
   }
 
   addStep() {
-    let step = new RecipeStep();
+    let step = this.stepEditIndex >= 0 ? this.steps[this.stepEditIndex] : new RecipeStep();
     step.text = this.stepText;
-    step.recipeStepId = 0;
-    step.sortOrder = this.steps.length + 1;
+    step.sortOrder = this.stepEditIndex >= 0 ? this.stepEditIndex + 1 : this.steps.length + 1;
     step.recipeId = this.recipeId;
 
-    this.recipeService.addRecipeStep(step).subscribe(
+    let apiRequest: Observable<RecipeStep>;
+    if (this.stepEditIndex >= 0) {
+      apiRequest = this.recipeService.updateRecipeStep(step)
+    } else {
+      step.recipeStepId = 0;
+      apiRequest = this.recipeService.addRecipeStep(step);
+    }
+
+    apiRequest.subscribe(
       data => {
-        this.steps.push(data);
+        if (this.stepEditIndex == -1) {
+          this.steps.push(data);
+        }
+
         this.stepText = "";
+        this.stepEditIndex = -1;
       },
       error => {
         this.toastService.showDanger("Failed to add step - " + error.error);
@@ -189,24 +209,37 @@ export class CreateRecipeComponent implements OnInit {
       return; // don't add until ingredient selected
     }
 
-    let i = new RecipeIngredient();
+    let i = this.ingredientEditIndex >= 0 ? this.ingredients[this.ingredientEditIndex] : new RecipeIngredient();
+
     i.method = this.method ?? '';
     i.quantity = this.ingredientQty;
     i.quantityText = this.ingredientQtyText;
     i.unitOfMeasure = this.unitOfMeasure ?? '';
-    i.sortOrder = this.ingredients.length + 1;
+    i.sortOrder = this.ingredientEditIndex >= 0 ? this.ingredientEditIndex + 1 : this.ingredients.length + 1;
     i.ingredient = { ...this.selectedIng } as Ingredient;
     i.ingredientId = this.selectedIng?.ingredientId;
     i.recipeId = this.recipeId;
 
-    this.recipeService.addRecipeIngredient(i).subscribe(
+    let apiRequest: Observable<RecipeIngredient>;
+
+    if (this.ingredientEditIndex >= 0) {
+      apiRequest = this.recipeService.updateRecipeIngredient(i);
+    } else {
+      apiRequest = this.recipeService.addRecipeIngredient(i);
+    }
+
+    apiRequest.subscribe(
       data => {
-        data.quantityText = data.quantity % 1 == 0 ? data.quantity.toString() : this.mathUtil.decimalToFraction(data.quantity);
-        this.ingredients.push(data);
+        
+        if (this.ingredientEditIndex == -1) {
+          data.quantityText = data.quantity % 1 == 0 ? data.quantity.toString() : this.mathUtil.decimalToFraction(data.quantity);
+          this.ingredients.push(data);
+        }
 
         this.method = "";
         this.selectedIng = null;
         this.unitOfMeasure = "";
+        this.ingredientEditIndex = -1;
       },
       error => {
         this.toastService.showDanger("Failed to add ingredient - " + error.error);
@@ -214,6 +247,17 @@ export class CreateRecipeComponent implements OnInit {
     );
 
 
+  }
+
+  editIngredient(ingredient: RecipeIngredient, index: number, event) {
+    this.selectedIng = ingredient.ingredient;
+    this.ingredientQtyText = ingredient.quantityText;
+    this.unitOfMeasure = ingredient.unitOfMeasure;
+    this.method = ingredient.method;
+    this.ingredientEditIndex = index;
+    this.selectedIngredientIdx = -1;
+    event.stopImmediatePropagation();
+    event.preventDefault();
   }
 
   removeIngredient(ingredient: RecipeIngredient, index: number) {
@@ -225,6 +269,15 @@ export class CreateRecipeComponent implements OnInit {
         this.toastService.showDanger("Failed to remove ingredient - " + error.error);
       }
     );
+  }
+
+
+  editStep(step: RecipeStep, index: number, event) {
+    this.stepEditIndex = index;
+    this.selectedStepIdx = -1;
+    this.stepText = step.text;
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
 
   removeStep(step: RecipeStep, index: number) {
@@ -253,6 +306,28 @@ export class CreateRecipeComponent implements OnInit {
 
     this.recipeService.updateRecipeStep(this.steps[index]).subscribe();
     this.recipeService.updateRecipeStep(this.steps[newIndex]).subscribe();
+  }
+
+  scrapeUrl() {
+    if (!!!this.recipeUrl) {
+      return;
+    }
+
+    this.scraper.scrapeUrl(this.recipeUrl).subscribe(r => {
+
+      if (!!r) {
+        this.isScraped = true;
+        this.name = r.name;
+        this.description = r.description;
+        this.prepTime = r.prepTime;
+        this.cookTime = r.cookTime;
+        this.servingSize = r.servingSize;
+        this.isPublic = r.isPublic;
+        this.steps = r.steps;
+        this.ingredients = r.ingredients;
+        this.ingredients.forEach(i => i.quantityText = i.quantity % 1 == 0 ? i.quantity.toString() : this.mathUtil.decimalToFraction(i.quantity));
+      }
+    });
   }
 
 }

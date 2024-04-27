@@ -7,11 +7,11 @@ using System.Xml.Linq;
 
 namespace PantryPlannerCore.Services
 {
-    public class BaseWebScrapeService
+    public class RecipeScrapeService
     {
         private readonly IngredientService _ingredientService;
 
-        public BaseWebScrapeService(IngredientService ingredientService)
+        public RecipeScrapeService(IngredientService ingredientService)
         {
             _ingredientService = ingredientService;
         }
@@ -58,7 +58,7 @@ namespace PantryPlannerCore.Services
 
             // directions
             var directionDivs = document.DocumentNode.QuerySelectorAll("li.mntl-sc-block");
-            int sortOrder = 0;
+            int sortOrder = 1;
 
             foreach (var dir in directionDivs)
             {
@@ -70,7 +70,7 @@ namespace PantryPlannerCore.Services
 
             // ingredients
             var ingrDivs = document.DocumentNode.QuerySelectorAll("li.mntl-structured-ingredients__list-item");
-            sortOrder = 0;
+            sortOrder = 1;
 
             foreach (var item in ingrDivs)
             {

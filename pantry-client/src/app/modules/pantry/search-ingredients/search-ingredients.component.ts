@@ -51,9 +51,15 @@ export class SearchIngredientsComponent implements OnInit, OnChanges {
     private toastService: ToastService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedIngredient'] && !changes['selectedIngredient'].firstChange && !!!changes['selectedIngredient'].currentValue) {
-      this.searchText = '';
-      this.searchResults = [];
+    if (changes['selectedIngredient'] && !changes['selectedIngredient'].firstChange && changes['selectedIngredient'].currentValue != changes['selectedIngredient'].previousValue) {
+
+      if (!!!changes['selectedIngredient'].currentValue) {
+        this.searchText = '';
+        this.searchResults = [];
+      } else {
+        this.searchText = changes['selectedIngredient'].currentValue;
+        this.searchResults = [changes['selectedIngredient'].currentValue];
+      }
     }
   }
 

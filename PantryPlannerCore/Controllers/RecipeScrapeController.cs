@@ -13,21 +13,21 @@ namespace PantryPlanner.Controllers
     [Route("api/[controller]")]
     [AllowAnonymous]
     [ApiController]
-    public class WebScraperController : ControllerBase
+    public class RecipeScrapeController : ControllerBase
     {
         private readonly RecipeService _service;
         private readonly UserManager<PantryPlannerUser> _userManager;
-        private readonly BaseWebScrapeService _webScrapeService;
+        private readonly RecipeScrapeService _webScrapeService;
 
 
-        public WebScraperController(PantryPlannerContext context, UserManager<PantryPlannerUser> userManager, BaseWebScrapeService webScrapeService)
+        public RecipeScrapeController(PantryPlannerContext context, UserManager<PantryPlannerUser> userManager, RecipeScrapeService webScrapeService)
         {
             _service = new RecipeService(context);
             _userManager = userManager;
             _webScrapeService = webScrapeService;
         }
 
-        [HttpGet]
+        [HttpGet("AllRecipes")]
         public async Task<ActionResult<RecipeDto>> ScrapeAllRecipesWebsite(string url)
         {
 
