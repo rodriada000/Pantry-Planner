@@ -1,15 +1,16 @@
 <p-confirmDialog></p-confirmDialog>
 
+<p-confirmDialog key="confirm-check"></p-confirmDialog>
 
+
+<p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
 
 <div class="list-group">
     <h2 class="mb-0">{{this.selectedName}}</h2>
     <div class="flex justify-content-end align-items-end">
-        <button pButton icon="pi pi-check-square" class="mr-2 mb-1" (click)="removeChecked()" pTooltip="Clear Checked Items" tooltipPosition="top" [disabled]="!hasCheckedItems || isLoading"></button>
+        <button pButton icon="pi pi-list" class="mr-2 mb-1" (click)="refreshMenuOptions(); menu.toggle($event)"></button>
 
-        <button pButton icon="pi pi-sign-in" class="mr-2 mb-1" (click)="confirmAddToPantry()" pTooltip="Add Checked Items to Pantry" tooltipPosition="top" [disabled]="!hasCheckedItems || isLoading"></button>
-
-        <button pButton icon="pi pi-refresh" class="mr-2 mb-1" (click)="refreshList()"  pTooltip="Refresh List" tooltipPosition="top" [disabled]="isLoading"></button>
+        <button pButton icon="pi pi-refresh" class="mr-2 mb-1" (click)="refreshList()"  pTooltip="Refresh List" tooltipPosition="top" [disabled]="isLoading"></button>    
 
         <p-splitButton label="Sort" class="mr-2 mb-1" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems" [disabled]="isLoading"></p-splitButton>
     </div>

@@ -48,6 +48,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   private itemAddedSub: Subscription;
   origIngredient: ListIngredient;
 
+  menuItems: MenuItem[] = [];
+
   get hasCheckedItems(): boolean {
     return this.allIngredients.some(i => i.isChecked);
   }
@@ -81,6 +83,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
 
+    this.refreshMenuOptions();
+
     // add new ingredients to list when they are added to kitchen
     this.itemAddedSub = this.service.observableAddedIngredient.subscribe(newIngredient => {
       if (newIngredient !== null && newIngredient !== undefined) {
@@ -91,6 +95,14 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     });
 
     this.refreshList();
+  }
+
+  refreshMenuOptions() {
+    this.menuItems = [
+      { label: 'Add Checked Items to Pantry', icon: 'pi pi-sign-in', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmAddToPantry(); }, disabled: !this.hasCheckedItems },
+      { label: 'Remove Checked Items', icon: 'pi pi-check-square', command: () => this.removeChecked(), disabled: !this.hasCheckedItems },
+      { label: 'Uncheck All Items', icon: 'pi pi-clone', command: () => this.uncheckAll(), disabled: !this.hasCheckedItems },
+    ];
   }
 
   ngOnDestroy(): void {
@@ -135,6 +147,13 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     this.doFilter();
   }
 
+  uncheckAll() {
+    this.allIngredients.filter(i => i.isChecked).forEach(i => {
+      i.isChecked = !i.isChecked;
+      this.updateIngredient(i);
+    });
+  }
+
   toggleChecked(ingredient: ListIngredient) {
     ingredient.isChecked = !ingredient.isChecked;
     this.updateIngredient(ingredient);
@@ -145,7 +164,6 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   updateIngredient(ingredient: ListIngredient, showToast: boolean = false) {
     this.service.updateListIngredient(ingredient).subscribe(response => {
       if (showToast) {
-        // this.toasts.showSuccess("Updated " + ingredient.ingredient.name + ".");
       }
     },
     error => { this.toasts.showDanger(error.message + " - " + error.error); })
@@ -195,7 +213,6 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
 
     this.allIngredients = uncheckedItems.concat(checkedItems);
-    console.log(this.allIngredients);
   }
 
   sortFn(a: ListIngredient, b: ListIngredient) {
@@ -327,14 +344,15 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   removeChecked(afterAdd: boolean = false) {
 
-    let msg = 'Are you sure you want to clear all checked items?';
+    let msg = 'Are you sure you want to remove all checked items from the list?';
 
     if (afterAdd) {
-      msg = 'Do you also want to clear all checked items?';
+      msg = 'Do you also want to remove all checked items from the list?';
     }
 
     this.confirmationService.confirm({
       message: msg,
+      key: 'confirm-check',
       header: 'Confirm Clear',
       icon: 'pi pi-info-circle',
       accept: () => {

@@ -18,7 +18,8 @@ import {RippleModule} from 'primeng/ripple';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
-
+import {MenuModule} from 'primeng/menu';
+import {MenuItem} from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {ConfirmationService} from 'primeng/api';
     RippleModule,
     ProgressSpinnerModule,
     ConfirmDialogModule,
+    MenuModule,
   ],
   providers: [
     ConfirmationService

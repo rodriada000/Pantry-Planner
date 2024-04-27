@@ -9,11 +9,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
+using PantryPlannerCore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddScoped<BaseWebScrapeService>();
+builder.Services.AddScoped<IngredientService>();
+
 builder.Services.AddDbContext<PantryPlannerContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PantryPlannerDB"]));
 
 // For Identity
