@@ -148,10 +148,21 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   uncheckAll() {
-    this.allIngredients.filter(i => i.isChecked).forEach(i => {
-      i.isChecked = !i.isChecked;
-      this.updateIngredient(i);
+
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to uncheck all?',
+      key: 'confirm-check',
+      header: 'Confirm Uncheck',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.allIngredients.filter(i => i.isChecked).forEach(i => {
+          i.isChecked = !i.isChecked;
+          this.updateIngredient(i);
+        });
+      }
     });
+
+
   }
 
   toggleChecked(ingredient: ListIngredient) {
