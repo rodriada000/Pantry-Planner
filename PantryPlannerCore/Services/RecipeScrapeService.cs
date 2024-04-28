@@ -16,6 +16,20 @@ namespace PantryPlannerCore.Services
             _ingredientService = ingredientService;
         }
 
+        public RecipeDto ScrapeGenericWebsite(string url)
+        {
+            var web = new HtmlWeb();
+
+            var document = web.Load(url);
+
+            Recipe recipe = new Recipe();
+            recipe.RecipeUrl = url;
+            recipe.DateCreated = DateTime.UtcNow;
+            recipe.IsPublic = true;
+
+            return new RecipeDto(recipe);
+        }
+
         public RecipeDto ScrapeAllRecipesWebsite(string url)
         {
             var web = new HtmlWeb();
@@ -107,18 +121,21 @@ namespace PantryPlannerCore.Services
                         string ingrName = HtmlEntity.DeEntitize(span.InnerText);
                         int commaIndex = ingrName.IndexOf(',');
                         ingredient.Method = commaIndex >= 0 ? ingrName[(commaIndex+1)..] : "";
+                        string nameOnly = commaIndex >= 0 ? ingrName[..commaIndex] : ingrName;
 
 
-                        Ingredient ing = null;
-                        var results = _ingredientService.GetIngredientByName(ingrName, "");
+                        Ingredient? ing = null;
+                        var results = _ingredientService.GetIngredientByName(nameOnly, "");
                         if (results?.Count > 0)
                         {
-                            ing = results[0];
+                            var nameSplit = nameOnly.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+                            ing = results.Where(r => nameSplit.All(n => r.Name.Contains(n, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
+                            ing ??= results[0];
                         }
                         else
                         {
                             ing = new Ingredient();
-                            ing.Name = commaIndex >= 0 ? ingrName[..commaIndex] : ingrName;
+                            ing.Name = nameOnly;
                         }
 
                         ingredient.Ingredient = ing;

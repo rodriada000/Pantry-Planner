@@ -23,6 +23,26 @@ namespace PantryPlanner.Controllers
             _webScrapeService = webScrapeService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<RecipeDto>> ScrapeGenericWebsite(string url)
+        {
+
+            try
+            {
+                RecipeDto r = _webScrapeService.ScrapeGenericWebsite(url);
+                return Ok(r);
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+        }
+
         [HttpGet("AllRecipes")]
         public async Task<ActionResult<RecipeDto>> ScrapeAllRecipesWebsite(string url)
         {
