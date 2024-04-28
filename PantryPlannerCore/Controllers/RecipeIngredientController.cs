@@ -101,12 +101,13 @@ namespace PantryPlanner.Controllers
 
 
             PantryPlannerUser user;
+            RecipeIngredient updatedIngredient;
 
             try
             {
                 user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
 
-                await _service.UpdateRecipeIngredientAsync(ingredient, user);
+                updatedIngredient = await _service.UpdateRecipeIngredientAsync(ingredient, user);
             }
             catch (ArgumentNullException e)
             {
@@ -125,7 +126,7 @@ namespace PantryPlanner.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
-            return Ok();
+            return Ok(new RecipeIngredientDto(updatedIngredient));
         }
 
         // POST: api/RecipeIngredient

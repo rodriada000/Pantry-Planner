@@ -259,6 +259,9 @@ export class CreateRecipeComponent implements OnInit {
         if (this.ingredientEditIndex == -1) {
           data.quantityText = data.quantity % 1 == 0 ? data.quantity.toString() : this.mathUtil.decimalToFraction(data.quantity);
           this.ingredients.push(data);
+        } else {
+          // update recipeIngredientID if it may have changed (due to changing ingredients)
+          i.recipeIngredientId = data.recipeIngredientId;
         }
 
         this.method = "";

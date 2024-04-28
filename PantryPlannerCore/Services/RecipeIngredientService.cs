@@ -231,7 +231,7 @@ namespace PantryPlanner.Services
         /// <summary>
         /// Updates ingredient in recipe if user has rights to it (i.e. added the recipe)
         /// </summary>
-        public async Task UpdateRecipeIngredientAsync(RecipeIngredientDto updateDto, PantryPlannerUser userUpdating)
+        public async Task<RecipeIngredient> UpdateRecipeIngredientAsync(RecipeIngredientDto updateDto, PantryPlannerUser userUpdating)
         {
             if (updateDto == null)
             {
@@ -253,9 +253,18 @@ namespace PantryPlanner.Services
                 throw new PermissionsException("You do not have rights to update this recipe");
             }
 
-            RecipeIngredient ingredientToUpdate = Context.RecipeIngredients
+            RecipeIngredient? ingredientToUpdate = await Context.RecipeIngredients
                                                          .Where(r => r.RecipeIngredientId == updateDto.RecipeIngredientId)
-                                                         .FirstOrDefault();
+                                                         .FirstOrDefaultAsync();
+
+            if (ingredientToUpdate.IngredientId != updateDto.IngredientId)
+            {
+                // must delete and add if ingredient changed
+                DeleteRecipeIngredient(ingredientToUpdate.RecipeIngredientId, userUpdating);
+
+                updateDto.RecipeIngredientId = 0;
+                return AddRecipeIngredient(updateDto, userUpdating);
+            }
 
             // only update the properties that are not null in the DTO
             if (updateDto.Quantity.HasValue)
@@ -287,7 +296,7 @@ namespace PantryPlanner.Services
             Context.Entry(ingredientToUpdate).State = EntityState.Modified;
             await Context.SaveChangesAsync().ConfigureAwait(false);
 
-            return;
+            return ingredientToUpdate;
         }
 
         /// <summary>
