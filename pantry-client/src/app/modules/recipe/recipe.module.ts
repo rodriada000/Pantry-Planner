@@ -19,7 +19,10 @@ import { PantryModule } from '../pantry/pantry.module';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import { RecipeDetailsComponent } from './recipe-details/recipe-details.component';
 import { RecipeSearchComponent } from './recipe-search/recipe-search.component'
-
+import {MenuModule} from 'primeng/menu';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,13 @@ import { RecipeSearchComponent } from './recipe-search/recipe-search.component'
     ProgressSpinnerModule,
     ProgressBarModule,
     PantryModule,
+    MenuModule,
+    ConfirmDialogModule,
+    DropdownModule,
     SelectButtonModule
-  ]
+  ],
+  providers: [
+    ConfirmationService
+  ],
 })
 export class RecipeModule { }

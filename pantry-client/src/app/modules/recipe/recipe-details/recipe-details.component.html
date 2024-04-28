@@ -1,3 +1,19 @@
+<p-confirmDialog></p-confirmDialog>
+
+<p-confirmDialog #cd key="add-to-grocery">
+    <ng-template pTemplate="footer">
+        <div>
+            <p-dropdown styleClass="col-12 flex p-0" [options]="groceryList" [(ngModel)]="selectedGroceryListId" optionLabel="name" optionValue="kitchenListId"></p-dropdown>
+            
+            <div class="col-12 px-0 flex flex-row align-content-center justify-content-end mt-1">
+                <button type="button" pButton icon="pi pi-times" class="p-button-danger" label="Cancel" (click)="cd.reject()"></button>
+                <button type="button" pButton icon="pi pi-check" class="p-button-success" label="Add" (click)="cd.accept()"></button>
+            </div>
+        </div>
+
+    </ng-template>
+</p-confirmDialog>
+
 <div class="pt-5">
     <h1 class="font-semibold pb-0 mb-0"> {{recipe?.name}} <span *ngIf="!!recipe?.recipeUrl" class="text-color-secondary" style="font-size: .5em;">via <a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span> </h1>
     <p>{{recipe?.description}}</p>
@@ -24,10 +40,11 @@
 
     <p-card header="Ingredients" [style]="{'margin-top': '1em'}">
         <div class="flex grid align-items-center pt-3" *ngFor="let i of recipe?.ingredients; let index=index">
-            <i style="font-size: 1.25em;" [class]="ingredientInKitchen(i.ingredientId) ? 'pi pi-check-circle' : 'pi pi-exclamation-circle'" [style]="{'color': ingredientInKitchen(i.ingredientId) ? 'green' : 'var(--yellow-500)'}"></i> 
+            <i (click)="refreshMenuOptions(i); menu.toggle($event)" style="font-size: 1.25em;" [class]="ingredientInKitchen(i.ingredientId) ? 'pi pi-check-circle text-color-success' : 'pi pi-exclamation-circle text-color-warning'"></i> 
             <span class="pl-2">{{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span>
         </div>
     </p-card>
+    <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
 
     <!-- <h2 class="font-semibold pb-0 mb-0"> Ingredients </h2> -->
 
