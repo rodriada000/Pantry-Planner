@@ -12,6 +12,9 @@ export class MathUtilService {
 
     const tolerance = 1.0e-10; // Tolerance for floating-point comparison
 
+    let wholeNumber = Math.floor(decimal);
+    decimal -= wholeNumber;
+
     let numerator: number;
     let denominator: number;
 
@@ -42,8 +45,17 @@ export class MathUtilService {
     numerator /= gcd;
     denominator /= gcd;
 
-    return `${numerator}/${denominator}`;
+    if (wholeNumber === 0) {
+      return `${numerator}/${denominator}`;
+    } else {
+      if (numerator === 0) {
+        return `${wholeNumber}`;
+      } else {
+        return `${wholeNumber} ${numerator}/${denominator}`;
+      }
+    }
   }
+
 
   greatestCommonDivisor(a: number, b: number): number {
     if (b === 0) return a;

@@ -126,7 +126,10 @@ namespace PantryPlannerCore.Services
                     }
                 }
 
-                recipe.RecipeIngredients.Add(ingredient);
+                if (!recipe.RecipeIngredients.Any(i => i.IngredientId == ingredient.IngredientId && ingredient.IngredientId != 0))
+                {
+                    recipe.RecipeIngredients.Add(ingredient);
+                }
             }
 
             return new RecipeDto(recipe);

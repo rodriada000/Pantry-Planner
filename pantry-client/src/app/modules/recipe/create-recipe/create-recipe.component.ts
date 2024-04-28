@@ -54,12 +54,12 @@ export class CreateRecipeComponent implements OnInit {
     if (!isNaN(Number(this.ingredientQtyText))) {
       return Number(this.ingredientQtyText);
     }
-    
+
     if (this.ingredientQtyText.includes('/')) {
       const slashIndex = this.ingredientQtyText.indexOf('/');
       const num = this.ingredientQtyText.substring(0, slashIndex);
-      const den = this.ingredientQtyText.substring(slashIndex+1);
-      
+      const den = this.ingredientQtyText.substring(slashIndex + 1);
+
       return Number(Number(num) / Number(den));
     }
 
@@ -77,7 +77,7 @@ export class CreateRecipeComponent implements OnInit {
     this.route.paramMap.subscribe(p => {
       if (p['params']['id'] && this.recipeId !== +p['params']['id']) {
         this.recipeId = +p['params']['id'];
-        
+
         if (!!!this.recipeId || this.recipeId === 0) {
           this.isCreated = false;
           this.isEditing = true;
@@ -129,15 +129,15 @@ export class CreateRecipeComponent implements OnInit {
         createdByUserId: '',
         createdByUsername: '',
         steps: this.steps,
-        ingredients: this.ingredients.map(i => { delete i.quantityText; return i;})
+        ingredients: this.ingredients
       } as Recipe).subscribe(
         data => {
-          this.originalRecipe = {...data} as Recipe;
+          this.originalRecipe = { ...data } as Recipe;
           this.isCreated = true;
           this.recipeId = data.recipeId;
           this.toastService.showSuccess('Created recipe!');
 
-          this.router.navigate(['/recipe', this.recipeId], { queryParamsHandling: 'merge'});
+          this.router.navigate(['/recipe', this.recipeId], { queryParamsHandling: 'merge' });
           this.isSaving = false;
         },
         error => {
@@ -158,7 +158,7 @@ export class CreateRecipeComponent implements OnInit {
         cookTime: this.cookTime,
         servingSize: this.servingSize,
         steps: this.steps,
-        ingredients: this.ingredients.map(i => { delete i.quantityText; return i;})
+        ingredients: this.ingredients
       } as Recipe).subscribe(
         data => {
           this.originalRecipe = data;
@@ -245,7 +245,7 @@ export class CreateRecipeComponent implements OnInit {
 
     apiRequest.subscribe(
       data => {
-        
+
         if (this.ingredientEditIndex == -1) {
           data.quantityText = data.quantity % 1 == 0 ? data.quantity.toString() : this.mathUtil.decimalToFraction(data.quantity);
           this.ingredients.push(data);
@@ -346,10 +346,24 @@ export class CreateRecipeComponent implements OnInit {
         this.isSaving = false;
       }
     },
-    error => {
-      this.toastService.showDanger(error.error, 'Failed Scrape');
-      this.isSaving = false;
-    });
+      error => {
+        this.toastService.showDanger(error.error, 'Failed Scrape');
+        this.isSaving = false;
+      });
+  }
+
+  ingredientClicked(index: number) {
+    if (!this.isEditing) {
+      return;
+    }
+    this.selectedIngredientIdx = this.selectedIngredientIdx == index ? -1 : index;
+  }
+
+  stepClicked(index: number) {
+    if (!this.isEditing) {
+      return;
+    }
+    this.selectedStepIdx = this.selectedStepIdx == index ? -1 : index;
   }
 
 }

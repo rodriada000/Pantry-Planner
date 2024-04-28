@@ -2,21 +2,21 @@
     <div class="font-semibold text-lg text-color-secondary pb-4"> Recipe Details </div>
     <div class="field">
       <label class="block" for="nameInput">Name</label>
-      <input pInputText type="text" class="form-control" id="nameInput" [(ngModel)]="name" [disabled]="!isEditing" />
+      <input pInputText type="text" class="form-control col-12 lg:col-6" id="nameInput" [(ngModel)]="name" [disabled]="!isEditing" />
     </div>
 
     <div class="field">
         <label class="block" for="urlInput">URL</label>
         <div class="p-inputgroup">
             <input pInputText type="text" class="form-control" id="urlInput" [(ngModel)]="recipeUrl" placeholder="Optional" [disabled]="!isEditing" />
-            <button type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn" [disabled]="isSaving" [loading]="isSaving" (click)="scrapeUrl()"></button>
+            <button *ngIf="!isCreated" type="button" pButton pRipple icon="pi pi-cloud-download" pTooltip="Import Recipe from URL" [disabled]="isSaving" [loading]="isSaving" (click)="scrapeUrl()"></button>
         </div>
     </div>
 
     <div class="field">
         <label class="block" for="notesTextarea">Description</label>
         <div class="grid ml-0">
-          <textarea pInputTextarea class="col-12" style="max-width: 600px;" id="notesTextarea" rows="3" [(ngModel)]="description" [disabled]="!isEditing"></textarea>
+          <textarea pInputTextarea class="col-12" style="max-width: 600px; max-height: 500px;" id="notesTextarea" rows="3" [(ngModel)]="description" [disabled]="!isEditing"></textarea>
         </div>
     </div>
     
@@ -70,11 +70,11 @@
             <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1 mt-4" (click)="addIngredient()"></button>
         </div>
 
-        <div class="flex grid align-items-center" *ngFor="let i of ingredients; let index=index" (click)="selectedIngredientIdx=index;">
+        <div class="flex grid align-items-center" *ngFor="let i of ingredients; let index=index" (click)="ingredientClicked(index)">
             <span *ngIf="selectedIngredientIdx == index"><button pButton pRipple class="pl-2 p-button-rounded p-button-text p-button-danger" *ngIf="isCreated && isEditing" icon="pi pi-trash" (click)="removeIngredient(i, index)"></button></span>
             <span *ngIf="selectedIngredientIdx == index"><button pButton pRipple class="pl-2 p-button-rounded p-button-text"                 *ngIf="isCreated && isEditing" icon="pi pi-pencil" (click)="editIngredient(i, index, $event)"></button></span>
-            <span class="col-4">{{i.sortOrder}}&rpar; {{i.quantity == 0 ? '' : i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}} <i *ngIf="!!!i.ingredientId" class="text-color-warning pi pi-exclamation-triangle pr-1" pTooltip="Ingredient not found"></i></span>
-            <span *ngIf="ingredientEditIndex == index" style="font-style: italic;">editing...</span>
+            <span class="col-10">{{i.sortOrder}}&rpar; {{i.quantity == 0 ? '' : i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}} <i *ngIf="!!!i.ingredientId" class="text-color-warning pi pi-exclamation-triangle pr-1" pTooltip="Ingredient not found"></i></span>
+            <span *ngIf="ingredientEditIndex == index" class="text-color-secondary" style="font-style: italic;">editing...</span>
         </div>
 
         <div class="font-semibold text-lg text-color-secondary pt-4 pb-2"> Steps </div>
@@ -84,14 +84,14 @@
               <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1" (click)="addStep()"></button>
             </div>
         </div>
-        <div class="flex grid align-items-center pt-2" *ngFor="let step of steps; let index=index" (click)="selectedStepIdx=index;">
+        <div class="flex grid align-items-center pt-2" *ngFor="let step of steps; let index=index" (click)="stepClicked(index)">
             <span *ngIf="selectedStepIdx == index"><button pButton pRipple class="mr-1 p-button-rounded p-button-text p-button-danger"  *ngIf="isCreated && isEditing" icon="pi pi-trash" (click)="removeStep(step, index)"></button></span>
             <span *ngIf="selectedStepIdx == index"><button pButton pRipple class="p-button-rounded p-button-text"                       *ngIf="isCreated && isEditing" icon="pi pi-pencil" (click)="editStep(step, index, $event)"></button></span>
             <span *ngIf="selectedStepIdx == index"><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary"    *ngIf="isCreated && isEditing" icon="pi pi-angle-up" (click)="moveStep(index, -1)"></button></span>
             <span *ngIf="selectedStepIdx == index"><button pButton pRipple class="p-button-rounded p-button-text p-button-secondary"    *ngIf="isCreated && isEditing" icon="pi pi-angle-down" (click)="moveStep(index, 1)"></button></span>
             <span class="col-10" *ngIf="!step?.text?.startsWith('#')">{{step.sortOrder}}) {{step.text}}</span>
             <h4 class="col-10 m-0" *ngIf="step?.text?.startsWith('#')">{{step.text.replace('#', '')}}</h4>
-            <span *ngIf="stepEditIndex == index" style="font-style: italic;">editing...</span>
+            <span *ngIf="stepEditIndex == index" class="text-color-secondary" style="font-style: italic;">editing...</span>
         </div>
     </div>
 
