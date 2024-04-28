@@ -12,8 +12,8 @@ namespace PantryPlanner.DTOs
         public long IngredientId { get; set; }
         public long RecipeId { get; set; }
         public decimal? Quantity { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public string Method { get; set; }
+        public string? UnitOfMeasure { get; set; }
+        public string? Method { get; set; }
         public int? SortOrder { get; set; }
 
         #region Additional Properties Not In Model

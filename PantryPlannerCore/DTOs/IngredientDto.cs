@@ -15,7 +15,7 @@ namespace PantryPlanner.DTOs
         public string? AddedByUserId { get; set; }
         public long? CategoryId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public byte[]? PreviewPicture { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsPublic { get; set; }

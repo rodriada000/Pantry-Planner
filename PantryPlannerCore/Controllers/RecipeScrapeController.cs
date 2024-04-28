@@ -15,15 +15,11 @@ namespace PantryPlanner.Controllers
     [ApiController]
     public class RecipeScrapeController : ControllerBase
     {
-        private readonly RecipeService _service;
-        private readonly UserManager<PantryPlannerUser> _userManager;
         private readonly RecipeScrapeService _webScrapeService;
 
 
-        public RecipeScrapeController(PantryPlannerContext context, UserManager<PantryPlannerUser> userManager, RecipeScrapeService webScrapeService)
+        public RecipeScrapeController(RecipeScrapeService webScrapeService)
         {
-            _service = new RecipeService(context);
-            _userManager = userManager;
             _webScrapeService = webScrapeService;
         }
 

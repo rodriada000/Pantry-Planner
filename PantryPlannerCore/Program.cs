@@ -17,6 +17,10 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddScoped<RecipeScrapeService>();
 builder.Services.AddScoped<IngredientService>();
+builder.Services.AddScoped<RecipeStepService>();
+builder.Services.AddScoped<RecipeIngredientService>();
+builder.Services.AddScoped<RecipeService>();
+
 
 builder.Services.AddDbContext<PantryPlannerContext>(options => options.UseSqlServer(configuration["ConnectionStrings:PantryPlannerDB"]));
 

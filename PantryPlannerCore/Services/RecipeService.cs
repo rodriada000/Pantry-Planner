@@ -16,11 +16,16 @@ namespace PantryPlanner.Services
 
         private PermissionService Permissions { get; set; }
 
+        private readonly RecipeIngredientService _recipeIngredientService;
+        private readonly RecipeStepService _recipeStepService;
 
-        public RecipeService(PantryPlannerContext context)
+
+        public RecipeService(PantryPlannerContext context, RecipeIngredientService recipeIngredientService, RecipeStepService recipeStepService)
         {
             Context = context;
             Permissions = new PermissionService(Context);
+            _recipeIngredientService = recipeIngredientService;
+            _recipeStepService = recipeStepService;
         }
 
 
@@ -127,7 +132,27 @@ namespace PantryPlanner.Services
 
             Recipe recipeToAdd = newRecipe.Create();
 
-            return AddRecipe(recipeToAdd, user);
+            var added = AddRecipe(recipeToAdd, user);
+
+            if (newRecipe.Ingredients.Count > 0)
+            {
+                newRecipe.Ingredients.Where(i => i.IngredientId != 0).ToList().ForEach(i =>
+                {
+                    i.RecipeId = added.RecipeId;
+                    _recipeIngredientService.AddRecipeIngredient(i, user);
+                });
+            }
+
+            if (newRecipe.Steps.Count > 0)
+            {
+                newRecipe.Steps.ForEach(s =>
+                {
+                    s.RecipeId = added.RecipeId;
+                    _recipeStepService.AddRecipeStep(s, user);
+                });
+            }
+
+            return added;
         }
 
         /// <summary>

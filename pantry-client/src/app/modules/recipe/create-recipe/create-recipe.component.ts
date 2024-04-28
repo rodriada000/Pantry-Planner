@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import Ingredient from 'src/app/data/models/Ingredient';
 import Recipe from 'src/app/data/models/Recipe';
@@ -68,14 +68,22 @@ export class CreateRecipeComponent implements OnInit {
 
   constructor(private recipeService: RecipeApiService,
     private route: ActivatedRoute,
+    private router: Router,
     private mathUtil: MathUtilService,
     private scraper: RecipeScraperService,
     private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(p => {
-      if (p['params']['id']) {
-        this.recipeId = p['params']['id'];
+      if (p['params']['id'] && this.recipeId !== +p['params']['id']) {
+        this.recipeId = +p['params']['id'];
+        
+        if (!!!this.recipeId || this.recipeId === 0) {
+          this.isCreated = false;
+          this.isEditing = true;
+          return;
+        }
+
         this.recipeService.getRecipeById(this.recipeId).subscribe(
           data => {
             this.isCreated = true;
@@ -99,19 +107,16 @@ export class CreateRecipeComponent implements OnInit {
         )
       }
     });
-
-    if (!!!this.recipeId) {
-      this.isCreated = false;
-      this.isEditing = true;
-    }
   }
 
-  confirmAdd() {
-    if (!this.isCreated) {
-      if (!!!this.name || !!!this.description) {
-        return;
-      }
+  saveRecipe() {
+    if (!!!this.name || !!!this.description) {
+      return;
+    }
 
+    this.isSaving = true;
+
+    if (!this.isCreated) {
       this.recipeService.addRecipe({
         name: this.name,
         recipeUrl: this.recipeUrl,
@@ -123,17 +128,21 @@ export class CreateRecipeComponent implements OnInit {
         dateCreated: new Date(),
         createdByUserId: '',
         createdByUsername: '',
-        steps: [],
-        ingredients: []
+        steps: this.steps,
+        ingredients: this.ingredients.map(i => { delete i.quantityText; return i;})
       } as Recipe).subscribe(
         data => {
           this.originalRecipe = {...data} as Recipe;
           this.isCreated = true;
           this.recipeId = data.recipeId;
           this.toastService.showSuccess('Created recipe!');
+
+          this.router.navigate(['/recipe', this.recipeId], { queryParamsHandling: 'merge'});
+          this.isSaving = false;
         },
         error => {
           this.toastService.showDanger("Failed to add recipe - " + error.error);
+          this.isSaving = false;
         }
       );
     } else {
@@ -155,23 +164,29 @@ export class CreateRecipeComponent implements OnInit {
           this.originalRecipe = data;
           this.toastService.showSuccess('Updated recipe!');
           this.isEditing = false;
+          this.isSaving = false;
         },
         error => {
           this.toastService.showDanger("Failed to update recipe - " + error.error);
+          this.isSaving = false;
         }
       );
     }
-
   }
 
   discardChanges() {
+    this.isEditing = false;
+
+    if (!!!this.originalRecipe) {
+      return;
+    }
+
     this.name = this.originalRecipe.name;
     this.recipeUrl = this.originalRecipe.recipeUrl;
     this.description = this.originalRecipe.description;
     this.prepTime = this.originalRecipe.prepTime;
     this.cookTime = this.originalRecipe.cookTime;
     this.servingSize = this.originalRecipe.servingSize;
-    this.isEditing = false;
   }
 
   addStep() {
@@ -222,7 +237,7 @@ export class CreateRecipeComponent implements OnInit {
 
     let apiRequest: Observable<RecipeIngredient>;
 
-    if (this.ingredientEditIndex >= 0) {
+    if (this.ingredientEditIndex >= 0 && !!i.recipeIngredientId) {
       apiRequest = this.recipeService.updateRecipeIngredient(i);
     } else {
       apiRequest = this.recipeService.addRecipeIngredient(i);
@@ -313,6 +328,8 @@ export class CreateRecipeComponent implements OnInit {
       return;
     }
 
+    this.isSaving = true;
+
     this.scraper.scrapeUrl(this.recipeUrl).subscribe(r => {
 
       if (!!r) {
@@ -326,7 +343,12 @@ export class CreateRecipeComponent implements OnInit {
         this.steps = r.steps;
         this.ingredients = r.ingredients;
         this.ingredients.forEach(i => i.quantityText = i.quantity % 1 == 0 ? i.quantity.toString() : this.mathUtil.decimalToFraction(i.quantity));
+        this.isSaving = false;
       }
+    },
+    error => {
+      this.toastService.showDanger(error.error, 'Failed Scrape');
+      this.isSaving = false;
     });
   }
 

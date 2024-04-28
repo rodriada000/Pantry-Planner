@@ -22,6 +22,11 @@ namespace PantryPlannerCore.Services
 
             var document = web.Load(url);
 
+            if (document.DocumentNode.InnerText == "Ebolg - Not Acceptable")
+            {
+                throw new Exception("allrecipes.com can not be scraped at this time. Please try again later...");
+            }
+
             Recipe recipe = new Recipe();
             recipe.RecipeUrl= url;
             recipe.DateCreated = DateTime.UtcNow;
@@ -88,7 +93,7 @@ namespace PantryPlannerCore.Services
 
                         foreach (var q in qtySplit)
                         {
-                            qty += CharUnicodeInfo.GetDecimalDigitValue(q[0]) == -1 ? 0 : CharUnicodeInfo.GetDecimalDigitValue(q[0]);
+                            qty += CharUnicodeInfo.GetNumericValue(q[0]) == -1 ? 0 : (decimal) CharUnicodeInfo.GetNumericValue(q[0]);
                         }
 
                         ingredient.Quantity = qty;
@@ -100,7 +105,8 @@ namespace PantryPlannerCore.Services
                     else if (span.GetAttributeValue("data-ingredient-name", "false") == "true")
                     {
                         string ingrName = HtmlEntity.DeEntitize(span.InnerText);
-                        ingredient.Method = ingrName.Contains(',') ? ingrName[ingrName.IndexOf(',')..] : "";
+                        int commaIndex = ingrName.IndexOf(',');
+                        ingredient.Method = commaIndex >= 0 ? ingrName[(commaIndex+1)..] : "";
 
 
                         Ingredient ing = null;
@@ -112,10 +118,11 @@ namespace PantryPlannerCore.Services
                         else
                         {
                             ing = new Ingredient();
-                            ing.Name = ingrName.Contains(',') ? ingrName[..ingrName.IndexOf(',')] : ingrName;
+                            ing.Name = commaIndex >= 0 ? ingrName[..commaIndex] : ingrName;
                         }
 
                         ingredient.Ingredient = ing;
+                        ingredient.IngredientId = ing.IngredientId;
                     }
                 }
 

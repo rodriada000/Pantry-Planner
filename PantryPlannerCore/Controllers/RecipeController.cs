@@ -18,9 +18,9 @@ namespace PantryPlanner.Controllers
         private readonly UserManager<PantryPlannerUser> _userManager;
 
 
-        public RecipeController(PantryPlannerContext context, UserManager<PantryPlannerUser> userManager)
+        public RecipeController(UserManager<PantryPlannerUser> userManager, RecipeService recipeService)
         {
-            _service = new RecipeService(context);
+            _service = recipeService;
             _userManager = userManager;
         }
 

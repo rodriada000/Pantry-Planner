@@ -58,3 +58,16 @@ body {
     color: var(--primary-300);
     cursor: pointer;
 }
+
+.text-color-warning {
+    color: var(--yellow-400)
+}
+
+
+.text-color-danger {
+    color: var(--red-200)
+}
+
+.text-color-success {
+    color: var(--green-200)
+}

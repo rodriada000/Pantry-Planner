@@ -100,6 +100,8 @@ export class RecipeComponent implements OnInit {
     this.isMyRecipesSelected = false;
     this.isSearchRecipesSelected = false;
     this.showSideMenu = false;
+    this.recipeId = null;
+    this.router.navigate(['/recipe', '0']);
   }
 
   toggleSideMenu(): void {
@@ -107,7 +109,7 @@ export class RecipeComponent implements OnInit {
   }
 
   viewRecipe(r: Recipe) {
-    this.router.navigate(['details', r.recipeId], {relativeTo: this.route})
+    this.router.navigate(['/recipe', 'details', r.recipeId]);
     this.recipeId = r.recipeId; 
   }
 

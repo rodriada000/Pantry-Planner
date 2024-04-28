@@ -9,20 +9,20 @@ namespace PantryPlanner.DTOs
     public class RecipeDto
     {
         public long RecipeId { get; set; }
-        public string CreatedByUserId { get; set; }
-        public string RecipeUrl { get; set; }
+        public string? CreatedByUserId { get; set; }
+        public string? RecipeUrl { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int? PrepTime { get; set; }
         public int? CookTime { get; set; }
-        public string ServingSize { get; set; }
+        public string? ServingSize { get; set; }
         public DateTime DateCreated { get; set; }
         public bool? IsPublic { get; set; }
 
 
         #region Additional Properties Not In Model
 
-        public string CreatedByUsername { get; set; }
+        public string? CreatedByUsername { get; set; }
         public List<RecipeIngredientDto> Ingredients { get; set; }
         public List<RecipeStepDto> Steps { get; set; }
 
@@ -88,7 +88,7 @@ namespace PantryPlanner.DTOs
                 CookTime = this.CookTime,
                 ServingSize = this.ServingSize,
                 DateCreated = this.DateCreated,
-                IsPublic = this.IsPublic
+                IsPublic = this.IsPublic,
             };
         }
     }
