@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import KitchenIngredient from 'src/app/data/models/KitchenIngredient';
 import KitchenList from 'src/app/data/models/KitchenList';
@@ -32,8 +32,11 @@ export class RecipeDetailsComponent implements OnInit {
   steps: any[] = [];
   kitchenIngredients: KitchenIngredient[] = [];
 
+  createdByMe: boolean = false;
+
   constructor(private recipeService: RecipeApiService,
     private mathUtil: MathUtilService,
+    private router: Router,
     private kitchenApi: KitchenIngredientApi,
     private activeKitchen: ActiveKitchenService,
     private confirmationService: ConfirmationService,
@@ -176,6 +179,10 @@ export class RecipeDetailsComponent implements OnInit {
         );
       }
     });
+  }
+
+  goToEditPage() {
+    this.router.navigate(['/recipe', this.recipeId]);
   }
 
 }

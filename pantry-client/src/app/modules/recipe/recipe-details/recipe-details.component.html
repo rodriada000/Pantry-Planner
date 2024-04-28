@@ -15,7 +15,7 @@
 </p-confirmDialog>
 
 <div class="pt-5">
-    <h1 class="font-semibold pb-0 mb-0"> {{recipe?.name}} <span *ngIf="!!recipe?.recipeUrl" class="text-color-secondary" style="font-size: .5em;">via <a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span> </h1>
+    <h1 class="font-semibold pb-0 mb-0 flex"> <i class="pi pi-cog flex align-items-center pr-2" (click)="goToEditPage()"></i> {{recipe?.name}} <span *ngIf="!!recipe?.recipeUrl" class="text-color-secondary flex align-items-end" style="font-size: .5em;">via&nbsp;<a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span> </h1>
     <p>{{recipe?.description}}</p>
     <p-card class="time-card" [style]="{'padding-top': '0', 'padding-bottom': '0'}">
         <div class="grid">

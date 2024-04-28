@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import Ingredient from 'src/app/data/models/Ingredient';
 import Recipe from 'src/app/data/models/Recipe';
@@ -70,6 +71,7 @@ export class CreateRecipeComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private mathUtil: MathUtilService,
+    private confirmationService: ConfirmationService,
     private scraper: RecipeScraperService,
     private toastService: ToastService) { }
 
@@ -81,6 +83,14 @@ export class CreateRecipeComponent implements OnInit {
         if (!!!this.recipeId || this.recipeId === 0) {
           this.isCreated = false;
           this.isEditing = true;
+          this.name = '';
+          this.recipeUrl = '';
+          this.description = '';
+          this.prepTime = null;
+          this.cookTime = null;
+          this.servingSize = '';
+          this.steps = [];
+          this.ingredients = [];
           return;
         }
 
@@ -364,6 +374,25 @@ export class CreateRecipeComponent implements OnInit {
       return;
     }
     this.selectedStepIdx = this.selectedStepIdx == index ? -1 : index;
+  }
+
+  confirmDelete() {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete ${this.name}?`,
+      header: 'Confirm Delete',
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.recipeService.deleteRecipe(this.originalRecipe).subscribe(
+          data => {
+            this.toastService.showSuccess(`Recipe deleted!`);
+            this.router.navigate(['/recipe', 0]);
+          },
+          error => {
+            this.toastService.showDanger(`Failed to delete recipe - ${error.error}`);
+          }
+        );
+      }
+    });
   }
 
 }
