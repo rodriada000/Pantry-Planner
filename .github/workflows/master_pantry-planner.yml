@@ -38,7 +38,7 @@ jobs:
           include-prerelease: true
 
       - name: dotnet publish
-        run: dotnet publish PantryPlannerCore -c Release -p:PublishProfile="pantry-planner-Web Deploy" -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish PantryPlannerCore -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
