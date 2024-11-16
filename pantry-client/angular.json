@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../PantryPlannerCore/bin/Release/net6.0/client",
+            "outputPath": "../PantryPlannerCore/bin/Release/net8.0/client",
             "deleteOutputPath": false,
             "index": "src/index.html",
             "main": "src/main.ts",
