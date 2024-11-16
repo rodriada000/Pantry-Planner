@@ -7,7 +7,7 @@
   <div class="field">
     <label class="block">Category</label>
     <!-- <p-autoComplete inputStyleClass="col-12" styleClass="col-12 pb-0" class="col-12 pb-0" placeholder="Search Ingredients..." [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)"></p-autoComplete> -->
-    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event)" [dropdown]="true"></p-autoComplete>
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event.value)" [dropdown]="true"></p-autoComplete>
 
     <!-- <ng-select [items]="categories"
                bindLabel="name"

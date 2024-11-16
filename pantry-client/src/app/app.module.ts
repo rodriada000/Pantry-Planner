@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -23,50 +23,44 @@ import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-s
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import {ProgressBarModule} from 'primeng/progressbar';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    KitchenNavComponent,
-    LoginComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    AppRoutingModule,
-    PantryModule,
-    RecipeModule,
-    GroceryListModule,
-    MenubarModule,
-    MenuModule,
-    ButtonModule,
-    InputTextModule,
-    CardModule,
-    BrowserAnimationsModule,
-    OverlayPanelModule,
-    ToastModule,
-    AutoCompleteModule,
-    SocialLoginModule,
-    ProgressBarModule
-  ],
-  providers: [
-    MessageService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('877234124976-v4hde7e1p4nbpjha9a1014gn4hrv9oao.apps.googleusercontent.com')
-          },
-        ],
-        onError: (err) => {
-          console.error(err);
+@NgModule({ declarations: [
+        AppComponent,
+        KitchenNavComponent,
+        LoginComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        PantryModule,
+        RecipeModule,
+        GroceryListModule,
+        MenubarModule,
+        MenuModule,
+        ButtonModule,
+        InputTextModule,
+        CardModule,
+        BrowserAnimationsModule,
+        OverlayPanelModule,
+        ToastModule,
+        AutoCompleteModule,
+        SocialLoginModule,
+        ProgressBarModule], providers: [
+        MessageService,
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+                autoLogin: false,
+                providers: [
+                    {
+                        id: GoogleLoginProvider.PROVIDER_ID,
+                        provider: new GoogleLoginProvider('877234124976-v4hde7e1p4nbpjha9a1014gn4hrv9oao.apps.googleusercontent.com')
+                    },
+                ],
+                onError: (err) => {
+                    console.error(err);
+                },
+            } as SocialAuthServiceConfig
         },
-      } as SocialAuthServiceConfig
-    }
-  ],
-  bootstrap: [AppComponent]
-})
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
