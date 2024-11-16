@@ -61,9 +61,10 @@ jobs:
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: Azure/webapps-deploy@v3.0.1
         with:
           app-name: 'pantry-planner'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_833236206E78414D9E08F59D27BE471F }}
           package: .
+          clean: true
