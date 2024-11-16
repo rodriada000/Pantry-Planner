@@ -15,7 +15,8 @@
           "options": {
             "outputPath": {
               "base": "../PantryPlannerCore/bin/Release/net8.0/client",
-              "browser": ""
+              "browser": "",
+              "media": "."
             },
             "deleteOutputPath": false,
             "index": "src/index.html",
