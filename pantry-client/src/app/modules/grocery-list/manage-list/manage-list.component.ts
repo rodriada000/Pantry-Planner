@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import Kitchen from 'src/app/data/models/Kitchen';
 import KitchenList from 'src/app/data/models/KitchenList';
 import GroceryListApi from 'src/app/data/services/grocery-list.service';
@@ -20,13 +21,14 @@ export class ManageListComponent implements OnInit {
 
   public isSaving: boolean;
   public isEditing: boolean;
-  
+
   public editId: number;
   public newListName: string = "";
 
   constructor(
     private listService: GroceryListApi,
     private toastService: ToastService,
+    private confirmService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -45,17 +47,27 @@ export class ManageListComponent implements OnInit {
       return;
     }
 
-    this.isSaving = true;
-
-    this.listService.deleteList(this.selectedList.kitchenListId).subscribe(response => {
-      this.toastService.showSuccess("Successfully removed list: " + response.name);
-      this.listService.removeFromObservable(response);
-      this.isSaving = false;
-    },
-      error => {
-        this.toastService.showDanger("Could not remove: " + error.message);
-        this.isSaving = false;
-      });
+    this.confirmService.confirm({
+      header: 'Confirm Delete',
+      message: `Are you sure you want to remove ${this.selectedList.name} list?`,
+      icon: 'pi pi-trash',
+      accept: () => {
+        this.isSaving = true;
+        this.listService.deleteList(this.selectedList.kitchenListId).subscribe({
+          next: (response) => {
+            this.toastService.showSuccess("Successfully removed list: " + response.name);
+            this.listService.removeFromObservable(response);
+            this.selectedList = null;
+            this.isSaving = false;
+          },
+          error: (error) => {
+            this.toastService.showDanger("Could not remove: " + error.message);
+            this.isSaving = false;
+          }
+        });
+      },
+      reject: () => { }
+    });
   }
 
   editSelected(): void {

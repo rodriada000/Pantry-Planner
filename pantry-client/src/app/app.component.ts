@@ -8,7 +8,6 @@ import { UserLoginService } from './shared/services/user-login.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // public forecasts?: WeatherForecast[];
   public isLoggedIn: boolean = false;
 
   constructor(private userService: UserLoginService, private router: Router) {

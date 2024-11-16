@@ -119,7 +119,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
         if (this.isAddToPantry) {
           if (this.mode === 'Pantry') {
             this.addToPantry(data);
-          } else if (this.mode === 'Grocery') {
+          } else if (this.mode === 'GroceryList') {
             this.addToGroceryList(data);
           }
         }
