@@ -26,6 +26,6 @@
     field="name" 
     [minLength]="2"
     (completeMethod)="search($event)" 
-    (onSelect)="addSelected($event)"></p-autoComplete>
+    (onSelect)="addSelected($event.value)"></p-autoComplete>
   <p-progressBar class="col-11 mx-2" *ngIf="isSearching || isSaving" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
 </div>
