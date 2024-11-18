@@ -16,7 +16,6 @@ export class UserLoginService {
 
 
   public API = environment.baseUrl;
-  public AUTH_ENDPOINT = `api/Authenticate`;
 
   private authChangeSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private extAuthChangeSub: BehaviorSubject<SocialUser> = new BehaviorSubject<SocialUser>(null);
@@ -51,7 +50,7 @@ export class UserLoginService {
   // }
 
   login(loginDto: LoginModel): Observable<any> {
-    let sub = this.http.post<any>(`${this.AUTH_ENDPOINT}/Login`, loginDto).pipe(publishReplay(), refCount());
+    let sub = this.http.post<any>(`${this.API}/Authenticate/Login`, loginDto).pipe(publishReplay(), refCount());
 
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
@@ -77,7 +76,7 @@ export class UserLoginService {
   }
 
   externalLogin(token: string,) {
-    let sub = this.http.post<any>(`api/GoogleTokenValidator/Login?idToken=${token}`, null).pipe(publishReplay(), refCount());
+    let sub = this.http.post<any>(`${this.API}/GoogleTokenValidator/Login?idToken=${token}`, null).pipe(publishReplay(), refCount());
 
     sub.subscribe(resp => {
       localStorage.setItem("token", resp.token);
