@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     // @ts-ignore
     google.accounts.id.initialize({
       // Ref: https://developers.google.com/identity/gsi/web/reference/js-reference#IdConfiguration
-      client_id: '877234124976-td734q5t3ovh7o9uk6inofr6nabiiofh.apps.googleusercontent.com',
+      client_id: '877234124976-ishurf4f1fsmbgqh0fi80kfpjo71eev4.apps.googleusercontent.com',
       callback: this.handleGoogleLogin.bind(this),
       auto_select: false,
       cancel_on_tap_outside: false

@@ -53,7 +53,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
                 providers: [
                     {
                         id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider('877234124976-v4hde7e1p4nbpjha9a1014gn4hrv9oao.apps.googleusercontent.com')
+                        provider: new GoogleLoginProvider('877234124976-ishurf4f1fsmbgqh0fi80kfpjo71eev4.apps.googleusercontent.com')
                     },
                 ],
                 onError: (err) => {
