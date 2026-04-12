@@ -8,9 +8,10 @@ import KitchenIngredientApi from 'src/app/data/services/kitchenIngredientApi.ser
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'grocery-list-detail',
-  templateUrl: './list-detail.component.html',
-  styleUrls: ['./list-detail.component.css']
+    selector: 'grocery-list-detail',
+    templateUrl: './list-detail.component.html',
+    styleUrls: ['./list-detail.component.css'],
+    standalone: false
 })
 export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 

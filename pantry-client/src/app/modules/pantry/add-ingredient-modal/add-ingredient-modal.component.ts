@@ -6,9 +6,10 @@ import KitchenIngredientApi from '../../../data/services/kitchenIngredientApi.se
 import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
-  selector: 'pantry-add-ingredient-modal',
-  templateUrl: './add-ingredient-modal.component.html',
-  styleUrls: ['./add-ingredient-modal.component.css']
+    selector: 'pantry-add-ingredient-modal',
+    templateUrl: './add-ingredient-modal.component.html',
+    styleUrls: ['./add-ingredient-modal.component.css'],
+    standalone: false
 })
 export class AddIngredientModalComponent {
 

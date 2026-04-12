@@ -14,9 +14,10 @@ import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredi
 import KitchenList from 'src/app/data/models/KitchenList';
 
 @Component({
-  selector: 'pantry-search-ingredients',
-  templateUrl: './search-ingredients.component.html',
-  styleUrls: ['./search-ingredients.component.css']
+    selector: 'pantry-search-ingredients',
+    templateUrl: './search-ingredients.component.html',
+    styleUrls: ['./search-ingredients.component.css'],
+    standalone: false
 })
 export class SearchIngredientsComponent implements OnInit, OnChanges {
   @Input()

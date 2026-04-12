@@ -10,9 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Recipe from 'src/app/data/models/Recipe';
 
 @Component({
-  selector: 'app-recipe',
-  templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.css']
+    selector: 'app-recipe',
+    templateUrl: './recipe.component.html',
+    styleUrls: ['./recipe.component.css'],
+    standalone: false
 })
 export class RecipeComponent implements OnInit {
 

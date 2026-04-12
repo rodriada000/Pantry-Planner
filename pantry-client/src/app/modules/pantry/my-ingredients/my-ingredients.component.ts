@@ -12,9 +12,10 @@ import ListIngredient from 'src/app/data/models/ListIngredient';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'pantry-my-ingredients',
-  templateUrl: './my-ingredients.component.html',
-  styleUrls: ['./my-ingredients.component.css']
+    selector: 'pantry-my-ingredients',
+    templateUrl: './my-ingredients.component.html',
+    styleUrls: ['./my-ingredients.component.css'],
+    standalone: false
 })
 export class MyIngredientsComponent implements OnInit, OnDestroy {
 

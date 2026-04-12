@@ -5,9 +5,10 @@ import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-recipe-search',
-  templateUrl: './recipe-search.component.html',
-  styleUrls: ['./recipe-search.component.css']
+    selector: 'app-recipe-search',
+    templateUrl: './recipe-search.component.html',
+    styleUrls: ['./recipe-search.component.css'],
+    standalone: false
 })
 export class RecipeSearchComponent implements OnInit {
 

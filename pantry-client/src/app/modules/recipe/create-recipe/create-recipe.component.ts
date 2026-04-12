@@ -12,9 +12,10 @@ import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-create-recipe',
-  templateUrl: './create-recipe.component.html',
-  styleUrls: ['./create-recipe.component.css']
+    selector: 'app-create-recipe',
+    templateUrl: './create-recipe.component.html',
+    styleUrls: ['./create-recipe.component.css'],
+    standalone: false
 })
 export class CreateRecipeComponent implements OnInit {
 

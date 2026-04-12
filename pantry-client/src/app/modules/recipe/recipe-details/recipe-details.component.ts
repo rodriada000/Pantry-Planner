@@ -15,9 +15,10 @@ import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-recipe-details',
-  templateUrl: './recipe-details.component.html',
-  styleUrls: ['./recipe-details.component.css']
+    selector: 'app-recipe-details',
+    templateUrl: './recipe-details.component.html',
+    styleUrls: ['./recipe-details.component.css'],
+    standalone: false
 })
 export class RecipeDetailsComponent implements OnInit {
   

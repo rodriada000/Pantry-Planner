@@ -11,9 +11,10 @@ import { ToastService } from '../../services/toast.service';
 import { UserLoginService } from '../../services/user-login.service';
 
 @Component({
-  selector: 'app-kitchen-nav',
-  templateUrl: './kitchen-nav.component.html',
-  styleUrls: ['./kitchen-nav.component.css']
+    selector: 'app-kitchen-nav',
+    templateUrl: './kitchen-nav.component.html',
+    styleUrls: ['./kitchen-nav.component.css'],
+    standalone: false
 })
 export class KitchenNavComponent implements OnInit {
 
