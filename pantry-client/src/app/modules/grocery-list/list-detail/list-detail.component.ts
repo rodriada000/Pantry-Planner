@@ -41,6 +41,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   public selectedSortOrder: number = 1;
   public selectedSort: string = "name";
   public hoveredIndex: number;
+  public hoveredCategoryIndex: number;
+
   public isLoading: boolean;
   public isEditing: boolean = false;
   public isSaving: boolean = false;
@@ -127,16 +129,18 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
       () => { this.isLoading = false; });
   }
 
-  setSelected(index: number, $event) {
-    if (this.hoveredIndex != index) {
+  setSelected(index: number, $event, catIndex: number = -1) {
+    if (this.hoveredIndex != index || (catIndex != -1 && this.hoveredCategoryIndex != catIndex && this.hoveredIndex == index)) {
       this.cancelEdit(this.filteredList[this.hoveredIndex], $event);
       this.hoveredIndex = index;
+      this.hoveredCategoryIndex = catIndex;
     }
   }
 
   unselect(index: number, $event) {
     if (index == this.hoveredIndex) {
       this.hoveredIndex = -1;
+      this.hoveredCategoryIndex = -1;
       $event.preventDefault();
       $event.stopPropagation();
     }
@@ -144,6 +148,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
   toggleSortOrder() {
     this.sortBy(this.selectedSort, true);
+    this.hoveredCategoryIndex = -1;
+    this.hoveredIndex = -1;
     this.doFilter();
   }
 
