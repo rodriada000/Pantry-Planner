@@ -17,25 +17,24 @@ export default class IngredientApi {
 
   getIngredientsByName(name: string): Observable<Array<Ingredient>> {
     return this.http.get<Array<Ingredient>>(this.endPoint, {
-      params: { 'name': name },
-      headers: this.userService.authHeaderOnly
+      params: { 'name': name }
     });
   }
 
   getIngredientCategories(): Observable<Array<Category>> {
-    return this.http.get<Array<Category>>(this.endPoint + "/Category", this.userService.authHeader);
+    return this.http.get<Array<Category>>(this.endPoint + "/Category");
   }
 
   addIngredient(newIngred: Ingredient): Observable<Ingredient> {
-    return this.http.post<Ingredient>(this.endPoint, newIngred, this.userService.authHeader);
+    return this.http.post<Ingredient>(this.endPoint, newIngred);
   }
 
   updateIngredient(newIngred: Ingredient): Observable<any> {
-    return this.http.put<any>(this.endPoint + "/" + newIngred.ingredientId.toString(), newIngred, this.userService.authHeader);
+    return this.http.put<any>(this.endPoint + "/" + newIngred.ingredientId.toString(), newIngred);
   }
 
   deleteIngredient(ingredientId: number): Observable<Ingredient> {
-    return this.http.delete<Ingredient>(this.endPoint + "/" + ingredientId.toString(), this.userService.authHeader);
+    return this.http.delete<Ingredient>(this.endPoint + "/" + ingredientId.toString());
   }
 
 

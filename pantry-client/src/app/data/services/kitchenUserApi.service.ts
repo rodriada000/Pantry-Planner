@@ -16,13 +16,12 @@ export default class KitchenUserApi {
 
   getAllUsersForKitchen(kitchenId: number): Observable<Array<KitchenUser>> {
     return this.http.get<Array<KitchenUser>>(this.endPoint, {
-      params: { 'kitchenId': kitchenId.toString() },
-      headers: this.userService.authHeaderOnly
+      params: { 'kitchenId': kitchenId.toString() }
     });
   }
 
   getKitchenInvitesForLoggedInUser(): Observable<Array<KitchenUser>> {
-    return this.http.get<Array<KitchenUser>>(this.endPoint + "/Invite", this.userService.authHeader);
+    return this.http.get<Array<KitchenUser>>(this.endPoint + "/Invite");
   }
 
   inviteUserToKitchen(username: string, kitchenId: number): Observable<any> {
@@ -30,8 +29,7 @@ export default class KitchenUserApi {
       params: {
         'username': username,
         'kitchenId': kitchenId.toString()
-      },
-      headers: this.userService.authHeaderOnly
+      }
     });
   }
 
@@ -39,8 +37,7 @@ export default class KitchenUserApi {
     return this.http.put<any>(this.endPoint + "/Invite", null, {
       params: {
         'kitchenId': kitchenId.toString()
-      },
-      headers: this.userService.authHeaderOnly
+      }
     });
   }
 
@@ -48,21 +45,19 @@ export default class KitchenUserApi {
     return this.http.delete<any>(this.endPoint + "/Invite", {
       params: {
         'kitchenId': kitchenId.toString()
-      },
-      headers: this.userService.authHeaderOnly
+      }
     });
   }
 
   deleteKitchenUserByKitchenUserId(kitchenUserId: number): Observable<any> {
-    return this.http.delete<any>(this.endPoint + "/" + kitchenUserId.toString(), this.userService.authHeader);
+    return this.http.delete<any>(this.endPoint + "/" + kitchenUserId.toString());
   }
 
   deleteSelfFromKitchen(kitchenId: number): Observable<KitchenUser> {
     return this.http.delete<KitchenUser>(this.endPoint, {
       params: {
         'kitchenId': kitchenId.toString()
-      },
-      headers: this.userService.authHeaderOnly
+      }
     });
   }
 
@@ -70,8 +65,7 @@ export default class KitchenUserApi {
     return this.http.get<boolean>(this.endPoint + "/IsOwner", {
       params: {
         'kitchenId': kitchenId.toString()
-      },
-      headers: this.userService.authHeaderOnly
+      }
     });
   }
 

@@ -20,53 +20,50 @@ export class RecipeApiService {
 
   getRecipesByName(name: string): Observable<Array<Recipe>> {
     return this.http.get<Array<Recipe>>(this.endPoint, {
-      params: { 'name': name },
-      headers: this.userService.authHeaderOnly
+      params: { 'name': name }
     });
   }
 
   getRecipeById(id: number): Observable<Recipe> {
-    return this.http.get<Recipe>(this.endPoint + '/' + id, {
-      headers: this.userService.authHeaderOnly
-    });
+    return this.http.get<Recipe>(this.endPoint + '/' + id);
   }
 
   addRecipe(newRecipe: Recipe): Observable<Recipe> {
-    return this.http.post<Recipe>(this.endPoint, newRecipe, this.userService.authHeader);
+    return this.http.post<Recipe>(this.endPoint, newRecipe);
   }
 
   updateRecipe(updated: Recipe): Observable<any> {
-    return this.http.put<any>(this.endPoint + "/" + updated.recipeId.toString(), updated, this.userService.authHeader);
+    return this.http.put<any>(this.endPoint + "/" + updated.recipeId.toString(), updated);
   }
 
   deleteRecipe(toDelete: Recipe): Observable<Recipe> {
-    return this.http.delete<Recipe>(this.endPoint + "/" + toDelete.recipeId.toString(), this.userService.authHeader);
+    return this.http.delete<Recipe>(this.endPoint + "/" + toDelete.recipeId.toString());
   }
 
 
   addRecipeIngredient(toAdd: RecipeIngredient): Observable<RecipeIngredient> {
-    return this.http.post<RecipeIngredient>(this.ingredientEndPoint, toAdd, this.userService.authHeader);
+    return this.http.post<RecipeIngredient>(this.ingredientEndPoint, toAdd);
   }
 
   updateRecipeIngredient(updated: RecipeIngredient): Observable<any> {
-    return this.http.put<any>(this.ingredientEndPoint + "/" + updated.recipeIngredientId.toString(), updated, this.userService.authHeader);
+    return this.http.put<any>(this.ingredientEndPoint + "/" + updated.recipeIngredientId.toString(), updated);
   }
 
   deleteRecipeIngredient(toDelete: RecipeIngredient): Observable<RecipeIngredient> {
-    return this.http.delete<RecipeIngredient>(this.ingredientEndPoint + "/" + toDelete.recipeIngredientId.toString(), this.userService.authHeader);
+    return this.http.delete<RecipeIngredient>(this.ingredientEndPoint + "/" + toDelete.recipeIngredientId.toString());
   }
 
 
   addRecipeStep(toAdd: RecipeStep): Observable<RecipeStep> {
-    return this.http.post<RecipeStep>(this.stepEndPoint, toAdd, this.userService.authHeader);
+    return this.http.post<RecipeStep>(this.stepEndPoint, toAdd);
   }
 
   updateRecipeStep(updated: RecipeStep): Observable<any> {
-    return this.http.put<any>(this.stepEndPoint + "/" + updated.recipeStepId.toString(), updated, this.userService.authHeader);
+    return this.http.put<any>(this.stepEndPoint + "/" + updated.recipeStepId.toString(), updated);
   }
 
   deleteRecipeStep(toDelete: RecipeStep): Observable<RecipeStep> {
-    return this.http.delete<RecipeStep>(this.stepEndPoint + "/" + toDelete.recipeStepId.toString(), this.userService.authHeader);
+    return this.http.delete<RecipeStep>(this.stepEndPoint + "/" + toDelete.recipeStepId.toString());
   }
 
 }

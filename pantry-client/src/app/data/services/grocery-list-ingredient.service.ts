@@ -23,19 +23,19 @@ export default class ListIngredientApiService {
   }
 
   public addIngredientToList(ingredient: ListIngredient): Observable<ListIngredient> {
-    return this.http.post<ListIngredient>(this.endPoint, ingredient, this.userService.authHeader);
+    return this.http.post<ListIngredient>(this.endPoint, ingredient);
   }
 
   public updateListIngredient(ingredient: ListIngredient): Observable<any> {
-    return this.http.put<any>(this.endPoint + "/" + ingredient.id.toString(), ingredient, this.userService.authHeader);
+    return this.http.put<any>(this.endPoint + "/" + ingredient.id.toString(), ingredient);
   }
 
   public removeListIngredient(ingredient: ListIngredient): Observable<ListIngredient> {
-    return this.http.delete<ListIngredient>(this.endPoint + "/" + ingredient.id.toString(), this.userService.authHeader);
+    return this.http.delete<ListIngredient>(this.endPoint + "/" + ingredient.id.toString());
   }
 
   public removeCheckedIngredients(kitchenListId: number): Observable<any> {
-    return this.http.delete<ListIngredient>(this.endPoint + "/Checked/" + kitchenListId.toString(), this.userService.authHeader);
+    return this.http.delete<ListIngredient>(this.endPoint + "/Checked/" + kitchenListId.toString());
   }
 
 
@@ -46,8 +46,7 @@ export default class ListIngredientApiService {
 
   public getIngredientsForList(listId: number): Observable<Array<ListIngredient>> {
     return this.http.get<Array<ListIngredient>>(this.endPoint, {
-      params: { 'kitchenListId': listId?.toString() },
-      headers: this.userService.authHeaderOnly
+      params: { 'kitchenListId': listId?.toString() }
     });
   }
 

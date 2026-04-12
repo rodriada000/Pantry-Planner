@@ -14,10 +14,20 @@ import { UserLoginService } from '../services/user-login.service';
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private skipUrls: string[] = [
+    '/Authenticate/Login',
+    '/Authenticate/RefreshToken',
+    '/GoogleTokenValidator'
+  ];
 
   constructor(private userService: UserLoginService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    // Skip adding/auth logic for authentication endpoints
+    if (this.shouldSkip(request)) {
+      return next.handle(request);
+    }
+
     if (this.userService.token) {
       request = this.addToken(request, this.userService.token);
     }
@@ -31,6 +41,10 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       })
     );
+  }
+
+  private shouldSkip(request: HttpRequest<any>): boolean {
+    return this.skipUrls.some(u => request.url.includes(u));
   }
 
   private addToken(request: HttpRequest<any>, token: string) {

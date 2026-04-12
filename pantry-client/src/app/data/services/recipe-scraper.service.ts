@@ -24,7 +24,6 @@ export class RecipeScraperService {
 
   scrapeFromAllRecipes(url: string): Observable<Recipe> {
     return this.http.get<Recipe>(this.endPoint + '/AllRecipes', {
-      headers: this.userService.authHeaderOnly,
       params: { 'url': url }
     });
   }

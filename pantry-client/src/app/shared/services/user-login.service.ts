@@ -28,20 +28,8 @@ export class UserLoginService {
     return this.token$.value;
   };
 
-  public get authHeader() {
-    return { headers: { 'Authorization': `Bearer ${this.token}` } };
-  }
-
-  public get authHeaderOnly() {
-    return { 'Authorization': `Bearer ${this.token}` };
-  }
-
   constructor(private http: HttpClient, private router: Router, private toasts: ToastService, private kitchen: ActiveKitchenService, private ngZone: NgZone) {
     this.token$.next(localStorage.getItem("token"));
-
-    if (!!!this.token) {
-
-    }
   }
 
 

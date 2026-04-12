@@ -16,14 +16,14 @@ export default class KitchenApi {
   constructor(private http: HttpClient, private userService: UserLoginService) { }
 
   getAllKitchens(): Observable<Array<Kitchen>> {
-    return this.http.get<Array<Kitchen>>(this.KITCHEN_ENDPOINT, this.userService.authHeader);
+    return this.http.get<Array<Kitchen>>(this.KITCHEN_ENDPOINT);
   }
 
   addKitchen(kitchen: Kitchen): Observable<Kitchen> {
-    return this.http.post<Kitchen>(this.KITCHEN_ENDPOINT, kitchen, this.userService.authHeader); 
+    return this.http.post<Kitchen>(this.KITCHEN_ENDPOINT, kitchen);
   }
 
   deleteKitchen(kitchenId: number): Observable<Kitchen> {
-    return this.http.delete<Kitchen>(this.KITCHEN_ENDPOINT + "/" + kitchenId.toString(), this.userService.authHeader);
+    return this.http.delete<Kitchen>(this.KITCHEN_ENDPOINT + "/" + kitchenId.toString());
   }
 }

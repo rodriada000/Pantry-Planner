@@ -22,15 +22,15 @@ export default class KitchenIngredientApi {
   }
 
   public addIngredientToKitchen(ingredient: KitchenIngredient, updateQty: boolean = false): Observable<KitchenIngredient> {
-    return this.http.post<KitchenIngredient>(`${this.endPoint}?updateQtyIfExists=${updateQty}`, ingredient, this.userService.authHeader);
+    return this.http.post<KitchenIngredient>(`${this.endPoint}?updateQtyIfExists=${updateQty}`, ingredient);
   }
 
   public updateKitchenIngredient(ingredient: KitchenIngredient): Observable<any> {
-    return this.http.put<any>(this.endPoint + "/" + ingredient.kitchenIngredientId.toString(), ingredient, this.userService.authHeader);
+    return this.http.put<any>(this.endPoint + "/" + ingredient.kitchenIngredientId.toString(), ingredient);
   }
 
   public removeKitchenIngredient(ingredient: KitchenIngredient): Observable<KitchenIngredient> {
-    return this.http.delete<KitchenIngredient>(this.endPoint + "/" + ingredient.kitchenIngredientId.toString(), this.userService.authHeader);
+    return this.http.delete<KitchenIngredient>(this.endPoint + "/" + ingredient.kitchenIngredientId.toString());
   }
 
   public setAddedIngredient(ingredient: KitchenIngredient): void {
@@ -40,15 +40,13 @@ export default class KitchenIngredientApi {
 
   public getIngredientsForKitchen(kitchenId: number): Observable<Array<KitchenIngredient>> {
     return this.http.get<Array<KitchenIngredient>>(this.endPoint, {
-      params: { 'kitchenId': kitchenId.toString() },
-      headers: this.userService.authHeaderOnly
+      params: { 'kitchenId': kitchenId.toString() }
     });
   }
 
   public getExistingIngredientsInKitchen(kitchenId: number, ingredientIds: number[]): Observable<Array<KitchenIngredient>> {
     return this.http.post<Array<KitchenIngredient>>(this.endPoint + '/' + 'IngredientExists', ingredientIds, {
-      params: { 'kitchenId': kitchenId.toString() },
-      headers: this.userService.authHeaderOnly
+      params: { 'kitchenId': kitchenId.toString() }
     });
   }
 

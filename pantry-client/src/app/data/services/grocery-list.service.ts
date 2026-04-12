@@ -45,14 +45,14 @@ export default class GroceryListApi {
   }
 
   getAllGroceryLists(): Observable<Array<KitchenList>> {
-    return this.http.get<Array<KitchenList>>(this.KITCHEN_ENDPOINT, this.userService.authHeader);
+    return this.http.get<Array<KitchenList>>(this.KITCHEN_ENDPOINT);
   }
 
   addList(kitchen: KitchenList): Observable<KitchenList> {
-    return this.http.post<KitchenList>(this.KITCHEN_ENDPOINT, kitchen, this.userService.authHeader);
+    return this.http.post<KitchenList>(this.KITCHEN_ENDPOINT, kitchen);
   }
 
   deleteList(listId: number): Observable<KitchenList> {
-    return this.http.delete<KitchenList>(this.KITCHEN_ENDPOINT + "/" + listId.toString(), this.userService.authHeader);
+    return this.http.delete<KitchenList>(this.KITCHEN_ENDPOINT + "/" + listId.toString());
   }
 }
