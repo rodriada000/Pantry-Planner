@@ -3,6 +3,17 @@ using System.Collections.Generic;
 
 namespace PantryPlannerCore.Models
 {
+    public enum StartDay
+    {
+        Sun = 0,
+        Mon = 1,
+        Tues = 2,
+        Wed = 3,
+        Thur = 4,
+        Fri = 5,
+        Sat = 6,
+    }
+
     public partial class MealPlan
     {
         public MealPlan()
@@ -19,7 +30,7 @@ namespace PantryPlannerCore.Models
         public DateTime DateCreated { get; set; }
         public int SortOrder { get; set; }
         public bool IsFavorite { get; set; }
-
+        public int StartDay { get; set; }
         public virtual Category? Category { get; set; }
         public virtual KitchenUser? CreatedByKitchenUser { get; set; }
         public virtual Kitchen Kitchen { get; set; } = null!;

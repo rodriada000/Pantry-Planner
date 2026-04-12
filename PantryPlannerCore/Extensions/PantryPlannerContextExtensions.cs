@@ -180,5 +180,10 @@ namespace PantryPlanner.Extensions
 
             return context.RecipeStepExists(step.RecipeStepId);
         }
+
+        public static bool MealPlanExists(this PantryPlannerContext context, long mealPlanId)
+        {
+            return context.MealPlans.Any(r => r.MealPlanId == mealPlanId);
+        }
     }
 }
