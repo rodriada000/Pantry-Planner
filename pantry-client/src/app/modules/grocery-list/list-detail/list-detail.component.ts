@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { forkJoin, Observable, publishReplay, refCount, Subscription } from 'rxjs';
-import Category from 'src/app/data/models/Category';
+import { forkJoin, publishReplay, refCount, Subscription } from 'rxjs';
 import KitchenList from 'src/app/data/models/KitchenList';
 import ListIngredient from 'src/app/data/models/ListIngredient';
 import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
@@ -9,9 +8,10 @@ import KitchenIngredientApi from 'src/app/data/services/kitchenIngredientApi.ser
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'grocery-list-detail',
-  templateUrl: './list-detail.component.html',
-  styleUrls: ['./list-detail.component.css']
+    selector: 'grocery-list-detail',
+    templateUrl: './list-detail.component.html',
+    styleUrls: ['./list-detail.component.css'],
+    standalone: false
 })
 export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 

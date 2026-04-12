@@ -6,9 +6,10 @@ import GroceryListApi from 'src/app/data/services/grocery-list.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-manage-list',
-  templateUrl: './manage-list.component.html',
-  styleUrls: ['./manage-list.component.css']
+    selector: 'app-manage-list',
+    templateUrl: './manage-list.component.html',
+    styleUrls: ['./manage-list.component.css'],
+    standalone: false
 })
 export class ManageListComponent implements OnInit {
 

@@ -1,6 +1,6 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { OverlayPanel } from 'primeng/overlaypanel';
+import { Popover } from 'primeng/popover';
 import { filter, first } from 'rxjs';
 import Kitchen from 'src/app/data/models/Kitchen';
 import KitchenUser from 'src/app/data/models/KitchenUser';
@@ -11,14 +11,15 @@ import { ToastService } from '../../services/toast.service';
 import { UserLoginService } from '../../services/user-login.service';
 
 @Component({
-  selector: 'app-kitchen-nav',
-  templateUrl: './kitchen-nav.component.html',
-  styleUrls: ['./kitchen-nav.component.css']
+    selector: 'app-kitchen-nav',
+    templateUrl: './kitchen-nav.component.html',
+    styleUrls: ['./kitchen-nav.component.css'],
+    standalone: false
 })
 export class KitchenNavComponent implements OnInit {
 
   @ViewChild('op')
-  addKitchenPanel: OverlayPanel;
+  addKitchenPanel: Popover;
 
   collapsed = true;
 

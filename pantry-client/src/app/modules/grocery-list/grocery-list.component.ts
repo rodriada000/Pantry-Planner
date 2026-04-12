@@ -11,9 +11,10 @@ import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-grocery-list',
-  templateUrl: './grocery-list.component.html',
-  styleUrls: ['./grocery-list.component.css']
+    selector: 'app-grocery-list',
+    templateUrl: './grocery-list.component.html',
+    styleUrls: ['./grocery-list.component.css'],
+    standalone: false
 })
 export class GroceryListComponent implements OnInit {
 

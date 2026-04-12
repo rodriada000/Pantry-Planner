@@ -1,59 +1,70 @@
 <p-confirmDialog></p-confirmDialog>
 
 <p-confirmDialog #cd key="add-to-grocery">
-    <ng-template pTemplate="footer">
-        <div>
-            <p-dropdown styleClass="col-12 flex p-0" [options]="groceryList" [(ngModel)]="selectedGroceryListId" optionLabel="name" optionValue="kitchenListId"></p-dropdown>
-            
-            <div class="col-12 px-0 flex flex-row align-content-center justify-content-end mt-1">
-                <button type="button" pButton icon="pi pi-times" class="p-button-danger" label="Cancel" (click)="cd.reject()"></button>
-                <button type="button" pButton icon="pi pi-check" class="p-button-success" label="Add" (click)="cd.accept()"></button>
-            </div>
-        </div>
+  <ng-template pTemplate="footer">
+    <div>
+      <p-select class="col-12 flex p-0" [options]="groceryList" [(ngModel)]="selectedGroceryListId" optionLabel="name" optionValue="kitchenListId"></p-select>
 
-    </ng-template>
+      <div class="col-12 px-0 flex flex-row align-content-center justify-content-end mt-1">
+        <button type="button" pButton icon="pi pi-times" class="p-button-danger" label="Cancel" (click)="cd.onReject()"></button>
+        <button type="button" pButton icon="pi pi-check" class="p-button-success" label="Add" (click)="cd.onAccept()"></button>
+      </div>
+    </div>
+
+  </ng-template>
 </p-confirmDialog>
 
 <div class="pt-5">
-    <h1 class="font-semibold pb-0 mb-0 flex"> <i class="pi pi-cog flex align-items-center pr-2" (click)="goToEditPage()"></i> {{recipe?.name}} <span *ngIf="!!recipe?.recipeUrl" class="text-color-secondary flex align-items-end" style="font-size: .5em;">via&nbsp;<a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span> </h1>
-    <p>{{recipe?.description}}</p>
-    <p-card class="time-card" [style]="{'padding-top': '0', 'padding-bottom': '0'}">
-        <div class="grid">
-            <div class="col-6">
-                <span><b>Prep Time:</b></span>
-                <div>{{recipe?.prepTime}} minutes</div>
-            </div>
-            <div class="col-6">
-                <span><b>Cook Time:</b></span>
-                <div>{{recipe?.cookTime}} minutes</div>
-            </div>
-            <div class="col-6 pb-0">
-                <span><b>Total Time:</b></span>
-                <div>{{recipe?.prepTime + recipe?.cookTime}} minutes</div>
-            </div>
-            <div class="col-6 pb-0">
-                <span><b>Servings:</b></span>
-                <div>{{recipe?.servingSize}}</div>
-            </div>
-        </div>
-    </p-card>
+  <h1 class="font-semibold pb-0 mb-0 flex align-items-center gap-2"> <i class="pi pi-cog flex align-items-center pr-2 show-pointer" (click)="goToEditPage()"></i> {{recipe?.name}} @if (!!recipe?.recipeUrl) {
+  <span class="text-color-secondary flex align-items-end" style="font-size: .5em;">via&nbsp;<a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span>
+} </h1>
+<p>{{recipe?.description}}</p>
+<p-card class="time-card" [style]="{'padding-top': '0', 'padding-bottom': '0'}">
+  <div class="grid">
+    <div class="col-6">
+      <span><b>Prep Time:</b></span>
+      <div>{{recipe?.prepTime}} minutes</div>
+    </div>
+    <div class="col-6">
+      <span><b>Cook Time:</b></span>
+      <div>{{recipe?.cookTime}} minutes</div>
+    </div>
+    <div class="col-6 pb-0">
+      <span><b>Total Time:</b></span>
+      <div>{{recipe?.prepTime + recipe?.cookTime}} minutes</div>
+    </div>
+    <div class="col-6 pb-0">
+      <span><b>Servings:</b></span>
+      <div>{{recipe?.servingSize}}</div>
+    </div>
+  </div>
+</p-card>
 
-    <p-card header="Ingredients" [style]="{'margin-top': '1em'}">
-        <div class="flex grid align-items-center pt-3" *ngFor="let i of recipe?.ingredients; let index=index">
-            <i (click)="refreshMenuOptions(i); menu.toggle($event)" style="font-size: 1.25em;" [class]="ingredientInKitchen(i.ingredientId) ? 'pi pi-check-circle text-color-success' : 'pi pi-exclamation-circle text-color-warning'"></i> 
-            <span class="pl-2">{{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span>
-        </div>
-    </p-card>
-    <p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
+<p-card header="Ingredients" [style]="{'margin-top': '1em'}">
+  @for (i of recipe?.ingredients; track i; let index = $index) {
+    <div class="flex grid align-items-center pt-3">
+      <i (click)="refreshMenuOptions(i); menu.toggle($event)" style="font-size: 1.25em;" [class]="ingredientInKitchen(i.ingredientId) ? 'pi pi-check-circle text-color-success' : 'pi pi-exclamation-circle text-color-warning'"></i>
+      <span class="pl-2">{{i.quantityText}} {{i.unitOfMeasure}} {{i.ingredient.name}}{{!!i.method ? ', ' + i.method : ''}}</span>
+    </div>
+  }
+</p-card>
+<p-menu #menu [popup]="true" [model]="menuItems"></p-menu>
 
-    <!-- <h2 class="font-semibold pb-0 mb-0"> Ingredients </h2> -->
+<!-- <h2 class="font-semibold pb-0 mb-0"> Ingredients </h2> -->
 
-    <p-card header="Directions" [style]="{'margin-top': '1em'}">
-        <div class="pb-2" *ngFor="let i of steps; let index=index">
-            <div class="pl-2 text-color-secondary" *ngIf="!i?.text?.startsWith('#')"><b>Step {{i.displayStep}}</b></div>
-            <div class="pl-2" *ngIf="!i?.text?.startsWith('#')">{{i.text}}</div>
-
-            <h3 class="col-10 p-0 py-3 m-0" *ngIf="i?.text?.startsWith('#')">{{i.text.replace('#', '')}}</h3>
-        </div>
-    </p-card>
+<p-card header="Directions" [style]="{'margin-top': '1em'}">
+  @for (i of steps; track i; let index = $index) {
+    <div class="pb-2">
+      @if (!i?.text?.startsWith('#')) {
+        <div class="pl-2 text-color-secondary"><b>Step {{i.displayStep}}</b></div>
+      }
+      @if (!i?.text?.startsWith('#')) {
+        <div class="pl-2">{{i.text}}</div>
+      }
+      @if (i?.text?.startsWith('#')) {
+        <h3 class="col-10 p-0 py-3 m-0">{{i.text.replace('#', '')}}</h3>
+      }
+    </div>
+  }
+</p-card>
 </div>

@@ -6,9 +6,10 @@ import { UserLoginService } from '../shared/services/user-login.service';
 import { CredentialResponse } from 'google-one-tap';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 

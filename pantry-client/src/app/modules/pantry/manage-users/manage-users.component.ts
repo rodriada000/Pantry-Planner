@@ -6,9 +6,10 @@ import { ActiveKitchenService } from '../../../shared/services/active-kitchen.se
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'pantry-manage-users',
-  templateUrl: './manage-users.component.html',
-  styleUrls: ['./manage-users.component.css']
+    selector: 'pantry-manage-users',
+    templateUrl: './manage-users.component.html',
+    styleUrls: ['./manage-users.component.css'],
+    standalone: false
 })
 export class ManageUsersComponent implements OnInit, OnDestroy {
 

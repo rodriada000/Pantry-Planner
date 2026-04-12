@@ -10,9 +10,10 @@ import { PantryPageService } from './pantry-page.service';
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 
 @Component({
-  selector: 'pantry-root',
-  templateUrl: './pantry.component.html',
-  styleUrls: ['./pantry.component.css']
+    selector: 'pantry-root',
+    templateUrl: './pantry.component.html',
+    styleUrls: ['./pantry.component.css'],
+    standalone: false
 })
 export class PantryComponent implements OnInit, OnDestroy {
 

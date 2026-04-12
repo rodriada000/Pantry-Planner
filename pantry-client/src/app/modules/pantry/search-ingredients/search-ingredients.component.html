@@ -1,10 +1,14 @@
 <ng-template #rt let-r="result" let-t="term">
-  <div *ngIf="!isCreateMissingDropdownItem(r)" (click)="itemClicked(r)">
-    <div>{{r.name}} ({{r.categoryName}})</div>
-  </div>
-  <div *ngIf="isCreateMissingDropdownItem(r)" (click)="openCreateIngredientModal()">
-    <button pButton class="btn btn-outline-success">{{r.name}}</button>
-  </div>
+  @if (!isCreateMissingDropdownItem(r)) {
+    <div (click)="itemClicked(r)">
+      <div>{{r.name}} ({{r.categoryName}})</div>
+    </div>
+  }
+  @if (isCreateMissingDropdownItem(r)) {
+    <div (click)="openCreateIngredientModal()">
+      <button pButton class="btn btn-outline-success">{{r.name}}</button>
+    </div>
+  }
 </ng-template>
 
 <p-dialog header="Add Ingredient To Pantry" [(visible)]="showAddDialog" [style]="{width: '95vw'}">
@@ -16,16 +20,18 @@
 </p-dialog>
 
 <div class="grid pb-0">
-  <p-autoComplete inputStyleClass="col-12" 
-    styleClass="col-12 pb-0" 
-    class="col-12 pb-0 px-0" 
-    placeholder="Search Ingredients..." 
-    [(ngModel)]="searchText" 
+  <p-autoComplete inputStyleClass="col-12"
+    class="col-12 pb-0"
+    class="col-12 pb-0 px-0"
+    placeholder="Search Ingredients..."
+    [(ngModel)]="searchText"
     [ngModelOptions]="{standalone: true}"
-    [suggestions]="searchResults" 
-    field="name" 
+    [suggestions]="searchResults"
+    optionLabel="name"
     [minLength]="2"
-    (completeMethod)="search($event)" 
-    (onSelect)="addSelected($event.value)"></p-autoComplete>
-  <p-progressBar class="col-11 mx-2" *ngIf="isSearching || isSaving" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+    (completeMethod)="search($event)"
+  (onSelect)="addSelected($event.value)"></p-autoComplete>
+  @if (isSearching || isSaving) {
+    <p-progressBar class="col-11 mx-2" mode="indeterminate" [style]="{'height': '3px'}"></p-progressBar>
+  }
 </div>

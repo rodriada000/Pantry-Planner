@@ -13,9 +13,10 @@ import GroceryListApi from 'src/app/data/services/grocery-list.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-create-ingredient-modal',
-  templateUrl: './create-ingredient-modal.component.html',
-  styleUrls: ['./create-ingredient-modal.component.css']
+    selector: 'app-create-ingredient-modal',
+    templateUrl: './create-ingredient-modal.component.html',
+    styleUrls: ['./create-ingredient-modal.component.css'],
+    standalone: false
 })
 export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDestroy {
 

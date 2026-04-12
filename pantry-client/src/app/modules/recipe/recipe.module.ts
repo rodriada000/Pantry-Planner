@@ -9,7 +9,7 @@ import { CardModule } from 'primeng/card';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
@@ -22,7 +22,7 @@ import { RecipeSearchComponent } from './recipe-search/recipe-search.component'
 import {MenuModule} from 'primeng/menu';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import {DropdownModule} from 'primeng/dropdown';
+import {SelectModule} from 'primeng/select';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import {DropdownModule} from 'primeng/dropdown';
     AutoCompleteModule,
     DialogModule,
     SplitButtonModule,
-    InputTextareaModule,
+    TextareaModule,
     CheckboxModule,
     RippleModule,
     ProgressSpinnerModule,
@@ -49,7 +49,7 @@ import {DropdownModule} from 'primeng/dropdown';
     PantryModule,
     MenuModule,
     ConfirmDialogModule,
-    DropdownModule,
+    SelectModule,
     SelectButtonModule
   ],
   providers: [
