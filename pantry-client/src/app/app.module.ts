@@ -15,21 +15,25 @@ import { ButtonModule } from 'primeng/button';
 import { LoginComponent } from './login/login.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import {OverlayPanelModule} from 'primeng/overlaypanel';
-import {ToastModule} from 'primeng/toast';
-import {AutoCompleteModule} from 'primeng/autocomplete';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations'
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ToastModule } from 'primeng/toast';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
-import {ProgressBarModule} from 'primeng/progressbar';
+import { ProgressBarModule } from 'primeng/progressbar';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
         KitchenNavComponent,
         LoginComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent],
+    imports: [BrowserModule,
         FormsModule,
         AppRoutingModule,
         PantryModule,
@@ -45,7 +49,8 @@ import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
         ToastModule,
         AutoCompleteModule,
         SocialLoginModule,
-        ProgressBarModule], providers: [
+        ProgressBarModule],
+    providers: [
         MessageService,
         {
             provide: 'SocialAuthServiceConfig',
@@ -67,6 +72,13 @@ import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
             useClass: AuthInterceptor,
             multi: true
         },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+        provideHttpClient(withInterceptorsFromDi()),
+        providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        }),
+        provideAnimations(),
+    ]
+})
 export class AppModule { }

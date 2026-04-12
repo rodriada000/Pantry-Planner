@@ -6,8 +6,8 @@
             <p-dropdown styleClass="col-12 flex p-0" [options]="groceryList" [(ngModel)]="selectedGroceryListId" optionLabel="name" optionValue="kitchenListId"></p-dropdown>
             
             <div class="col-12 px-0 flex flex-row align-content-center justify-content-end mt-1">
-                <button type="button" pButton icon="pi pi-times" class="p-button-danger" label="Cancel" (click)="cd.reject()"></button>
-                <button type="button" pButton icon="pi pi-check" class="p-button-success" label="Add" (click)="cd.accept()"></button>
+                <button type="button" pButton icon="pi pi-times" class="p-button-danger" label="Cancel" (click)="cd.onReject()"></button>
+                <button type="button" pButton icon="pi pi-check" class="p-button-success" label="Add" (click)="cd.onAccept()"></button>
             </div>
         </div>
 

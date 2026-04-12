@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { forkJoin, Observable, publishReplay, refCount, Subscription } from 'rxjs';
-import Category from 'src/app/data/models/Category';
+import { forkJoin, publishReplay, refCount, Subscription } from 'rxjs';
 import KitchenList from 'src/app/data/models/KitchenList';
 import ListIngredient from 'src/app/data/models/ListIngredient';
 import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';

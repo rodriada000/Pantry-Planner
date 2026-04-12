@@ -33,7 +33,7 @@
       <p *ngIf="!isEditing" class="ml-4 my-0 text-sm">{{row.note}}</p>
 
       <div *ngIf="isEditing" class="grid my-0 ml-4">
-        <textarea pInputTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note" placeholder="Notes"></textarea>
+        <textarea pTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note" placeholder="Notes"></textarea>
       </div>
  
       <div class="flex justify-content-end mr-2">

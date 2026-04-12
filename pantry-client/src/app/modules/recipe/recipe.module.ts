@@ -9,7 +9,7 @@ import { CardModule } from 'primeng/card';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
@@ -41,7 +41,7 @@ import {DropdownModule} from 'primeng/dropdown';
     AutoCompleteModule,
     DialogModule,
     SplitButtonModule,
-    InputTextareaModule,
+    TextareaModule,
     CheckboxModule,
     RippleModule,
     ProgressSpinnerModule,
