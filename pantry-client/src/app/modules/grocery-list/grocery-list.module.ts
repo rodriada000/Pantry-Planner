@@ -5,20 +5,22 @@ import { ManageListComponent } from './manage-list/manage-list.component';
 import { GroceryListComponent } from './grocery-list.component';
 import { PantryModule } from '../pantry/pantry.module';
 import { FormsModule } from '@angular/forms';
-import {ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {DialogModule} from 'primeng/dialog';
-import {SplitButtonModule} from 'primeng/splitbutton'
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DialogModule } from 'primeng/dialog';
+import { SplitButtonModule } from 'primeng/splitbutton'
 import { TextareaModule } from 'primeng/textarea';
-import {CheckboxModule} from 'primeng/checkbox';
-import {RippleModule} from 'primeng/ripple';
-import {ProgressSpinnerModule} from 'primeng/progressspinner';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ConfirmationService} from 'primeng/api';
-import {MenuModule} from 'primeng/menu';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RippleModule } from 'primeng/ripple';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { MenuModule } from 'primeng/menu';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import {MenuModule} from 'primeng/menu';
     ProgressSpinnerModule,
     ConfirmDialogModule,
     MenuModule,
+    ToggleSwitchModule,
+    TooltipModule
   ],
   providers: [
     ConfirmationService

@@ -46,6 +46,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   public isLoading: boolean;
   public isEditing: boolean = false;
   public isSaving: boolean = false;
+  public hideChecked: boolean = false;
   
   private itemAddedSub: Subscription;
   origIngredient: ListIngredient;

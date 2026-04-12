@@ -7,165 +7,154 @@
 
 <div class="list-group">
   <h2 class="mb-0">{{this.selectedName}}</h2>
-  <div class="flex justify-content-end align-items-end">
-    <button pButton icon="pi pi-list" class="mr-2 mb-1"
-    (click)="refreshMenuOptions(); menu.toggle($event)"></button>
-
-    <button pButton icon="pi pi-refresh" class="mr-2 mb-1" (click)="refreshList()" pTooltip="Refresh List"
-    tooltipPosition="top" [disabled]="isLoading"></button>
-
-    <p-splitButton label="Sort" class="mr-2 mb-1"
-      [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'"
-    (onClick)="toggleSortOrder()" [model]="sortItems" [disabled]="isLoading" dropdownIcon="pi pi-eye"></p-splitButton>
+  <div class="flex justify-content-between align-items-center">
+    <!-- <p-toggleswitch [(ngModel)]="hideChecked" pTooltip="Hide checked items" /> -->
+    <span>&nbsp;</span>
+    <div class="flex justify-content-end align-items-end">
+      <button pButton icon="pi pi-list" class="mr-2 mb-1" (click)="refreshMenuOptions(); menu.toggle($event)"></button>
+      <button pButton icon="pi pi-refresh" class="mr-2 mb-1" (click)="refreshList()" pTooltip="Refresh List"
+        tooltipPosition="top" [disabled]="isLoading"></button>
+      <p-splitButton label="Sort" class="mr-2 mb-1"
+        [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()"
+        [model]="sortItems" [disabled]="isLoading" dropdownIcon="pi pi-eye"></p-splitButton>
+    </div>
   </div>
 
   <pantry-search-ingredients [mode]="'GroceryList'" [activeList]="selected"></pantry-search-ingredients>
 
   @if (isLoading) {
-    <p-progressSpinner></p-progressSpinner>
+  <p-progressSpinner></p-progressSpinner>
   }
 
   @if (!isLoading && allIngredients?.length === 0) {
-    <div
-      class="d-flex justify-content-center pt-2 align-items-center">
-      <i class="pi pi-exclamation-circle pl-2 pr-2"></i>
-      <span>It seems {{selectedName}} is empty ... </span>
-    </div>
+  <div class="d-flex justify-content-center pt-2 align-items-center">
+    <i class="pi pi-exclamation-circle pl-2 pr-2"></i>
+    <span>It seems {{selectedName}} is empty ... </span>
+  </div>
   }
 
   @if (!isLoading && selectedSort == 'category') {
-    <div>
-      @for (cat of categories; track cat; let catIndex = $index) {
-        <div class="flex flex-column align-content-start align-item-start my-1 pb-2 pt-2"
-          >
-          <span class="cat-header">{{cat}}</span>
-          @for (row of getIngredientsByCategory(cat); track row; let index = $index) {
-            <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
-              (click)="setSelected(index, $event, catIndex)">
-              <div class="flex justify-content-between align-content-center pb-0"
-                [ngClass]="{'font-medium': hoveredIndex==index && hoveredCategoryIndex == catIndex}">
-                <div class="flex justify-content-start ml-2 flex-grow-1">
-                  <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
-                  <div class="p-2"
-                    [ngClass]="{'flex-grow-1': hoveredIndex==index && hoveredCategoryIndex == catIndex}"
-                  (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
-                  @if ((hoveredIndex != index || (hoveredCategoryIndex != catIndex && hoveredIndex == index)) && !!row.note) {
-                    <div class="p-2 pl-0 p-text-secondary"
-                    (click)="unselect(index, $event)"> ({{row.note}})</div>
-                  }
-                </div>
-                <div class="flex justify-content-end mr-2">
-                  @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
-                    <button pButton pRipple
-                      icon="pi pi-minus-circle" class="p-button-rounded p-button-text p-0 mr-1"
-                    (click)="quickEditQty(row, -1)"></button>
-                  }
-                  <small class="text-muted p-0 flex align-items-center justify-content-center"
-                    [ngClass]="{'bold-text': hoveredIndex==index && hoveredCategoryIndex == catIndex}">Qty:
-                  {{row.quantity}}</small>
-                  @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
-                    <button pButton pRipple
-                      icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1"
-                    (click)="quickEditQty(row, 1)"></button>
-                  }
-                </div>
-              </div>
-              @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
-                <div class="pt-0">
-                  @if (!isEditing) {
-                    <p class="ml-4 my-0 text-sm">{{row.note}}</p>
-                  }
-                  @if (isEditing) {
-                    <div class="grid my-0 ml-4">
-                      <textarea pTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note"
-                      placeholder="Notes"></textarea>
-                    </div>
-                  }
-                  <div class="flex justify-content-end mr-2">
-                    @if (!isEditing) {
-                      <button pButton pRipple class="p-button-outlined mr-2" icon="pi pi-pencil"
-                      (click)="editIngredient(row, $event)"></button>
-                      <button pButton pRipple class="p-button-outlined p-button-danger"
-                      icon="pi pi-trash" (click)="removeFromList(row, index)"></button>
-                    }
-
-                    @if (isEditing) {
-                      <button pButton class="p-button-text p-button-sm"
-                      (click)="saveEdit(row)">Save</button>
-                      <button pButton class="p-button-text p-button-sm"
-                      (click)="cancelEdit(row, $event)">Cancel</button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          }
+  <div>
+    @for (cat of categories; track cat; let catIndex = $index) {
+    <div class="flex flex-column align-content-start align-item-start my-1 pb-2 pt-2">
+      <span class="cat-header">{{cat}}</span>
+      @for (row of getIngredientsByCategory(cat); track row; let index = $index) {
+      <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
+        (click)="setSelected(index, $event, catIndex)">
+        <div class="flex justify-content-between align-content-center pb-0"
+          [ngClass]="{'font-medium': hoveredIndex==index && hoveredCategoryIndex == catIndex}">
+          <div class="flex justify-content-start ml-2 flex-grow-1">
+            <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
+            <div class="p-2" [ngClass]="{'flex-grow-1': hoveredIndex==index && hoveredCategoryIndex == catIndex}"
+              (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
+            @if ((hoveredIndex != index || (hoveredCategoryIndex != catIndex && hoveredIndex == index)) && !!row.note) {
+            <div class="p-2 pl-0 p-text-secondary" (click)="unselect(index, $event)"> ({{row.note}})</div>
+            }
+          </div>
+          <div class="flex justify-content-end mr-2">
+            @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
+            <button pButton pRipple icon="pi pi-minus-circle" class="p-button-rounded p-button-text p-0 mr-1"
+              (click)="quickEditQty(row, -1)"></button>
+            }
+            <small class="text-muted p-0 flex align-items-center justify-content-center"
+              [ngClass]="{'bold-text': hoveredIndex==index && hoveredCategoryIndex == catIndex}">Qty:
+              {{row.quantity}}</small>
+            @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
+            <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1"
+              (click)="quickEditQty(row, 1)"></button>
+            }
+          </div>
         </div>
+        @if (hoveredIndex==index && hoveredCategoryIndex == catIndex) {
+        <div class="pt-0">
+          @if (!isEditing) {
+          <p class="ml-4 my-0 text-sm">{{row.note}}</p>
+          }
+          @if (isEditing) {
+          <div class="grid my-0 ml-4">
+            <textarea pTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note"
+              placeholder="Notes"></textarea>
+          </div>
+          }
+          <div class="flex justify-content-end mr-2">
+            @if (!isEditing) {
+            <button pButton pRipple class="p-button-outlined mr-2" icon="pi pi-pencil"
+              (click)="editIngredient(row, $event)"></button>
+            <button pButton pRipple class="p-button-outlined p-button-danger" icon="pi pi-trash"
+              (click)="removeFromList(row, index)"></button>
+            }
+
+            @if (isEditing) {
+            <button pButton class="p-button-text p-button-sm" (click)="saveEdit(row)">Save</button>
+            <button pButton class="p-button-text p-button-sm" (click)="cancelEdit(row, $event)">Cancel</button>
+            }
+          </div>
+        </div>
+        }
+      </div>
       }
     </div>
+    }
+  </div>
   }
 
   @if (!isLoading && selectedSort == 'name') {
-    <div>
-      @for (row of filteredList; track row; let index = $index) {
-        <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
-          (click)="setSelected(index, $event)">
-          <div class="flex justify-content-between align-content-center pb-0"
-            [ngClass]="{'font-medium': hoveredIndex==index}">
-            <div class="flex justify-content-start ml-2 flex-grow-1">
-              <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
-              <div class="p-2"
-                [ngClass]="{'flex-grow-1': hoveredIndex==index}"
-              (click)="unselect(index, $event)">{{row.ingredient.name}}</div>
-              @if (hoveredIndex != index && !!row.note) {
-                <div class="p-2 pl-0 p-text-secondary"
-                (click)="unselect(index, $event)"> ({{row.note}})</div>
-              }
-            </div>
-            <div class="flex justify-content-end mr-2">
-              @if (hoveredIndex==index) {
-                <button pButton pRipple icon="pi pi-minus-circle"
-                class="p-button-rounded p-button-text p-0 mr-1" (click)="quickEditQty(row, -1)"></button>
-              }
-              <small class="text-muted p-0 flex align-items-center justify-content-center"
-              [ngClass]="{'bold-text': hoveredIndex==index}">Qty: {{row.quantity}}</small>
-              @if (hoveredIndex==index) {
-                <button pButton pRipple icon="pi pi-plus-circle"
-                class="p-button-rounded p-button-text p-0 ml-1" (click)="quickEditQty(row, 1)"></button>
-              }
-            </div>
-          </div>
-          @if (hoveredIndex==index) {
-            <div class="pt-0">
-              @if (!isEditing) {
-                <p class="ml-4 my-0 text-sm">{{row.note}}</p>
-              }
-              @if (isEditing) {
-                <div class="grid my-0 ml-4">
-                  <textarea pTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note"
-                  placeholder="Notes"></textarea>
-                </div>
-              }
-              <div class="flex justify-content-end mr-2">
-                @if (!isEditing) {
-                  <button pButton pRipple class="p-button-outlined mr-2" icon="pi pi-pencil"
-                  (click)="editIngredient(row, $event)"></button>
-                  <button pButton pRipple class="p-button-outlined p-button-danger"
-                  icon="pi pi-trash" (click)="removeFromList(row, index)"></button>
-                }
-
-                @if (isEditing) {
-                  <button pButton class="p-button-text p-button-sm"
-                  (click)="saveEdit(row)">Save</button>
-                  <button pButton class="p-button-text p-button-sm"
-                  (click)="cancelEdit(row, $event)">Cancel</button>
-                }
-
-              </div>
-            </div>
+  <div>
+    @for (row of filteredList; track row; let index = $index) {
+    <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
+      (click)="setSelected(index, $event)">
+      <div class="flex justify-content-between align-content-center pb-0"
+        [ngClass]="{'font-medium': hoveredIndex==index}">
+        <div class="flex justify-content-start ml-2 flex-grow-1">
+          <input type="checkbox" [ngModel]="row.isChecked" (change)="toggleChecked(row)">
+          <div class="p-2" [ngClass]="{'flex-grow-1': hoveredIndex==index}" (click)="unselect(index, $event)">
+            {{row.ingredient.name}}</div>
+          @if (hoveredIndex != index && !!row.note) {
+          <div class="p-2 pl-0 p-text-secondary" (click)="unselect(index, $event)"> ({{row.note}})</div>
           }
         </div>
+        <div class="flex justify-content-end mr-2">
+          @if (hoveredIndex==index) {
+          <button pButton pRipple icon="pi pi-minus-circle" class="p-button-rounded p-button-text p-0 mr-1"
+            (click)="quickEditQty(row, -1)"></button>
+          }
+          <small class="text-muted p-0 flex align-items-center justify-content-center"
+            [ngClass]="{'bold-text': hoveredIndex==index}">Qty: {{row.quantity}}</small>
+          @if (hoveredIndex==index) {
+          <button pButton pRipple icon="pi pi-plus-circle" class="p-button-rounded p-button-text p-0 ml-1"
+            (click)="quickEditQty(row, 1)"></button>
+          }
+        </div>
+      </div>
+      @if (hoveredIndex==index) {
+      <div class="pt-0">
+        @if (!isEditing) {
+        <p class="ml-4 my-0 text-sm">{{row.note}}</p>
+        }
+        @if (isEditing) {
+        <div class="grid my-0 ml-4">
+          <textarea pTextarea class="col-6" id="notesTextarea" rows="2" [(ngModel)]="row.note"
+            placeholder="Notes"></textarea>
+        </div>
+        }
+        <div class="flex justify-content-end mr-2">
+          @if (!isEditing) {
+          <button pButton pRipple class="p-button-outlined mr-2" icon="pi pi-pencil"
+            (click)="editIngredient(row, $event)"></button>
+          <button pButton pRipple class="p-button-outlined p-button-danger" icon="pi pi-trash"
+            (click)="removeFromList(row, index)"></button>
+          }
+
+          @if (isEditing) {
+          <button pButton class="p-button-text p-button-sm" (click)="saveEdit(row)">Save</button>
+          <button pButton class="p-button-text p-button-sm" (click)="cancelEdit(row, $event)">Cancel</button>
+          }
+
+        </div>
+      </div>
       }
     </div>
+    }
+  </div>
   }
 </div>

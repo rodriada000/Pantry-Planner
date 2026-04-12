@@ -24,7 +24,7 @@ import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ProgressBarModule } from 'primeng/progressbar';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import { MyPreset } from './shared/theme';
 
 @NgModule({
     declarations: [
@@ -75,7 +75,7 @@ import Aura from '@primeng/themes/aura';
         provideHttpClient(withInterceptorsFromDi()),
         providePrimeNG({
             theme: {
-                preset: Aura
+                preset: MyPreset
             }
         }),
         provideAnimations(),
