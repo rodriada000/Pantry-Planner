@@ -15,7 +15,7 @@
 </p-confirmDialog>
 
 <div class="pt-5">
-  <h1 class="font-semibold pb-0 mb-0 flex"> <i class="pi pi-cog flex align-items-center pr-2" (click)="goToEditPage()"></i> {{recipe?.name}} @if (!!recipe?.recipeUrl) {
+  <h1 class="font-semibold pb-0 mb-0 flex align-items-center gap-2"> <i class="pi pi-cog flex align-items-center pr-2 show-pointer" (click)="goToEditPage()"></i> {{recipe?.name}} @if (!!recipe?.recipeUrl) {
   <span class="text-color-secondary flex align-items-end" style="font-size: .5em;">via&nbsp;<a [href]="recipe?.recipeUrl" target="_blank">{{recipe?.recipeUrl}}</a></span>
 } </h1>
 <p>{{recipe?.description}}</p>

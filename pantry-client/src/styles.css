@@ -1,5 +1,5 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .sidebar-item {
@@ -17,6 +17,10 @@ body {
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
+}
+
+.sidebar .active {
+    color: var(--p-primary-color);
 }
 
 .sidebar a {
@@ -38,13 +42,17 @@ body {
     padding: 16px;
 }
 
-.p-inputtext {
-    display: block;
-    margin-bottom: .5rem;
-}
-
 .p-field * {
     display: block;
+}
+
+.p-card {
+    background-color: var(--p-surface-800);
+    border-radius: 0.25rem;
+}
+
+.p-text-secondary {
+    color: var(--p-surface-400);
 }
 
 .nav-menu-item {
@@ -60,14 +68,18 @@ body {
 }
 
 .text-color-warning {
-    color: var(--yellow-400)
+    color: var(--p-toast-warn-color);
 }
 
 
 .text-color-danger {
-    color: var(--red-200)
+    color: var(--p-toast-error-color);
 }
 
 .text-color-success {
-    color: var(--green-200)
+    color: var(--p-toast-success-color);
+}
+
+.show-pointer {
+    cursor: pointer;
 }

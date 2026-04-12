@@ -6,25 +6,26 @@
 
   <div class="field">
     <label class="block">Category</label>
-    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" field="name" (onSelect)="addSelected($event.value)" [dropdown]="true"></p-autoComplete>
-</div>
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)"
+      optionLabel="name" (onSelect)="addSelected($event.value)" [dropdown]="true"></p-autoComplete>
+  </div>
 
-<div class="p-field-checkbox">
-  <p-checkbox [(ngModel)]="isPublic" [binary]="true"></p-checkbox>
-  <label class="ml-2">Is Public</label>
-</div>
+  <div class="p-field-checkbox">
+    <p-checkbox [(ngModel)]="isPublic" [binary]="true"></p-checkbox>
+    <label class="ml-2">Is Public</label>
+  </div>
 
-<br />
+  <br />
 
-@if (mode != 'View') {
+  @if (mode != 'View') {
   <div class="p-field-checkbox pb-5">
     <p-checkbox [(ngModel)]="isAddToPantry" [binary]="true"></p-checkbox>
     <label class="ml-2">Add To {{mode == 'Pantry' ? 'Pantry' : 'List'}}</label>
   </div>
-}
+  }
 
 
-@if (isAddToPantry) {
+  @if (isAddToPantry) {
   <div class="font-semibold text-lg text-color-secondary"> Additional Info </div>
   <div class="field pb-0 mb-1 pt-1">
     <label class="block" for="quantityInput">Quantity</label>
@@ -36,12 +37,13 @@
       <textarea pTextarea class="col-12" id="notesTextarea" rows="3" [(ngModel)]="notes"></textarea>
     </div>
   </div>
-}
+  }
 
 
 </div>
 
 <div class="flext justify-content-center">
-  <button pButton type="button" class="mr-2" (click)="confirmAdd()" [disabled]="isAdding" iconPos="right" [loading]="isAdding">Confirm</button>
-  <button pButton type="button" class="p-button-danger" [disabled]="isAdding"  (click)="close()">Cancel</button>
+  <button pButton type="button" class="mr-2" (click)="confirmAdd()" [disabled]="isAdding" iconPos="right"
+    [loading]="isAdding">Confirm</button>
+  <button pButton type="button" class="p-button-danger" [disabled]="isAdding" (click)="close()">Cancel</button>
 </div>
