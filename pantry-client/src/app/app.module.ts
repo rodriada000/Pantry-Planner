@@ -16,7 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations'
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PopoverModule } from 'primeng/popover';
 import { ToastModule } from 'primeng/toast';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
@@ -45,7 +45,7 @@ import Aura from '@primeng/themes/aura';
         InputTextModule,
         CardModule,
         BrowserAnimationsModule,
-        OverlayPanelModule,
+        PopoverModule,
         ToastModule,
         AutoCompleteModule,
         SocialLoginModule,
