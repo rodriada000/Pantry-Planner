@@ -1,11 +1,12 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, publishReplay, refCount, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, publishReplay, refCount } from 'rxjs';
 import LoginModel from 'src/app/data/models/LoginModel';
+import TokenDto from 'src/app/data/models/TokenDto';
+import RefreshTokenRequest from 'src/app/data/models/RefreshTokenRequest';
 import { environment } from 'src/environments/environment';
-import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
-import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+import { SocialUser } from "@abacritt/angularx-social-login";
 import { ToastService } from './toast.service';
 import { ActiveKitchenService } from './active-kitchen.service';
 
@@ -40,14 +41,9 @@ export class UserLoginService {
 
     if (!!!this.token) {
 
-
-
     }
   }
 
-  // constructor(private http: HttpClient, private router: Router) { 
-  //   this.token$.next(localStorage.getItem("token"));
-  // }
 
   login(loginDto: LoginModel): Observable<any> {
     let sub = this.http.post<any>(`${this.API}/Authenticate/Login`, loginDto).pipe(publishReplay(), refCount());
@@ -89,6 +85,30 @@ export class UserLoginService {
     });
 
     return sub;
+  }
+
+  refreshToken(token: string): Observable<TokenDto> {
+    const request = new RefreshTokenRequest();
+    request.token = token;
+    return this.http.post<TokenDto>(`${this.API}/Authenticate/RefreshToken`, request);
+  }
+
+  /**
+   * Persist token to local storage and update observable
+   */
+  public setToken(token: string, validTo?: string | Date) {
+    if (token) {
+      localStorage.setItem('token', token);
+      if (validTo) {
+        localStorage.setItem('token-expiration', typeof validTo === 'string' ? validTo : validTo.toString());
+      }
+      this.token$.next(token);
+    }
+    else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('token-expiration');
+      this.token$.next(null);
+    }
   }
 
 }

@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PantryPlanner.Exceptions;
 using PantryPlanner.Services;
+using PantryPlannerCore.DTOs;
 using PantryPlannerCore.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace PantryPlannerCore.Controllers
 {
@@ -108,6 +105,31 @@ namespace PantryPlannerCore.Controllers
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }
             return Ok(new ApiResponse { Status = "Success", Message = "User created successfully!" });
+        }
+
+        [HttpPost]
+        [Route("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                PantryPlannerUser user = await _accountService.GetUserForJwtTokenAsync(request.Token, true);
+                if (user == null)
+                {
+                    return Unauthorized(new ApiResponse { Status = "Error", Message = "Invalid token or user not found." });
+                }
+
+                TokenDto newToken = await _accountService.ValidateAndGenerateNewJwtTokenAsyncIgnoreExpiration(request.Token, user);
+                return Ok(newToken);
+            }
+            catch (AccountException e)
+            {
+                return Unauthorized(new ApiResponse { Status = "Error", Message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse { Status = "Error", Message = e.Message });
+            }
         }
 
     }

@@ -52,6 +52,41 @@ namespace PantryPlanner.Services
         }
 
         /// <summary>
+        /// Returns true if the <paramref name="token"/> is signed by the API, regardless of expiration.
+        /// The ClaimsPrincipal for the validated token is returned in an out parameter.
+        /// </summary>
+        /// <param name="token"> token to validate </param>
+        /// <param name="configuration"> IConfiguration section that contains 'JWT:Secret' and 'JWT:ValidIssuer' </param>
+        /// <param name="tokenClaims"> Claims for the token, if valid </param>
+        /// <remarks>
+        /// This method does NOT check if the token has expired. Use this for token refresh scenarios
+        /// where you want to accept expired tokens as long as they're properly signed.
+        /// </remarks>
+        public static bool IsJwtTokenSignedValid(string token, IConfiguration configuration, out ClaimsPrincipal tokenClaims)
+        {
+            SecurityToken returnedSecurityToken;
+            JwtSecurityTokenHandler securityHandler = new JwtSecurityTokenHandler();
+            TokenValidationParameters validationParams = new TokenValidationParameters()
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+                ValidAudiences = new[] { configuration["JWT:ValidAudience"] },
+                ValidIssuer = configuration["JWT:ValidIssuer"],
+                ValidateLifetime = false  // Don't validate expiration
+            };
+
+            try
+            {
+                tokenClaims = securityHandler.ValidateToken(token, validationParams, out returnedSecurityToken);
+                return tokenClaims != null;
+            }
+            catch
+            {
+                tokenClaims = null;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Returns true if the <paramref name="token"/> is signed by the API and the token is NOT expired.
         /// The ClaimsPrincipal for the validated token is returned in an out parameter.
         /// </summary>
@@ -78,12 +113,12 @@ namespace PantryPlanner.Services
         /// <summary>
         /// Get user from a valid Jwt Token based on the claims in the token
         /// </summary>
-        public async Task<PantryPlannerUser> GetUserForJwtTokenAsync(string token)
+        public async Task<PantryPlannerUser> GetUserForJwtTokenAsync(string token, bool allowExpiredToken = false)
         {
             PantryPlannerUser user;
             ClaimsPrincipal tokenClaims;
 
-            if (IsJwtTokenValid(token, _configuration, out tokenClaims) == false)
+            if ((!allowExpiredToken && !IsJwtTokenValid(token, _configuration, out tokenClaims)) || !IsJwtTokenSignedValid(token, _configuration, out tokenClaims))
             {
                 return null;
             }
@@ -124,6 +159,37 @@ namespace PantryPlanner.Services
 
 
             if (IsJwtTokenValid(token, _configuration, out tokenClaims) == false)
+            {
+                throw new AccountException("token is not valid");
+            }
+
+            // validate user passed in matches the token claims
+            PantryPlannerUser userFromClaims = await _userManager.GetUserFromCookieOrJwtAsync(tokenClaims);
+
+            if (userFromClaims.Id != user.Id)
+            {
+                throw new AccountException("token is not assigned to user.");
+            }
+
+            return GenerateJwtToken(user, _configuration, tokenClaims.Claims.ToList());
+        }
+
+        /// <summary>
+        /// Generate a new Jwt Token for a user with an existing token, even if the token has expired.
+        /// This method will validate that the token is properly signed and owned by the <paramref name="user"/>
+        /// </summary>
+        /// <param name="token">The expired or valid token to refresh</param>
+        /// <param name="user">The user claiming ownership of the token</param>
+        /// <remarks>
+        /// This is used for token refresh scenarios where the token may have already expired.
+        /// It validates the token signature but ignores expiration. Useful for mobile apps and
+        /// third-party apps to silently refresh expired tokens.
+        /// </remarks>
+        public async Task<TokenDto> ValidateAndGenerateNewJwtTokenAsyncIgnoreExpiration(string token, PantryPlannerUser user)
+        {
+            ClaimsPrincipal tokenClaims;
+
+            if (IsJwtTokenSignedValid(token, _configuration, out tokenClaims) == false)
             {
                 throw new AccountException("token is not valid");
             }

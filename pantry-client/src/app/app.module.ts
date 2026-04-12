@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -20,8 +20,9 @@ import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {ToastModule} from 'primeng/toast';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
-import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import {ProgressBarModule} from 'primeng/progressbar';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -60,6 +61,11 @@ import {ProgressBarModule} from 'primeng/progressbar';
                     console.error(err);
                 },
             } as SocialAuthServiceConfig
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
         },
         provideHttpClient(withInterceptorsFromDi())
     ] })
