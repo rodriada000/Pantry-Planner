@@ -1,21 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import KitchenIngredientApi from '../../../data/services/kitchenIngredientApi.service';
+import { KitchenIngredientApi } from '../../../data/services/kitchenIngredientApi.service';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
-import KitchenIngredient from '../../../data/models/KitchenIngredient';
+import { KitchenIngredient } from '../../../data/models/KitchenIngredient';
 import { Subscription } from 'rxjs';
 import { ToastService } from '../../../shared/services/toast.service';
 import { PantryPageService } from '../pantry-page.service';
-import GroceryListApi from 'src/app/data/services/grocery-list.service';
-import KitchenList from 'src/app/data/models/KitchenList';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import ListIngredient from 'src/app/data/models/ListIngredient';
+import { GroceryListApi } from 'src/app/data/services/grocery-list.service';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
 import { MenuItem } from 'primeng/api';
 
 @Component({
-    selector: 'pantry-my-ingredients',
-    templateUrl: './my-ingredients.component.html',
-    styleUrls: ['./my-ingredients.component.css'],
-    standalone: false
+  selector: 'pantry-my-ingredients',
+  templateUrl: './my-ingredients.component.html',
+  styleUrls: ['./my-ingredients.component.css'],
+  standalone: false
 })
 export class MyIngredientsComponent implements OnInit, OnDestroy {
 

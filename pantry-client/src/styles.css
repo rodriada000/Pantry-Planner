@@ -16,7 +16,7 @@ body {
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    padding-top: 0.5rem;
 }
 
 .sidebar .active {
@@ -58,12 +58,12 @@ body {
 .nav-menu-item {
     margin: 5px;
     text-decoration: none;
-    color: var(--primary-800);
+    color: var(--p-primary-500);
 }
 
 .nav-menu-item:hover {
     text-decoration: underline;
-    color: var(--primary-300);
+    color: var(--p-primary-300);
     cursor: pointer;
 }
 

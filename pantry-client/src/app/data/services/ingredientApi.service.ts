@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import Ingredient from '../models/Ingredient';
-import Category from '../models/Category';
+import { Ingredient } from '../models/Ingredient';
+import { Category } from '../models/Category';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export default class IngredientApi {
+export class IngredientApi {
   public endPoint = `${environment.baseUrl}/Ingredient`;
 
   constructor(private http: HttpClient, private userService: UserLoginService) { }

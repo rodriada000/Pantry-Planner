@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import KitchenIngredient from '../models/KitchenIngredient';
-import Ingredient from '../models/Ingredient';
+import { KitchenIngredient } from '../models/KitchenIngredient';
+import { Ingredient } from '../models/Ingredient';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export default class KitchenIngredientApi {
+export class KitchenIngredientApi {
   public endPoint = `${environment.baseUrl}/KitchenIngredient`;
 
   private addedIngredient: KitchenIngredient;

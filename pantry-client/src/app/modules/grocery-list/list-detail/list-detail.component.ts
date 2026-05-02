@@ -1,17 +1,17 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { forkJoin, publishReplay, refCount, Subscription } from 'rxjs';
-import KitchenList from 'src/app/data/models/KitchenList';
-import ListIngredient from 'src/app/data/models/ListIngredient';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import KitchenIngredientApi from 'src/app/data/services/kitchenIngredientApi.service';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { ListIngredient } from 'src/app/data/models/ListIngredient';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
+import { KitchenIngredientApi } from 'src/app/data/services/kitchenIngredientApi.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'grocery-list-detail',
-    templateUrl: './list-detail.component.html',
-    styleUrls: ['./list-detail.component.css'],
-    standalone: false
+  selector: 'grocery-list-detail',
+  templateUrl: './list-detail.component.html',
+  styleUrls: ['./list-detail.component.css'],
+  standalone: false
 })
 export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -47,7 +47,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   public isEditing: boolean = false;
   public isSaving: boolean = false;
   public hideChecked: boolean = false;
-  
+
   private itemAddedSub: Subscription;
   origIngredient: ListIngredient;
 
@@ -60,6 +60,9 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   get categories(): string[] {
     let cats: string[] = [];
     this.allIngredients.forEach(i => {
+      if (this.hideChecked && i.isChecked) {
+        return;
+      }
       if (!cats.includes(i.ingredient.categoryName)) {
         cats.push(i.ingredient.categoryName);
       }
@@ -184,7 +187,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
       if (showToast) {
       }
     },
-    error => { this.toasts.showDanger(error.message + " - " + error.error); })
+      error => { this.toasts.showDanger(error.message + " - " + error.error); })
   }
 
   removeFromList(ingredient: ListIngredient, index: number, showToast: boolean = true) {
@@ -197,7 +200,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
       this.sortBy(this.selectedSort);
       this.doFilter();
     },
-    error => { this.toasts.showDanger(error.message + " - " + error.error); })
+      error => { this.toasts.showDanger(error.message + " - " + error.error); })
   }
 
   doFilter() {
@@ -207,6 +210,10 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.filteredList = this.allIngredients.filter(p => this.filterText === "" || (p.ingredient.name.toLowerCase().includes(this.filterText.toLowerCase())));
+
+    if (this.hideChecked) {
+      this.filteredList = this.filteredList.filter(i => !i.isChecked);
+    }
 
     if (this.hoveredIndex >= this.filteredList.length) {
       this.hoveredIndex = -1;
@@ -226,8 +233,8 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
     this.selectedSort = field;
 
-    let checkedItems = this.allIngredients.filter(i => i.isChecked).sort((a, b) => this.sortFn(a,b));
-    let uncheckedItems = this.allIngredients.filter(i => !i.isChecked).sort((a, b) => this.sortFn(a,b));
+    let checkedItems = this.allIngredients.filter(i => i.isChecked).sort((a, b) => this.sortFn(a, b));
+    let uncheckedItems = this.allIngredients.filter(i => !i.isChecked).sort((a, b) => this.sortFn(a, b));
 
 
     this.allIngredients = uncheckedItems.concat(checkedItems);
@@ -260,7 +267,13 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   getIngredientsByCategory(category: string) {
-    return this.allIngredients.filter(i => i.ingredient.categoryName.toLowerCase() == category.toLowerCase());
+    const filtered = this.allIngredients.filter(i => i.ingredient.categoryName.toLowerCase() == category.toLowerCase());
+
+    if (this.hideChecked) {
+      return filtered.filter(i => !i.isChecked);
+    }
+
+    return filtered;
   }
 
   confirmAddToPantry() {
@@ -277,7 +290,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
   addCheckedToPantry() {
 
     let observables: any[] = [];
-    
+
     this.allIngredients.forEach(i => {
       if (!i.isChecked) {
         return;
@@ -288,10 +301,14 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
 
       let addObs = this.pantryService.addIngredientToKitchen(k, true).pipe(publishReplay(), refCount());
 
-      addObs.subscribe(data => {
-        this.pantryService.setAddedIngredient(data);
-      }, error => {
-        this.toasts.showDanger('could not add ' + i.ingredient?.name + ' to pantry - ' + error.error);
+
+      addObs.subscribe({
+        next: (data) => {
+          this.pantryService.setAddedIngredient(data);
+        },
+        error: (error) => {
+          this.toasts.showDanger("Could not add " + i.ingredient.name + " to pantry: " + error.message, 'Add Failed');
+        }
       });
 
       observables.push(addObs);
@@ -326,7 +343,7 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
     if (this.isSaving) {
       return;
     }
-    
+
     if (ingredient.quantity <= 0) {
       return; // cant have 0 or negative qty
     }
@@ -379,12 +396,12 @@ export class ListDetailComponent implements OnInit, OnDestroy, OnChanges {
           this.sortBy(this.selectedSort);
           this.doFilter();
         },
-        error => {
-          this.toasts.showDanger('Could not remove checked items from list: ' + error.message ,'Update Failed')
-        })
+          error => {
+            this.toasts.showDanger('Could not remove checked items from list: ' + error.message, 'Update Failed')
+          })
       }
     });
-    
+
 
   }
 

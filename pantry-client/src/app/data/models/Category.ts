@@ -1,4 +1,4 @@
-export default class Category {
+export class Category {
   categoryId: number;
   categoryTypeId: number;
   createdByKitchenId: number;

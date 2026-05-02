@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import Kitchen from '../models/Kitchen';
+import { Kitchen } from '../models/Kitchen';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export default class KitchenApi {
+export class KitchenApi {
   public API = environment.baseUrl;
   public KITCHEN_ENDPOINT = `${this.API}/Kitchen`;
 

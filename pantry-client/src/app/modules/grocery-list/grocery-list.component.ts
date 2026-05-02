@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
-import Kitchen from 'src/app/data/models/Kitchen';
-import KitchenList from 'src/app/data/models/KitchenList';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import GroceryListApi from 'src/app/data/services/grocery-list.service';
-import KitchenUserApi from 'src/app/data/services/kitchenUserApi.service';
+import { Kitchen } from 'src/app/data/models/Kitchen';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
+import { GroceryListApi } from 'src/app/data/services/grocery-list.service';
+import { KitchenUserApi } from 'src/app/data/services/kitchenUserApi.service';
 import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.service';
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-grocery-list',
-    templateUrl: './grocery-list.component.html',
-    styleUrls: ['./grocery-list.component.css'],
-    standalone: false
+  selector: 'app-grocery-list',
+  templateUrl: './grocery-list.component.html',
+  styleUrls: ['./grocery-list.component.css'],
+  standalone: false
 })
 export class GroceryListComponent implements OnInit {
 
@@ -57,12 +56,12 @@ export class GroceryListComponent implements OnInit {
 
       if (this.allLists.length !== 0) {
         this.selectedIndex = 0;
-        
+
         if (lastSelected !== null && lastSelected !== undefined) {
           this.selectedIndex = this.allLists.findIndex(k => k.kitchenListId === parseInt(lastSelected));
           this.listService.setActiveList(this.allLists[this.selectedIndex]);
         }
-        
+
         if (this.selectedIndex >= this.allLists.length) {
           this.selectedIndex = 0;
           this.listService.setActiveList(this.allLists[this.selectedIndex]);

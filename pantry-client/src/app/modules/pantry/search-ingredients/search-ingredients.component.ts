@@ -2,22 +2,20 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map } from 'rxjs/operators';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
-import IngredientApi from '../../../data/services/ingredientApi.service';
-import Ingredient from '../../../data/models/Ingredient';
-import { AddIngredientModalComponent } from '../add-ingredient-modal/add-ingredient-modal.component';
-import KitchenIngredient from '../../../data/models/KitchenIngredient';
+import { IngredientApi } from '../../../data/services/ingredientApi.service';
+import { Ingredient } from '../../../data/models/Ingredient';
+import { KitchenIngredient } from '../../../data/models/KitchenIngredient';
 import { ToastService } from '../../../shared/services/toast.service';
-import KitchenIngredientApi from '../../../data/services/kitchenIngredientApi.service';
-import { CreateIngredientModalComponent } from '../create-ingredient-modal/create-ingredient-modal.component';
-import ListIngredient from 'src/app/data/models/ListIngredient';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import KitchenList from 'src/app/data/models/KitchenList';
+import { KitchenIngredientApi } from '../../../data/services/kitchenIngredientApi.service';
+import { ListIngredient } from 'src/app/data/models/ListIngredient';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
+import { KitchenList } from 'src/app/data/models/KitchenList';
 
 @Component({
-    selector: 'pantry-search-ingredients',
-    templateUrl: './search-ingredients.component.html',
-    styleUrls: ['./search-ingredients.component.css'],
-    standalone: false
+  selector: 'pantry-search-ingredients',
+  templateUrl: './search-ingredients.component.html',
+  styleUrls: ['./search-ingredients.component.css'],
+  standalone: false
 })
 export class SearchIngredientsComponent implements OnInit, OnChanges {
   @Input()
@@ -29,7 +27,7 @@ export class SearchIngredientsComponent implements OnInit, OnChanges {
   @Input()
   public selectedIngredient: Ingredient;
 
-  @Output() 
+  @Output()
   selectedIngredientChange = new EventEmitter<Ingredient>();
 
   public isSearching: boolean;
@@ -147,7 +145,7 @@ export class SearchIngredientsComponent implements OnInit, OnChanges {
 
   // don't keep the selected input just clear it out once added
   // adds the ingredient to list with quantity 1
-  quickAdd(x: Ingredient)  {
+  quickAdd(x: Ingredient) {
 
     if (x === null || x === undefined || x.ingredientId === null || x.ingredientId === undefined) {
       return;

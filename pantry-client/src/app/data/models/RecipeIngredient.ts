@@ -1,6 +1,6 @@
-import Ingredient from './Ingredient';
+import { Ingredient } from './Ingredient';
 
-export default class RecipeIngredient {
+export class RecipeIngredient {
   recipeIngredientId: number;
   ingredientId: number;
   recipeId: number;

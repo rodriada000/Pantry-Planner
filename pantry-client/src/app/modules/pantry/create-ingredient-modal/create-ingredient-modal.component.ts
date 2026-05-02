@@ -1,22 +1,22 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import Category from '../../../data/models/Category';
+import { Category } from '../../../data/models/Category';
 import { ToastService } from '../../../shared/services/toast.service';
-import Ingredient from '../../../data/models/Ingredient';
-import IngredientApi from '../../../data/services/ingredientApi.service';
-import KitchenIngredientApi from '../../../data/services/kitchenIngredientApi.service';
-import KitchenIngredient from '../../../data/models/KitchenIngredient';
+import { Ingredient } from '../../../data/models/Ingredient';
+import { IngredientApi } from '../../../data/services/ingredientApi.service';
+import { KitchenIngredientApi } from '../../../data/services/kitchenIngredientApi.service';
+import { KitchenIngredient } from '../../../data/models/KitchenIngredient';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
-import KitchenList from 'src/app/data/models/KitchenList';
-import ListIngredient from 'src/app/data/models/ListIngredient';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import GroceryListApi from 'src/app/data/services/grocery-list.service';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { ListIngredient } from 'src/app/data/models/ListIngredient';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
+import { GroceryListApi } from 'src/app/data/services/grocery-list.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-create-ingredient-modal',
-    templateUrl: './create-ingredient-modal.component.html',
-    styleUrls: ['./create-ingredient-modal.component.css'],
-    standalone: false
+  selector: 'app-create-ingredient-modal',
+  templateUrl: './create-ingredient-modal.component.html',
+  styleUrls: ['./create-ingredient-modal.component.css'],
+  standalone: false
 })
 export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -28,7 +28,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
 
   @Input()
   public mode: string = "Pantry"; // "Pantry" or "GroceryList"
-  
+
   public activeList: KitchenList;
   public name: string;
   public description: string;
@@ -67,7 +67,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
   }
 
   ngOnInit(): void {
-    
+
     this.name = this.ingredientName;
     this.description = "";
     this.isPublic = true;
@@ -77,7 +77,7 @@ export class CreateIngredientModalComponent implements OnInit, OnChanges, OnDest
     this.selectedCategoryId = -1;
     this.quantity = 1;
     this.notes = "";
-    
+
     this.groceryListApi.activeList.pipe(takeUntil(this.$destructor)).subscribe(o => {
       this.activeList = o;
     })

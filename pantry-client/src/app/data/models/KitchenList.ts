@@ -1,4 +1,4 @@
-export default class KitchenList {
+export class KitchenList {
   kitchenListId: number;
   kitchenId: number;
   categoryId: number;

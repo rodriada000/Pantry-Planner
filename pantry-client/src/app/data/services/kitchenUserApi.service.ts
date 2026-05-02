@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import KitchenUser from '../models/KitchenUser';
+import { KitchenUser } from '../models/KitchenUser';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export default class KitchenUserApi {
+export class KitchenUserApi {
   public endPoint = `${environment.baseUrl}/KitchenUser`;
 
   constructor(private http: HttpClient, private userService: UserLoginService) { }

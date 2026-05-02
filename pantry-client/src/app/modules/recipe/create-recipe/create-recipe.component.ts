@@ -2,20 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import Ingredient from 'src/app/data/models/Ingredient';
-import Recipe from 'src/app/data/models/Recipe';
-import RecipeIngredient from 'src/app/data/models/RecipeIngredient';
-import RecipeStep from 'src/app/data/models/RecipeStep';
+import { Ingredient } from 'src/app/data/models/Ingredient';
+import { Recipe } from 'src/app/data/models/Recipe';
+import { RecipeIngredient } from 'src/app/data/models/RecipeIngredient';
+import { RecipeStep } from 'src/app/data/models/RecipeStep';
 import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
 import { RecipeScraperService } from 'src/app/data/services/recipe-scraper.service';
 import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-create-recipe',
-    templateUrl: './create-recipe.component.html',
-    styleUrls: ['./create-recipe.component.css'],
-    standalone: false
+  selector: 'app-create-recipe',
+  templateUrl: './create-recipe.component.html',
+  styleUrls: ['./create-recipe.component.css'],
+  standalone: false
 })
 export class CreateRecipeComponent implements OnInit {
 

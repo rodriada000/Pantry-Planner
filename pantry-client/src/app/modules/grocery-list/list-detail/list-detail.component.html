@@ -8,7 +8,7 @@
 <div class="list-group">
   <h2 class="mb-0">{{this.selectedName}}</h2>
   <div class="flex justify-content-between align-items-center">
-    <!-- <p-toggleswitch [(ngModel)]="hideChecked" pTooltip="Hide checked items" /> -->
+    <p-toggleswitch [(ngModel)]="hideChecked" pTooltip="Hide checked items" (onChange)="doFilter()" />
     <span>&nbsp;</span>
     <div class="flex justify-content-end align-items-end">
       <button pButton icon="pi pi-list" class="mr-2 mb-1" (click)="refreshMenuOptions(); menu.toggle($event)"></button>
@@ -38,7 +38,7 @@
     @for (cat of categories; track cat; let catIndex = $index) {
     <div class="flex flex-column align-content-start align-item-start my-1 pb-2 pt-2">
       <span class="cat-header">{{cat}}</span>
-      @for (row of getIngredientsByCategory(cat); track row; let index = $index) {
+      @for (row of getIngredientsByCategory(cat); track row.id; let index = $index) {
       <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
         (click)="setSelected(index, $event, catIndex)">
         <div class="flex justify-content-between align-content-center pb-0"
@@ -100,7 +100,7 @@
 
   @if (!isLoading && selectedSort == 'name') {
   <div>
-    @for (row of filteredList; track row; let index = $index) {
+    @for (row of filteredList; track row.id; let index = $index) {
     <div class="flex flex-column align-content-start align-item-start p-card my-1 pb-2 pt-2"
       (click)="setSelected(index, $event)">
       <div class="flex justify-content-between align-content-center pb-0"

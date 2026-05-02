@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
-import Ingredient from '../../../data/models/Ingredient';
-import KitchenIngredient from '../../../data/models/KitchenIngredient';
+import { Ingredient } from '../../../data/models/Ingredient';
+import { KitchenIngredient } from '../../../data/models/KitchenIngredient';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
-import KitchenIngredientApi from '../../../data/services/kitchenIngredientApi.service';
+import { KitchenIngredientApi } from '../../../data/services/kitchenIngredientApi.service';
 import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
-    selector: 'pantry-add-ingredient-modal',
-    templateUrl: './add-ingredient-modal.component.html',
-    styleUrls: ['./add-ingredient-modal.component.css'],
-    standalone: false
+  selector: 'pantry-add-ingredient-modal',
+  templateUrl: './add-ingredient-modal.component.html',
+  styleUrls: ['./add-ingredient-modal.component.css'],
+  standalone: false
 })
 export class AddIngredientModalComponent {
 

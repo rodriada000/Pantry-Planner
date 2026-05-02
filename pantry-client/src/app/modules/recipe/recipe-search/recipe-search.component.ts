@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import Recipe from 'src/app/data/models/Recipe';
+import { Recipe } from 'src/app/data/models/Recipe';
 import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-recipe-search',
-    templateUrl: './recipe-search.component.html',
-    styleUrls: ['./recipe-search.component.css'],
-    standalone: false
+  selector: 'app-recipe-search',
+  templateUrl: './recipe-search.component.html',
+  styleUrls: ['./recipe-search.component.css'],
+  standalone: false
 })
 export class RecipeSearchComponent implements OnInit {
 
-  @Output() 
+  @Output()
   recipeSelected = new EventEmitter<Recipe>();
 
   searchText: string = '';
@@ -36,7 +36,7 @@ export class RecipeSearchComponent implements OnInit {
     if (!!!this.searchText) {
       return;
     }
-    
+
     this.recipeService.getRecipesByName(this.searchText).subscribe(
       data => {
         this.results = data;

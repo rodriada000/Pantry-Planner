@@ -1,27 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import KitchenIngredient from 'src/app/data/models/KitchenIngredient';
-import KitchenList from 'src/app/data/models/KitchenList';
-import ListIngredient from 'src/app/data/models/ListIngredient';
-import Recipe from 'src/app/data/models/Recipe';
-import RecipeIngredient from 'src/app/data/models/RecipeIngredient';
-import ListIngredientApiService from 'src/app/data/services/grocery-list-ingredient.service';
-import GroceryListApi from 'src/app/data/services/grocery-list.service';
-import KitchenIngredientApi from 'src/app/data/services/kitchenIngredientApi.service';
+import { KitchenIngredient } from 'src/app/data/models/KitchenIngredient';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { Recipe } from 'src/app/data/models/Recipe';
+import { RecipeIngredient } from 'src/app/data/models/RecipeIngredient';
+import { ListIngredientApiService } from 'src/app/data/services/grocery-list-ingredient.service';
+import { GroceryListApi } from 'src/app/data/services/grocery-list.service';
+import { KitchenIngredientApi } from 'src/app/data/services/kitchenIngredientApi.service';
 import { RecipeApiService } from 'src/app/data/services/recipe-api.service';
 import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.service';
 import { MathUtilService } from 'src/app/shared/services/math-util.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-recipe-details',
-    templateUrl: './recipe-details.component.html',
-    styleUrls: ['./recipe-details.component.css'],
-    standalone: false
+  selector: 'app-recipe-details',
+  templateUrl: './recipe-details.component.html',
+  styleUrls: ['./recipe-details.component.css'],
+  standalone: false
 })
 export class RecipeDetailsComponent implements OnInit {
-  
+
   @Input()
   recipeId: number;
   recipe: Recipe;
@@ -108,13 +107,13 @@ export class RecipeDetailsComponent implements OnInit {
     this.menuItems = [];
 
     if (this.ingredientInKitchen(ingredient.ingredientId)) {
-      this.menuItems.push({ label: 'Remove Ingredient from Pantry', icon: 'pi pi-sign-out', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmRemoveFromPantry(ingredient); }});
+      this.menuItems.push({ label: 'Remove Ingredient from Pantry', icon: 'pi pi-sign-out', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmRemoveFromPantry(ingredient); } });
     } else {
       this.menuItems.push({ label: 'Add Ingredient to Pantry', icon: 'pi pi-sign-in', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmAddToPantry(ingredient); } });
     }
 
     if (this.groceryList.length > 0) {
-      this.menuItems.push({ label: 'Add Ingredient to Grocery List', icon: 'pi pi-shopping-cart', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmAddToGroceryList(ingredient); }});
+      this.menuItems.push({ label: 'Add Ingredient to Grocery List', icon: 'pi pi-shopping-cart', command: (event) => { event.originalEvent.stopImmediatePropagation(); event.originalEvent.preventDefault(); this.confirmAddToGroceryList(ingredient); } });
     }
   }
 
@@ -126,7 +125,7 @@ export class RecipeDetailsComponent implements OnInit {
       accept: () => {
         let k = this.pantryService.createEmpty(recipeIngr.ingredient, this.activeKitchen.activeKitchenId);
         k.quantity = recipeIngr.quantity ?? 1;
-  
+
         this.pantryService.addIngredientToKitchen(k, true).subscribe(data => {
           this.pantryService.setAddedIngredient(data);
           this.kitchenIngredients.push(data);
@@ -161,7 +160,7 @@ export class RecipeDetailsComponent implements OnInit {
       message: `Select the grocery list you want to add ${recipeIngr?.ingredient?.name} to.`,
       header: 'Confirm Add',
       icon: 'pi pi-shopping-cart',
-      accept: () => { 
+      accept: () => {
         if (this.selectedGroceryListId == -1) {
           this.toastService.showDanger(`You must select a grocery list first`);
         }

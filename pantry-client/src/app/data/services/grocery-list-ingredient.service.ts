@@ -3,15 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import ListIngredient from '../models/ListIngredient';
-import Ingredient from '../models/Ingredient';
-import KitchenList from '../models/KitchenList';
+import { ListIngredient } from '../models/ListIngredient';
+import { Ingredient } from '../models/Ingredient';
+import { KitchenList } from '../models/KitchenList';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export default class ListIngredientApiService {
+export class ListIngredientApiService {
   public endPoint = `${environment.baseUrl}/ListIngredient`;
 
   private addedIngredient: ListIngredient;

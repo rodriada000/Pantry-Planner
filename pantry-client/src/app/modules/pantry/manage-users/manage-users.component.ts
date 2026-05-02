@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import KitchenUser from '../../../data/models/KitchenUser';
-import KitchenUserApi from '../../../data/services/kitchenUserApi.service';
+import { KitchenUser } from '../../../data/models/KitchenUser';
+import { KitchenUserApi } from '../../../data/services/kitchenUserApi.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { ActiveKitchenService } from '../../../shared/services/active-kitchen.service';
 import { Subscription } from 'rxjs';

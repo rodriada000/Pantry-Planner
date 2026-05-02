@@ -1,7 +1,7 @@
-import Ingredient from './Ingredient';
-import Category from './Category';
+import { Ingredient } from './Ingredient';
+import { Category } from './Category';
 
-export default class KitchenIngredient {
+export class KitchenIngredient {
   kitchenIngredientId: number;
   ingredientId: number;
   kitchenId: number;

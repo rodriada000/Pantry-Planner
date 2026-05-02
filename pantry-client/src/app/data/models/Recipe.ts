@@ -1,7 +1,7 @@
-import RecipeIngredient from './RecipeIngredient';
-import RecipeStep from './RecipeStep';
+import { RecipeIngredient } from './RecipeIngredient';
+import { RecipeStep } from './RecipeStep';
 
-export default class Recipe {
+export class Recipe {
   recipeId: number;
   createdByUserId: string = '';
   recipeUrl: string;

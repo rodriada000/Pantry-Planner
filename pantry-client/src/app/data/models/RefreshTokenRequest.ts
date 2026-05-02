@@ -1,3 +1,3 @@
-export default class RefreshTokenRequest {
+export class RefreshTokenRequest {
   token: string;
 }

@@ -1,4 +1,4 @@
-export default class Kitchen {
+export class Kitchen {
   kitchenId: number;
   uniquePublicGuid: string;
   name: string;

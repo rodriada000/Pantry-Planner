@@ -1,4 +1,4 @@
-export default class Ingredient {
+export class Ingredient {
   ingredientId: number;
   addedByUserId: string;
   addedByUserName: string;

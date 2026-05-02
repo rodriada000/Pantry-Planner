@@ -1,19 +1,18 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { CreateIngredientModalComponent } from './create-ingredient-modal/create-ingredient-modal.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActiveKitchenService } from '../../shared/services/active-kitchen.service';
-import KitchenUserApi from '../../data/services/kitchenUserApi.service';
+import { KitchenUserApi } from '../../data/services/kitchenUserApi.service';
 import { ToastService } from '../../shared/services/toast.service';
-import KitchenApi from '../../data/services/kitchenApi.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { skipWhile, skipUntil } from 'rxjs/operators';
+import { KitchenApi } from '../../data/services/kitchenApi.service';
+import { Subscription } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
 import { PantryPageService } from './pantry-page.service';
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 
 @Component({
-    selector: 'pantry-root',
-    templateUrl: './pantry.component.html',
-    styleUrls: ['./pantry.component.css'],
-    standalone: false
+  selector: 'pantry-root',
+  templateUrl: './pantry.component.html',
+  styleUrls: ['./pantry.component.css'],
+  standalone: false
 })
 export class PantryComponent implements OnInit, OnDestroy {
 
@@ -25,11 +24,11 @@ export class PantryComponent implements OnInit, OnDestroy {
   public activeKitchenName: string;
   public showSideMenu: boolean;
 
-  
+
   private pageSelection: Subscription;
   private observingKitchen: Subscription;
   showNewIngredientDialog: boolean;
-  
+
   public get sideMenuSize() {
     return this.layoutService.sideMenuSize;
   }
@@ -41,8 +40,8 @@ export class PantryComponent implements OnInit, OnDestroy {
     private layoutService: LayoutService,
     private kitchenUserApi: KitchenUserApi,
     private kitchenApi: KitchenApi,
-    private pageService: PantryPageService) { 
-    }
+    private pageService: PantryPageService) {
+  }
 
   ngOnInit(): void {
     this.showSideMenu = false;

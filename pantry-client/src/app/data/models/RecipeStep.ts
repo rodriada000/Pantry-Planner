@@ -1,4 +1,4 @@
-export default class RecipeStep {
+export class RecipeStep {
   recipeStepId: number;
   recipeId: number;
   text: string;

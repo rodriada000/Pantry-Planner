@@ -1,4 +1,4 @@
-export default class TokenDto {
+export class TokenDto {
   token: string;
   validTo: Date;
 }

@@ -8,7 +8,7 @@
         </button>
       </div>
 
-      @for (row of allLists; track row; let index = $index) {
+      @for (row of allLists; track row.kitchenListId; let index = $index) {
         <a (click)="switchList(index)" class="flex align-items-center justify-content-start sidebar-item sidebar-item pb-2" [ngClass]="{'active': index==selectedIndex}">{{row.name}}</a>
       }
 
@@ -24,9 +24,9 @@
   </div>
 
   <!-- Page Content -->
-  <div #content id="page-content" class="pt-3 pl-1 pr-0" [ngStyle]="{'margin-left': showSideMenu ? '250px' : '0px'}">
+  <div #content id="page-content" class="pt-2 pl-1 pr-0" [ngStyle]="{'margin-left': showSideMenu ? '250px' : '0px'}">
     <p-toast position="top-center"></p-toast>
-    <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
+    <button pButton icon="pi pi-bars" class="p-1 ml-0" (click)="toggleSideMenu()">
     </button>
 
     <grocery-list-detail [selected]="getSelected()"></grocery-list-detail>

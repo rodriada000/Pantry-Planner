@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import Kitchen from 'src/app/data/models/Kitchen';
-import KitchenList from 'src/app/data/models/KitchenList';
-import GroceryListApi from 'src/app/data/services/grocery-list.service';
+import { Kitchen } from 'src/app/data/models/Kitchen';
+import { KitchenList } from 'src/app/data/models/KitchenList';
+import { GroceryListApi } from 'src/app/data/services/grocery-list.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-    selector: 'app-manage-list',
-    templateUrl: './manage-list.component.html',
-    styleUrls: ['./manage-list.component.css'],
-    standalone: false
+  selector: 'app-manage-list',
+  templateUrl: './manage-list.component.html',
+  styleUrls: ['./manage-list.component.css'],
+  standalone: false
 })
 export class ManageListComponent implements OnInit {
 

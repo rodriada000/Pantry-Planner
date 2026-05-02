@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import LoginModel from '../data/models/LoginModel';
+import { LoginModel } from '../data/models/LoginModel';
 import { ToastService } from '../shared/services/toast.service';
 import { UserLoginService } from '../shared/services/user-login.service';
 import { CredentialResponse } from 'google-one-tap';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css'],
-    standalone: false
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  standalone: false
 })
 export class LoginComponent implements OnInit {
 

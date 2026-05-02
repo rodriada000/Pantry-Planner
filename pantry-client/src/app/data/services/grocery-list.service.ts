@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import KitchenList from '../models/KitchenList';
+import { KitchenList } from '../models/KitchenList';
 import { UserLoginService } from 'src/app/shared/services/user-login.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export default class GroceryListApi {
+export class GroceryListApi {
   public API = environment.baseUrl;
   public KITCHEN_ENDPOINT = `${this.API}/KitchenList`;
 

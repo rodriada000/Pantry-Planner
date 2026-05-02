@@ -1,6 +1,6 @@
-import Kitchen from './Kitchen';
+import { Kitchen } from './Kitchen';
 
-export default class KitchenUser {
+export class KitchenUser {
   kitchenUserId: number;
   kitchenId: number;
   userId: number;

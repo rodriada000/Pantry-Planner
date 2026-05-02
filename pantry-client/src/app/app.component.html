@@ -1,13 +1,13 @@
 <div class="flex justify-content-between">
-  <h3 class="left-header m-0">Pantry Planner</h3>
+  <h2 class="left-header m-0">Pantry Planner</h2>
   <nav>
     @if (isLoggedIn) {
       <app-kitchen-nav></app-kitchen-nav>
       <a>|</a>
-      <a  class="nav-menu-item" routerLink="/pantry">Pantry</a>
-      <a  class="nav-menu-item" routerLink="/grocery">Grocery</a>
-      <a  class="nav-menu-item" routerLink="/recipe">Recipes</a>
-      <a  class="nav-menu-item" (click)="logout()">Logout</a>
+      <a class="nav-menu-item" routerLink="/pantry">Pantry</a>
+      <a class="nav-menu-item" routerLink="/grocery">Grocery</a>
+      <a class="nav-menu-item" routerLink="/recipe">Recipes</a>
+      <a class="nav-menu-item" (click)="logout()">Logout</a>
     } @else {
       <a class="nav-menu-item" routerLink="/login">Login</a>
     }

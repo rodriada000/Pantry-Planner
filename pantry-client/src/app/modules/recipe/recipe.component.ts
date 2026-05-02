@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { skipWhile, Subscription } from 'rxjs';
-import KitchenApi from 'src/app/data/services/kitchenApi.service';
-import KitchenUserApi from 'src/app/data/services/kitchenUserApi.service';
+import { KitchenApi } from 'src/app/data/services/kitchenApi.service';
+import { KitchenUserApi } from 'src/app/data/services/kitchenUserApi.service';
 import { ActiveKitchenService } from 'src/app/shared/services/active-kitchen.service';
 import { LayoutService } from 'src/app/shared/services/layout-service.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PantryPageService } from '../pantry/pantry-page.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import Recipe from 'src/app/data/models/Recipe';
+import { Recipe } from 'src/app/data/models/Recipe';
 
 @Component({
     selector: 'app-recipe',
