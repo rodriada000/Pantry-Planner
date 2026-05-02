@@ -77,9 +77,9 @@ builder.Services.AddSwaggerGen();
 if (!builder.Environment.IsDevelopment())
 {
     builder.Services.AddSpaStaticFiles(c =>
-        {
-            c.RootPath = "/client";
-        });
+    {
+        c.RootPath = "client";
+    });
 }
 
 var app = builder.Build();
@@ -97,15 +97,9 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseRouting();
-    app.UseAuthorization();
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-
     var fileExtensionProvider = new FileExtensionContentTypeProvider();
     fileExtensionProvider.Mappings[".webmanifest"] = "application/manifest+json";
+
     app.UseStaticFiles(new StaticFileOptions()
     {
         ContentTypeProvider = fileExtensionProvider,
@@ -116,17 +110,21 @@ else
 
     app.UseSpaStaticFiles();
 
+    app.UseRouting();
+    app.UseAuthorization();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+
     app.UseSpa(spa =>
     {
-        spa.Options.SourcePath = "/client";
+        spa.Options.SourcePath = "client";
 
-        var spaStaticFileOptions = new StaticFileOptions
+        spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions
         {
             FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "client"))
         };
-
-        spa.Options.DefaultPageStaticFileOptions = spaStaticFileOptions;
-
     });
 }
 
