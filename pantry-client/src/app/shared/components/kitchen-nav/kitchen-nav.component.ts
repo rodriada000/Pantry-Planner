@@ -11,15 +11,17 @@ import { ToastService } from '../../services/toast.service';
 import { UserLoginService } from '../../services/user-login.service';
 
 @Component({
-    selector: 'app-kitchen-nav',
-    templateUrl: './kitchen-nav.component.html',
-    styleUrls: ['./kitchen-nav.component.css'],
-    standalone: false
+  selector: 'app-kitchen-nav',
+  templateUrl: './kitchen-nav.component.html',
+  styleUrls: ['./kitchen-nav.component.css'],
+  standalone: false
 })
 export class KitchenNavComponent implements OnInit {
 
   @ViewChild('op')
   addKitchenPanel: Popover;
+
+  @ViewChild('btn') menuButton;
 
   collapsed = true;
 
@@ -56,14 +58,14 @@ export class KitchenNavComponent implements OnInit {
     });
 
     this.kitchenMenu.push({
-        label: 'Add Kitchen',
-        icon: 'pi pi-plus',
-        command: ({ originalEvent }) => this.showAddPanel(originalEvent)
-      });
+      label: 'Add Kitchen',
+      icon: 'pi pi-plus',
+      command: ({ originalEvent }) => this.showAddPanel(originalEvent)
+    });
   }
 
   showAddPanel(event) {
-    this.addKitchenPanel.show(event);
+    this.addKitchenPanel.show(event, this.menuButton.nativeElement);
   }
 
   ngOnInit() {

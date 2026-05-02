@@ -93,7 +93,7 @@ export class MyIngredientsComponent implements OnInit, OnDestroy {
   }
 
   getKitchenLists() {
-    this.listService.getAllGroceryLists().subscribe(k => {
+    this.listService.getGroceryListsByKitchen(this.activeKitchen.getActiveKitchenId()).subscribe(k => {
       this.kitchenLists = k;
     });
   }

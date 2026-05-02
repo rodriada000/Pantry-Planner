@@ -3,7 +3,7 @@
   <!-- Sidebar -->
   <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? sideMenuSize : '0px'}">
     <div class="flex flex-column">
-      <div class="flex flex-row-reverse mr-2">
+      <div class="flex ml-2">
         <button pButton icon="pi pi-bars" class="p-1 ml-2" (click)="toggleSideMenu()">
         </button>
       </div>

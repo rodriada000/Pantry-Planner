@@ -1,6 +1,6 @@
 
 <div class="input-group">
-  <input class="form-control" placeholder="Enter Username" type="text" maxlength="100" [(ngModel)]="username" (keyup.enter)="sendInvite()" />
+  <input pInputText class="form-control" placeholder="Enter Username" type="text" maxlength="100" [(ngModel)]="username" (keyup.enter)="sendInvite()" />
 </div>
 @if (isSendingInvite) {
   <small class="form-text text-muted">sending invite...</small>
@@ -35,7 +35,7 @@
         </td>
         <td>
           @if (hoveredIndex==index) {
-            <button type="button" class="btn btn-link btn-sm" (click)="removeUser(row, index)">Remove</button>
+            <p-button size="small" [text]="true" (click)="removeUser(row, index)">Remove</p-button>
           }
         </td>
       </tr>

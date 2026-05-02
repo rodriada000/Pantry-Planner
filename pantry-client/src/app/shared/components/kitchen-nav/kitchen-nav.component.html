@@ -2,11 +2,9 @@
 <a #btn class="nav-menu-item" (click)="menu.toggle($event)">{{activeKitchenName}}</a>
 <p-menu #menu [popup]="true" [model]="kitchenMenu"></p-menu>
 
-<p-popover #op >
-  <ng-template pTemplate>
-    <div class="flex align-items-center justify-content-start">
-      <input type="text" class="p-inputtext-sm mr-1" pInputText placeholder="Kitchen Name" type="text" maxlength="30" style="width: 250px" [(ngModel)]="newKitchenName" (keydown.Enter)="addNewKitchen()" />
-      <button pButton class="py-1" (click)="addNewKitchen()" label="Add"></button>
-    </div>
-  </ng-template>
+<p-popover #op>
+  <div class="flex align-items-center justify-content-start">
+    <input type="text" class="p-inputtext-sm mr-1" pInputText placeholder="Kitchen Name" type="text" maxlength="30" style="width: 250px" [(ngModel)]="newKitchenName" (keydown.Enter)="addNewKitchen()" />
+    <button pButton class="py-1" (click)="addNewKitchen()" label="Add"></button>
+  </div>
 </p-popover>

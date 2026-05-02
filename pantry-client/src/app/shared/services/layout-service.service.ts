@@ -29,7 +29,7 @@ export class LayoutService {
 
   public get sideMenuSize(): string {
     if (this.isMobileScreen) {
-      return '100vw';
+      return '100%';
     } else if (this.isMedScreen) {
       return '45vw';
     } else {

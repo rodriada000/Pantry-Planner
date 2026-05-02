@@ -66,7 +66,7 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   getGroceryLists() {
-    this.listService.getAllGroceryLists().subscribe(
+    this.listService.getGroceryListsByKitchen(this.activeKitchen.getActiveKitchenId()).subscribe(
       lists => {
         this.groceryList = lists ?? [];
         this.listService.setObservable(this.groceryList);

@@ -75,6 +75,22 @@ namespace PantryPlanner.Services
                                             .ToListAsync();
         }
 
+        public async Task<List<KitchenList>> GetKitchenListsByKitchenId(PantryPlannerUser user, int kitchenId)
+        {
+            ArgumentNullException.ThrowIfNull(user);
+
+            if (Context.UserExists(user.Id) == false)
+            {
+                throw new UserNotFoundException(user.UserName);
+            }
+
+            var kitchen = KitchenService.GetKitchenById(kitchenId, user);
+
+            return await Context.KitchenLists.AsNoTracking()
+                                             .Where(k => k.KitchenId == kitchen.KitchenId)
+                                             .ToListAsync();
+        }
+
         #endregion
 
 

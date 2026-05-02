@@ -29,7 +29,7 @@ namespace PantryPlanner.Controllers
 
         // GET: api/KitchenList
         [HttpGet]
-        public async Task<ActionResult<List<KitchenDto>>> GetKitchenListAsync()
+        public async Task<ActionResult<List<KitchenListDto>>> GetKitchenListAsync()
         {
             PantryPlannerUser user = null;
 
@@ -50,6 +50,44 @@ namespace PantryPlanner.Controllers
             try
             {
                 List<KitchenList> lists = await _service.GetAllKitchenListsForUser(user);
+                return Ok(KitchenListDto.ToList(lists));
+            }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (UserNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet("ByKitchen")]
+        public async Task<ActionResult<List<KitchenListDto>>> GetListByKitchenAsync([FromQuery] int kitchenId)
+        {
+            PantryPlannerUser user = null;
+
+            try
+            {
+                user = await _userManager.GetUserFromCookieOrJwtAsync(this.User);
+            }
+            catch (PermissionsException e)
+            {
+                // this will be thrown if the user is null
+                return Unauthorized(e.Message);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
+            try
+            {
+                List<KitchenList> lists = await _service.GetKitchenListsByKitchenId(user, kitchenId);
                 return Ok(KitchenListDto.ToList(lists));
             }
             catch (ArgumentNullException e)

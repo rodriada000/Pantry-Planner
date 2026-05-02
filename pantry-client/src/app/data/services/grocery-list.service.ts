@@ -48,6 +48,10 @@ export class GroceryListApi {
     return this.http.get<Array<KitchenList>>(this.KITCHEN_ENDPOINT);
   }
 
+  getGroceryListsByKitchen(kitchenId: number): Observable<Array<KitchenList>> {
+    return this.http.get<Array<KitchenList>>(`${this.KITCHEN_ENDPOINT}/ByKitchen?kitchenId=${kitchenId}`);
+  }
+
   addList(kitchen: KitchenList): Observable<KitchenList> {
     return this.http.post<KitchenList>(this.KITCHEN_ENDPOINT, kitchen);
   }

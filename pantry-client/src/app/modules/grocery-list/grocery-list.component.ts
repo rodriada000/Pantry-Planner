@@ -32,9 +32,7 @@ export class GroceryListComponent implements OnInit {
     private activeKitchenService: ActiveKitchenService,
     private listService: GroceryListApi,
     private layoutService: LayoutService,
-    private ingredientService: ListIngredientApiService,
     private toastService: ToastService,
-    private kitchenUserApi: KitchenUserApi,
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +42,7 @@ export class GroceryListComponent implements OnInit {
     this.observingKitchen = this.activeKitchenService.observableKitchen.subscribe(k => {
       if (k !== null && k !== undefined) {
         this.activeKitchen = k;
+        this.refreshLists();
       }
     });
 
@@ -76,11 +75,17 @@ export class GroceryListComponent implements OnInit {
   }
 
   refreshLists() {
-    this.listService.getAllGroceryLists().subscribe(lists => {
-      this.allLists = lists ?? [];
-      this.listService.setObservable(this.allLists);
+    if (!this.activeKitchen?.kitchenId) {
+      return;
     }
-      , error => this.toastService.showDanger(error.message));
+
+    this.listService.getGroceryListsByKitchen(this.activeKitchen.kitchenId).subscribe({
+      next: lists => {
+        this.allLists = lists ?? [];
+        this.listService.setObservable(this.allLists);
+      },
+      error: error => { this.toastService.showDanger(error.message) }
+    });
   }
 
   switchList(index: number) {

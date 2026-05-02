@@ -3,7 +3,7 @@
   <!-- Sidebar -->
   <div #sidebar class="sidebar" [ngClass]="!showSideMenu ? 'toggled' : ''" [ngStyle]="{'width': showSideMenu ? sideMenuSize : '0px'}">
     <div class="flex flex-column">
-      <div class="flex flex-row-reverse mr-2">
+      <div class="flex ml-2">
         <button pButton icon="pi pi-bars" class="p-1 ml-0" (click)="toggleSideMenu()">
         </button>
       </div>
@@ -41,7 +41,7 @@
     @if (isManagePantryPageSelected && isOwnerOfKitchen) {
       <div id="mangePantryPage">
         <h4>Kitchen Name</h4>
-        <input type="text" class="form-control form-text w-50" [(ngModel)]="activeKitchenName" />
+        <input pInputText type="text" class="form-control form-text w-50" [(ngModel)]="activeKitchenName" />
         <br />
         <h4>Manage Users</h4>
         <pantry-manage-users></pantry-manage-users>
@@ -50,7 +50,7 @@
         <p>
           Are you sure you want to delete this pantry? All data associated with this kitchen will be deleted.
         </p>
-        <button class="btn btn-outline-danger" (click)="deleteKitchen()">Delete Pantry</button>
+        <p-button severity="danger" (click)="deleteKitchen()">Delete Pantry</p-button>
       </div>
     }
 

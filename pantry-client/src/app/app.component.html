@@ -1,15 +1,18 @@
-<div class="flex justify-content-between">
-  <h2 class="left-header m-0">Pantry Planner</h2>
+<div class="flex align-items-center justify-content-between mb-2">
+  <h2 class="left-header flex align-items-center m-0"><img src="assets/logo.png" alt="Logo" class="logo">@if (!layoutService.isMobileScreen) {
+    Pantry Planner
+    }
+  </h2>
   <nav>
     @if (isLoggedIn) {
-      <app-kitchen-nav></app-kitchen-nav>
-      <a>|</a>
-      <a class="nav-menu-item" routerLink="/pantry">Pantry</a>
-      <a class="nav-menu-item" routerLink="/grocery">Grocery</a>
-      <a class="nav-menu-item" routerLink="/recipe">Recipes</a>
-      <a class="nav-menu-item" (click)="logout()">Logout</a>
+    <app-kitchen-nav></app-kitchen-nav>
+    <a>|</a>
+    <a class="nav-menu-item" routerLink="/pantry">Pantry</a>
+    <a class="nav-menu-item" routerLink="/grocery">Grocery</a>
+    <a class="nav-menu-item" routerLink="/recipe">Recipes</a>
+    <a class="nav-menu-item" (click)="logout()">Logout</a>
     } @else {
-      <a class="nav-menu-item" routerLink="/login">Login</a>
+    <a class="nav-menu-item" routerLink="/login">Login</a>
     }
 
   </nav>
