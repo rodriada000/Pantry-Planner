@@ -19,6 +19,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {RippleModule} from 'primeng/ripple';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ProgressBarModule} from 'primeng/progressbar';
+import { Tooltip } from "primeng/tooltip";
 
 @NgModule({
   declarations: [
@@ -43,8 +44,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
     CheckboxModule,
     RippleModule,
     ProgressSpinnerModule,
-    ProgressBarModule
-  ],
+    ProgressBarModule,
+    Tooltip
+],
   providers: [
   ],
   exports: [

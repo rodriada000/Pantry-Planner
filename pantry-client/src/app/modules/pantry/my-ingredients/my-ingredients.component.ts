@@ -288,6 +288,39 @@ export class MyIngredientsComponent implements OnInit, OnDestroy {
     $event.stopPropagation();
   }
 
+  copyFilteredToClipboard(): void {
+    if (!this.filteredIngredients || this.filteredIngredients.length === 0) {
+      this.toasts.showDanger("No ingredients to copy");
+      return;
+    }
+
+    const list = this.filteredIngredients.map(i => i.ingredient.name).join(', ');
+
+    if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(list).then(() => {
+        this.toasts.showSuccess('Copied ingredients to clipboard');
+      }).catch(err => {
+        this.toasts.showDanger('Failed to copy - ' + err);
+      });
+      return;
+    }
+
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = list;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      this.toasts.showSuccess('Copied ingredients to clipboard');
+    } catch (e) {
+      this.toasts.showDanger('Failed to copy - ' + e);
+    }
+    document.body.removeChild(ta);
+  }
+
 
   ngOnDestroy(): void {
     this.kitchenId?.unsubscribe();

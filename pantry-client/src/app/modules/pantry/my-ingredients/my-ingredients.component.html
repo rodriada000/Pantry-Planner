@@ -8,7 +8,8 @@
 <div class="flex flex-column">
   <h3>Pantry Ingredients</h3>
 
-  <div class="flex justify-content-end">
+  <div class="flex gap-2 justify-content-end">
+    <button pButton pRipple class="p-button-outlined" icon="pi pi-copy" pTooltip="Copy ingredients to clipboard" (click)="copyFilteredToClipboard()" [disabled]="!filteredIngredients || filteredIngredients.length===0"></button>
     <p-splitButton label="Sort" [icon]="selectedSortOrder == 1 ? 'pi pi-sort-alpha-up' : 'pi pi-sort-alpha-down'" (onClick)="toggleSortOrder()" [model]="sortItems"></p-splitButton>
   </div>
 
